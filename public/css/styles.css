@@ -1,0 +1,89 @@
+
+.custom-font-size {
+    font-size: 18px;
+}
+
+.my-font-size {
+    font-size:  12px;
+}
+
+.custom-margin {
+    margin-right: 20px;
+}
+
+.news-link {
+    color: green;
+}
+
+.nav {
+    display: flex;
+    align-items: baseline;
+}
+
+.site-name {
+    font-size: 30px;
+    margin-bottom: 0;
+}
+
+.category-link {
+    font-size: 18px;
+}
+
+.my-font-weight{
+    font-weight: bold;
+}
+
+.my-margin-top{
+    margin-top: 50px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 10px;
+    color: blue;
+}
+
+.my-margin-right{
+    margin-right: 15px;
+}
+
+.full-margin-right{
+    margin-right: 50px;
+}
+
+.fatty-weight{
+    font-weight:  bold;
+}
+
+.logout-container {
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+.btn-link-like {
+    border: none;
+    padding: 0;
+    background-color: white;
+    font-size: 18px;
+    color: #007bff; /* Цвет ссылки Bootstrap по умолчанию */
+    text-decoration: underline;
+    cursor: pointer;
+    margin-right: 50px;
+}
+/* .news-item {
+      display: flex;
+      margin-bottom: 20px;
+  }
+
+/* .news-meta {
+      margin-left: 20px;
+      text-align: right;
+  }
+
+/* .news-content {
+      flex-grow: 1;
+  }

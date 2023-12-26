@@ -1,79 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ваш спортивный сайт</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <style>
-        .custom-font-size {
-            font-size: 18px;
-        }
 
-        .custom-margin {
-            margin-right: 10px;
-        }
-
-        .news-link {
-            color: #000000;
-        }
-
-        .nav {
-            display: flex;
-            align-items: baseline;
-        }
-
-        .site-name {
-            font-size: 30px;
-            margin-bottom: 0;
-        }
-
-        .category-link {
-            font-size: 18px;
-        }
-
-        footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #f8f9fa;
-            text-align: center;
-            padding: 10px;
-            color: blue;
-        }
-
-        //.news-item {
-            display: flex;
-            margin-bottom: 20px;
-        }
-
-        //.news-meta {
-            margin-left: 20px;
-            text-align: right;
-        }
-
-        //.news-content {
-            flex-grow: 1;
-        }
-    </style>
 </head>
 <body>
 
-
 <header class="container-fluid">
     <div class="row" >
-            <div class="col d-flex">
-             <nav class="nav">
-                <a class="nav-link custom-font-size custom-margin site-name" style="color: green" href="{{ route('news.index') }}" >Команда</a>
-                <a class="nav-link custom-font-size custom-margin category-link" href="{{ route('news.create') }}">Добавить новость</a>
-                @if(isset($categories))
-                    @foreach($categories as $category)
-                        <a class="nav-link custom-font-size custom-margin category-link" href="{{ route('category.show', $category->id) }}">{{ $category->name }}</a>
-                    @endforeach
-                @endif
-             </nav>
-            </div>
+        <div class="col d-flex">
+         <nav class="nav">
+            <a class="nav-link custom-font-size custom-margin site-name" style="color: green" href="{{ route('news.index') }}" >Команда</a>
+             @php
+                $user=auth()->user();
+             @endphp
+             @if ($user && ($user->isAdmin() || $user->isAuthor()))
+            <a class="nav-link custom-font-size custom-margin category-link" href="{{ route('news.create') }}">Добавить новость</a>
+            @endif
+            @if(isset($categories))
+                @foreach($categories as $category)
+                    <a class="nav-link custom-font-size custom-margin category-link" href="{{ route('category.show', $category->id) }}">{{ $category->name }}</a>
+                @endforeach
+            @endif
+         </nav>
+        </div>
+        <div class="mt-4">
+            @if(!$user)
+            <a href="{{ route('register') }}" class="custom-margin custom-font-size">Регистрация</a>
+            @endif
+        </div>
+        <div class="col-md-1 mt-4">
+            @if(!$user)
+            <a href="{{ route('login') }}" class="custom-margin custom-font-size">Вход</a>
+            @endif
+        </div>
+        @if($user)
+            <div class="logout-container">
+              <form id="logout-form" action="{{ route('logout') }}" method="POST"  >
+                {{ csrf_field() }}
+                <button type="submit" class="btn-link-like"> Выйти</button>
+              </form>
+           </div>
+        @endif
     </div>
 </header>
 

@@ -11,20 +11,28 @@ class CommentController extends Controller
 {
     public function store(Request $request, News $news)
     {
+        $user=auth()->user();
+        if(!$user ){
+            abort(403, 'Unauthorized action.');
+        }
         $request->validate([
             'text' =>'required',
         ]);
 
-        $news->comment()->create([
+        $comment=$news->comment()->create([
             'content' => $request->text,
-            'user_id' => 1,
+            'user_id' => $user->id,
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with('commentAdded', $comment);
     }
 
     public function destroy(Comment $comment)
     {
+        $user=auth()->user();
+        if(!$user || !$user->isAdmin() && !$user->isAuthor()){
+            abort(403, 'Unauthorized action.');
+        }
          $comment->delete();
          return redirect()->back;
     }

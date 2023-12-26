@@ -18,4 +18,14 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getFormattedDateAttribute()
+    {
+        return $this->created_at->format('d.m.Y');
+    }
+
+    public function getUserNameAttribute ()
+    {
+        return $this->user->name;
+    }
 }

@@ -18,6 +18,10 @@ class NewsController extends Controller
 
     public function create()
     {
+        $user=auth()->user();
+        if(!$user || !$user->isAdmin() && !$user->isAuthor()){
+            abort(403, 'Unauthorized action.');
+        }
         $categories=Category::all();
 
         return view ('news.create', compact('categories'));
@@ -30,13 +34,19 @@ class NewsController extends Controller
              'title' =>' required',
              'text' => 'required',
              'category_id' => 'required|exists:categories,id',
+             'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
          ]);
 
-         News::create([
+         $news=News::create([
              'title' => $request->title,
              'content' => $request->text,
              'category_id' => $request->category_id,
          ]);
+
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('news_photos', 'public');
+            $news->update(['photo_path' => $photoPath]);
+        }
 
          return redirect()->route('news.index');
     }
@@ -56,10 +66,15 @@ class NewsController extends Controller
 
     public function update (Request $request, News $news)
     {
+        $user=auth()->user();
+        if(!$user || !$user->isAdmin() && !$user->isAuthor()){
+            abort(403, 'Unauthorized action.');
+        }
         $request->validate([
             'title' => 'required',
             'text' => 'required',
-            'category_id' => 'required|exists:categories,id'
+            'category_id' => 'required|exists:categories,id',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $news->update([
@@ -67,11 +82,21 @@ class NewsController extends Controller
             'content' => $request->text,
             'category_id' => $request->category_id,
         ]);
+
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('news_photos', 'public');
+            $news->update(['photo_path' => $photoPath]);
+        }
+
         return redirect()->route('news.index');
     }
 
     public function destroy(News $news)
     {
+        $user=auth()->user();
+        if(!$user || !$user->isAdmin() && !$user->isAuthor()){
+            abort(403, 'Unauthorized action.');
+        }
         $news->delete();
         return redirect()->route('news.index');
     }
