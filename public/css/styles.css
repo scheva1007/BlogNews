@@ -7,6 +7,10 @@
     font-size:  12px;
 }
 
+.my-font-content {
+    font-size: 13px;
+}
+
 .custom-margin {
     margin-right: 20px;
 }
@@ -38,8 +42,8 @@
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
+    position: relative;
+    margin-top: auto;;
     width: 100%;
     background-color: #f8f9fa;
     text-align: center;
@@ -73,6 +77,14 @@ footer {
     text-decoration: underline;
     cursor: pointer;
     margin-right: 50px;
+}
+
+.background-data {
+    background-color: #cbd5e0;
+}
+
+.main-container {
+    min-height: 100vh;
 }
 /* .news-item {
       display: flex;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -45,7 +46,7 @@ class NewsController extends Controller
 
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('news_photos', 'public');
-            $news->update(['photo_path' => $photoPath]);
+            $news->update(['photo' => $photoPath]);
         }
 
          return redirect()->route('news.index');
@@ -66,6 +67,7 @@ class NewsController extends Controller
 
     public function update (Request $request, News $news)
     {
+
         $user=auth()->user();
         if(!$user || !$user->isAdmin() && !$user->isAuthor()){
             abort(403, 'Unauthorized action.');
@@ -81,12 +83,9 @@ class NewsController extends Controller
             'title' => $request->title,
             'content' => $request->text,
             'category_id' => $request->category_id,
+            'photo' => $request->hasFile('photo') ? $request->file('photo')->store('news_photos', 'public') : $news->photo,
         ]);
 
-        if ($request->hasFile('photo')) {
-            $photoPath = $request->file('photo')->store('news_photos', 'public');
-            $news->update(['photo_path' => $photoPath]);
-        }
 
         return redirect()->route('news.index');
     }

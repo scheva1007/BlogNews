@@ -2,7 +2,7 @@
 
 @section('content')
     <h6>Редактировать новость</h6>
-    <form method="post" action="{{ route('news.update', $news) }}">
+    <form method="post"  action="{{ route('news.update', $news) }}" enctype='multipart/form-data' style="width: 300px;" >
         @csrf
         @method('PUT')
         <label for="title" style="display: block; margin-bottom: 5px;">Заголовок:</label>
@@ -19,6 +19,9 @@
                 </option>
             @endforeach
         </select>
+        <br>
+        <label for="image" style="display: block; margin-bottom: 5px;">Изображение:</label>
+        <input type="file" name="photo" accept="image/*" style="margin-bottom: 12px;">
         <br>
         <button type="submit" class='btn btn-primary mb-3'>Сохранить</button>
     </form>

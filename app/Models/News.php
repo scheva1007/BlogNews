@@ -22,7 +22,7 @@ class News extends Model
 
     public function getFormattedDateAttribute()
     {
-        return $this->created_at->format('d.m.Y');
+        return $this->created_at->format('d.m.Y, H:m');
     }
 
     public function getCommentCountAttribute()

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Generator;
 
 class NewsSeeder extends Seeder
 {
@@ -15,11 +16,13 @@ class NewsSeeder extends Seeder
      */
     public function run()
     {
+        $faker = app(Generator::class);
+
         $timestamp=Carbon::now();
         DB::table('news')->insert([
             [
                 'title' => 'Championship',
-                'content' => 'Real, Barsa',
+                'content' => $faker->paragraph(5),
                 'category_id' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
@@ -27,7 +30,7 @@ class NewsSeeder extends Seeder
 
             [
                 'title' => 'NBA league',
-                'content' => 'Grea clubs',
+                'content' => $faker->paragraph(5),
                 'category_id' => 2,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
@@ -35,7 +38,7 @@ class NewsSeeder extends Seeder
 
             [
                 'title' => 'Stanley cup',
-                'content' => 'legendary clubs',
+                'content' => $faker->paragraph(5),
                 'category_id' => 3,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
@@ -43,7 +46,7 @@ class NewsSeeder extends Seeder
 
             [
                 'title' => 'All teams',
-                'content' => 'Mercedes, Red Bull',
+                'content' => $faker->paragraph(5),
                 'category_id' => 4,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
@@ -51,7 +54,7 @@ class NewsSeeder extends Seeder
 
             [
                 'title' => ' Champions of Ukraine',
-                'content' => 'Dynamo, Shakhtar',
+                'content' => $faker->paragraph(5),
                 'category_id' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
@@ -59,7 +62,7 @@ class NewsSeeder extends Seeder
 
             [
                 'title' => 'world champions',
-                'content' => 'Hamilton, Verstappen, Schumacher',
+                'content' => $faker->paragraph(5),
                 'category_id' => 4,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,

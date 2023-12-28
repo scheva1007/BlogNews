@@ -6,6 +6,7 @@
     <title>Ваш спортивный сайт</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 </head>
 <body>
@@ -50,7 +51,7 @@
 </header>
 
 
-<main class="container-fluid">
+<main class="container-fluid main-container">
     @yield('content')
 </main>
 
