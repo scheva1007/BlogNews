@@ -20,6 +20,14 @@ class News extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function rating() {
+        return $this->hasMany(Rating::class);
+    }
+
     public function getFormattedDateAttribute()
     {
         return $this->created_at->format('d.m.Y, H:m');
@@ -28,6 +36,29 @@ class News extends Model
     public function getCommentCountAttribute()
     {
         return $this->comment()->count();
+    }
+
+    public function averageRating()
+    {
+        $ratings = session('news_ratings.' . $this->id, []);
+        return count($ratings) > 0 ? array_sum($ratings) / count($ratings) : 0;
+    }
+
+    public function userRating()
+    {
+        $userId = auth()->id();
+        return session("news_ratings.{$this->id}.{$userId}", null);
+    }
+
+    public function updateRating($rating)
+    {
+        $userId = auth()->id();
+
+        session(["news_ratings.{$this->id}.{$userId}" => $rating]);
+
+        $ratings = session("news_ratings.{$this->id}", []);
+        $ratings[$userId] = $rating;
+        session(["news_ratings.{$this->id}" => $ratings]);
     }
 
 }

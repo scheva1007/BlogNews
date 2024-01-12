@@ -12,6 +12,7 @@
 <body>
 
 <header class="container-fluid">
+
     <div class="row" >
         <div class="col d-flex">
          <nav class="nav">
@@ -20,11 +21,11 @@
                 $user=auth()->user();
              @endphp
              @if ($user && ($user->isAdmin() || $user->isAuthor()))
-            <a class="nav-link custom-font-size custom-margin category-link" href="{{ route('news.create') }}">Добавить новость</a>
+            <a class="nav-link custom-font-size custom-margin category-link " href="{{ route('news.create') }}">Добавить новость</a>
             @endif
             @if(isset($categories))
                 @foreach($categories as $category)
-                    <a class="nav-link custom-font-size custom-margin category-link" href="{{ route('category.show', $category->id) }}">{{ $category->name }}</a>
+                    <a class="nav-link custom-font-size custom-margin " href="{{ route('category.show', $category->id) }}">{{ $category->name }}</a>
                 @endforeach
             @endif
          </nav>

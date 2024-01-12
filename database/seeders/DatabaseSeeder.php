@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             CategoriesSeeder::class,
             NewsSeeder::class,
             CommentsSeeder::class,
+            RatingsSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
     }

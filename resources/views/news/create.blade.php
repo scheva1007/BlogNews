@@ -7,9 +7,15 @@
         @csrf
         <label for="title" style="display: block; margin-bottom: 5px;">Заголовок:</label>
         <input type="text" name="title" required style="width: 300px; margin-bottom: 12px;">
+        @error('title')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
         <br>
         <label for="content" style="display: block; margin-bottom: 5px;">Контент:</label>
         <textarea name="text" required style="width: 300px; margin-bottom: 5px;"></textarea>
+        @error('content')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
         <br>
         <label for="photo">Фото:</label>
         <input type="file" name="photo" accept="image/*">
