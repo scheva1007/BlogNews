@@ -23,6 +23,8 @@ class CommentsSeeder extends Seeder
                 'user_id' => 3,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
+                'countLikes' => 5,
+                'countDislikes' => 0,
             ],
 
             [
@@ -31,6 +33,8 @@ class CommentsSeeder extends Seeder
                 'user_id' => 3,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
+                'countLikes'  => 14,
+                'countDislikes' => 2,
             ],
 
             [
@@ -39,6 +43,8 @@ class CommentsSeeder extends Seeder
                 'user_id' => 4,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
+                'countLikes'  => 10,
+                'countDislikes' => 0,
             ],
 
             [
@@ -47,6 +53,8 @@ class CommentsSeeder extends Seeder
                 'user_id' => 5,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
+                'countLikes'  => 11,
+                'countDislikes' => 1,
             ],
 
             [
@@ -55,6 +63,8 @@ class CommentsSeeder extends Seeder
                 'user_id' => 5,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
+                'countLikes'  => 5,
+                'countDislikes' => 0,
             ],
         ]);
     }

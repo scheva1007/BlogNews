@@ -58,7 +58,7 @@ class News extends Model
 
         $ratings = session("news_ratings.{$this->id}", []);
         $ratings[$userId] = $rating;
-        session(["news_ratings.{$this->id}" => $ratings]);
+       return session(["news_ratings.{$this->id}" => $ratings]);
     }
 
 }

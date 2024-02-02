@@ -28,6 +28,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 1,
                 'rating' => 4.5,
+
             ],
 
             [
@@ -38,6 +39,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 1,
                 'rating' => 2.5,
+
             ],
 
             [
@@ -48,6 +50,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 2,
                 'rating' => 5,
+
             ],
 
             [
@@ -58,6 +61,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 2,
                 'rating' => 0,
+
             ],
 
             [
@@ -68,6 +72,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 1,
                 'rating' => 0,
+
             ],
 
             [
@@ -78,6 +83,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 2,
                 'rating' => 0,
+
             ],
         ]);
     }

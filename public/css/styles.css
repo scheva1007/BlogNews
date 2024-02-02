@@ -57,6 +57,20 @@ footer {
     color: blue;
 }
 
+#news-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+#main-news {
+    flex: 2;
+}
+
+#top-news {
+    flex: 2;
+}
+
 .my-margin-right{
     margin-right: 15px;
 }

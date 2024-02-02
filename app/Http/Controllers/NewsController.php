@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Rating;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -13,14 +14,11 @@ class NewsController extends Controller
 {
     public function index()
     {
-
         $news=News::latest()->paginate(5);
         $categories=Category::all();
-        $topNews=Rating::select('news_id', DB::raw('AVG(grade) as average_rating'))
-            ->groupBy('news_id')
-            ->orderByDesc('news_id')
-            ->take(3)
-            ->get();
+        $limitDays=Carbon::now()->subDays(5);
+        $topNews=News::select()->whereDate('created_at', ">=", $limitDays)->orderByDesc('rating')->limit(3)->get();
+
 
         return  view('news.index', compact('categories', 'news', 'topNews'));
     }
@@ -66,7 +64,8 @@ class NewsController extends Controller
     {
         $news=News::findOrFail($id);
         $comments=$news->comment;
-        $rating=Rating::where('news_id', $id)->avg('grade');
+        $rating=$news->rating;
+
 
 
         return view('news.show', compact('news','comments', 'rating'));
@@ -124,15 +123,23 @@ class NewsController extends Controller
             ->where('user_id', $userId)->first();
 
         if ($existingRating) {
-            return redirect()->back()->withErrore(["Вы уже оценили эту новость"]);
+            return redirect()->back()->withErrors(["Вы уже оценили эту новость"]);
         }
 
         Rating::create([
                'news_id' => $id,
                'user_id' => $userId,
-                'grade' => $request->input('grade'),
+               'grade' => $request->input('grade'),
             ]);
+
+        $newRating=Rating::where('news_id', $id)->avg('grade');
+
+        News::where('id', $id)->update(['rating' => $newRating]);
+
+
 
         return redirect()->back()->with('success', "Вы успешно оценили новость");
     }
+
+
 }

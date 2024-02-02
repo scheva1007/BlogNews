@@ -1,21 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
     @if($news->photo)
         <img src="{{ asset('/storage/' . $news->photo) }}" alt="News Photo" style="max-width: 300px; max-height: 300px;">
     @endif
@@ -35,6 +21,7 @@
             <a href="{{ route('news.edit', $news) }}" onclick="return confirm('Вы уверены?')">Удалить</a>
         </form>
         @endif
+        @if ($user)
         <div>
                <label class="my-grade my-font-weight" for="grade">Оцените статью от 1 до 5</label>
         </div>
@@ -48,6 +35,7 @@
             </form>
         </div>
     </div>
+    @endif
     @if (count($comments)>0)
     <h6>Все комментарии:</h6>
 
@@ -55,7 +43,12 @@
         <div style="margin-bottom: 10px; ">
             <span  class="news-link my-font-size my-margin-right background-data">Добавил(-a): {{ $comment->user_name }} </span>
             <span class="news-link my-font-size background-data">{{ $comment->formattedDate }}</span>
-        <div > *{{ $comment->content }} </div>
+        <div > *{{ $comment->content }}
+            <div class="rating-buttons">
+                <a href="{{ route('comment.countLikes', ['comment' => $comment->id]) }}"><i class="fas fa-thumbs-up"></i>{{ $comment->countLikes ?: 0 }}</a>
+            <a href="{{ route('comment.countDislikes', ['comment' => $comment->id]) }}"><i class="fas fa-thumbs-down"></i>{{ $comment->countDislikes ?: 0 }}</a>
+            </div>
+            </div>
         </div>
     @endforeach
     @endif
@@ -72,6 +65,9 @@
     @else
          <p  class=" my-font-weight my-margin-top">Зарегистрируйтесь, чтобы добавить комментарий</p>
     @endif
+    <div class="rating-buttons">
+
+    </div>
 @endsection
 
 

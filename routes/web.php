@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -32,13 +33,15 @@ Route::get('/', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{news}', [NewsController::class, 'show'])->name('news.show');
 Route::post('/news/{news}/rating', [NewsController::class, 'rating'])->name('news.rating');
 
-Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
 
+Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
 
 Route::post('/news/{news}/comments', [CommentController::class, 'store'])->name('comment.store');
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
+Route::get('/news/{comment}/likes', [CommentController::class, 'countLikes'])->name('comment.countLikes');
+Route::get('news/{comment}/dislikes', [CommentController::class, 'countDislikes'])->name('comment.countDislikes');
 
-
+Route::get('/', [TestController::class, 'calculateArea'])->name('test.area');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
