@@ -14,6 +14,7 @@
             $user=auth()->user();
          @endphp
         @if ($user && ($user->isAdmin() || $user->id === $news->user_id))
+     <div style="margin-bottom: 10px;">
         <a href="{{ route('news.edit', $news) }}"  >Редактировать</a>
         <form method="post" action="{{ route('news.destroy', $news) }}" style="display:inline;">
             @csrf
@@ -21,8 +22,12 @@
             <a href="{{ route('news.edit', $news) }}" onclick="return confirm('Вы уверены?')">Удалить</a>
         </form>
         @endif
-        @if ($user)
-        <div>
+    </div>
+           @if ($userRating !==null )
+            <p style="margin-bottom: 1px">Ваша текущая оценка: {{ $userRating }}</p>
+            @endif
+          @if($user)
+                <div>
                <label class="my-grade my-font-weight" for="grade">Оцените статью от 1 до 5</label>
         </div>
         <div style="margin-top: 0;">
@@ -36,6 +41,7 @@
         </div>
     </div>
     @endif
+
     @if (count($comments)>0)
     <h6>Все комментарии:</h6>
 

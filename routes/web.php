@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -41,7 +42,8 @@ Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->nam
 Route::get('/news/{comment}/likes', [CommentController::class, 'countLikes'])->name('comment.countLikes');
 Route::get('news/{comment}/dislikes', [CommentController::class, 'countDislikes'])->name('comment.countDislikes');
 
-Route::get('/', [TestController::class, 'calculateArea'])->name('test.area');
+Route::get('/test', [TestController::class, 'calculateArea'])->name('test.area');
+Route::get('/salary', [SalaryController::class, 'calculateSalary'])->name('monthly.salary');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

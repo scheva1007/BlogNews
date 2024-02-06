@@ -47,7 +47,10 @@ class News extends Model
     public function userRating()
     {
         $userId = auth()->id();
-        return session("news_ratings.{$this->id}.{$userId}", null);
+        $rating = Rating::where('news_id', $this->id)
+            ->where('user_id', $userId)
+            ->first();
+        return  $rating ? $rating->grade : null;
     }
 
     public function updateRating($rating)

@@ -2,7 +2,8 @@
 
 @section('content')
   <div id="news-container" class="d-flex">
-      <div id="top-news">
+      <div>
+
     <h4>ТОП-3 новости</h4>
 
     @foreach($topNews as $item)

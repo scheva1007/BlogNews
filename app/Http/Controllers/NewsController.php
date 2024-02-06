@@ -16,8 +16,8 @@ class NewsController extends Controller
     {
         $news=News::latest()->paginate(5);
         $categories=Category::all();
-        $limitDays=Carbon::now()->subDays(5);
-        $topNews=News::select()->whereDate('created_at', ">=", $limitDays)->orderByDesc('rating')->limit(3)->get();
+        $limitMonths=Carbon::now()->subMonths(3);
+        $topNews=News::select()->whereDate('created_at', ">=", $limitMonths)->orderByDesc('rating')->limit(3)->get();
 
 
         return  view('news.index', compact('categories', 'news', 'topNews'));
@@ -62,13 +62,13 @@ class NewsController extends Controller
 
     public function show($id)
     {
+        $userId=auth()->id();
         $news=News::findOrFail($id);
         $comments=$news->comment;
         $rating=$news->rating;
+        $userRating=$news->userRating();
 
-
-
-        return view('news.show', compact('news','comments', 'rating'));
+        return view('news.show', compact('news','comments', 'rating', 'userRating', 'userId'));
     }
 
     public function edit (News $news)
@@ -123,15 +123,16 @@ class NewsController extends Controller
             ->where('user_id', $userId)->first();
 
         if ($existingRating) {
-            return redirect()->back()->withErrors(["Вы уже оценили эту новость"]);
-        }
+            $existingRating->update(['grade' => $request->input('grade')]);
 
-        Rating::create([
-               'news_id' => $id,
-               'user_id' => $userId,
-               'grade' => $request->input('grade'),
+        } else {
+
+            Rating::create([
+                'news_id' => $id,
+                'user_id' => $userId,
+                'grade' => $request->input('grade'),
             ]);
-
+        }
         $newRating=Rating::where('news_id', $id)->avg('grade');
 
         News::where('id', $id)->update(['rating' => $newRating]);
