@@ -45,15 +45,26 @@ class CommentController extends Controller
 
         $userId=auth()->id();
         $existingVote=Like::where('comment_id', $comment->id)->where('user_id', $userId)->first();
+
         if ($existingVote) {
-            return redirect()->back();
-        }
-        $comment->increment('countLikes');
-        Like::create([
-            'comment_id' => $comment->id,
-            'user_id' => $userId,
-            'likes' => 1,
+
+            if ($existingVote->likes==1) {
+            $comment->decrement('countLikes');
+            $existingVote->delete();
+
+        } else {
+                $comment->increment('countLikes');
+                $comment->decrement('countDisLikes');
+                $existingVote->update(['likes' => 1, 'dislikes' => 0]);
+            }
+        } else {
+            $comment->increment('countLikes');
+            Like::create([
+                'comment_id' => $comment->id,
+                'user_id' => $userId,
+                'likes' => 1,
             ]);
+        }
         return redirect()->back();
     }
 
@@ -61,15 +72,25 @@ class CommentController extends Controller
         $userId=auth()->id();
         $existingVote=Like::where('comment_id', $comment->id)->where('user_id', $userId)->first();
         if ($existingVote) {
-            return  redirect()->back();
-        }
-        $comment->increment('countDislikes');
-        Like::create([
-            'comment_id' => $comment->id,
-            'user_id' => $userId,
-            'dislikes' => 1,
-        ]);
+            if ($existingVote->dislikes==1) {
+            $comment->decrement('countDislikes');
+            $existingVote->delete();
 
+        } else {
+            $comment->increment('countDislikes');
+            $comment->decrement('countLikes');
+            $existingVote->update(['dislikes' => 1, 'likes' => 0]);
+            }
+        }
+
+            else {
+            $comment->increment('countDislikes');
+            Like::create([
+                'comment_id' => $comment->id,
+                'user_id' => $userId,
+                'dislikes' => 1,
+            ]);
+        }
         return redirect()->back();
     }
 }
