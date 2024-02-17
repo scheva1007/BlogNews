@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Commands\StoreNewsCommand;
+use App\Commands\UpdateNewsCommand;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
 use App\Models\Category;
@@ -33,19 +35,9 @@ class NewsController extends Controller
         return view('news.create', compact('categories'));
     }
 
-    public function store(StoreNewsRequest $request)
+    public function store(StoreNewsRequest $request, StoreNewsCommand $command)
     {
-        $news = News::create([
-            'title' => $request->title,
-            'content' => $request->text,
-            'category_id' => $request->category_id,
-            'user_id' => auth()->id(),
-        ]);
-
-        if ($request->hasFile('photo')) {
-            $photoPath = $request->file('photo')->store('news_photos', 'public');
-            $news->update(['photo' => $photoPath]);
-        }
+        $command->execute($request);
 
         return redirect()->route('news.index');
     }
@@ -67,19 +59,14 @@ class NewsController extends Controller
         return view('news.edit', compact('news', 'categories'));
     }
 
-    public function update(UpdateNewsRequest $request, News $news)
+    public function update(UpdateNewsRequest $request, News $news, UpdateNewsCommand $command)
     {
         $user = auth()->user();
         if (!$user || !$user->isAdmin() && !$user->isAuthor()) {
             abort(403, 'Unauthorized action.');
         }
 
-        $news->update([
-            'title' => $request->title,
-            'content' => $request->text,
-            'category_id' => $request->category_id,
-            'photo' => $request->hasFile('photo') ? $request->file('photo')->store('news_photos', 'public') : $news->photo,
-        ]);
+        $command->execute($request, $news);
 
         return redirect()->route('news.index');
     }
