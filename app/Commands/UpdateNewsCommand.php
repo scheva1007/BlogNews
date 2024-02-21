@@ -4,7 +4,7 @@
 namespace App\Commands;
 
 
-use App\Http\Requests\UpdateNewsRequest;
+use App\Http\Request\UpdateNewsRequest;
 use App\Models\News;
 
 class UpdateNewsCommand

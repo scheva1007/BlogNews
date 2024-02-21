@@ -2,88 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use App\Commands\LikesCommentCommand;
+use App\Commands\StoreCommentCommand;
+use App\Http\Request\StoreCommentRequest;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\News;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use function Sodium\increment;
 
 class CommentController extends Controller
 {
-    public function store(Request $request, News $news)
+    public function store(StoreCommentRequest $request, News $news, StoreCommentCommand $command)
     {
-        $user=auth()->user();
-        if(!$user ){
+        $user = auth()->user();
+        if (!$user) {
             abort(403, 'Unauthorized action.');
         }
-        $request->validate([
-            'text' =>'required',
-        ]);
-
-        $comment=$news->comment()->create([
-            'content' => $request->text,
-            'user_id' => $user->id,
-        ]);
+        $comment = $command->execute($request, $news, $user);
 
         return redirect()->back()->with('commentAdded', $comment);
     }
 
     public function destroy(Comment $comment)
     {
-        $user=auth()->user();
-        if(!$user || !$user->isAdmin() && !$user->isAuthor()){
+        $user = auth()->user();
+        if (!$user || !$user->isAdmin() && !$user->isAuthor()) {
             abort(403, 'Unauthorized action.');
         }
-         $comment->delete();
-         return redirect()->back;
+        $comment->delete();
+        return redirect()->back;
     }
 
 
+    public function countLikes(Comment $comment, LikesCommentCommand $likesCommand)
+    {
 
-    public function countLikes (Comment $comment) {
+        $userId = auth()->id();
+        $existingVote = Like::where('comment_id', $comment->id)->where('user_id', $userId)->first();
 
-        $userId=auth()->id();
-        $existingVote=Like::where('comment_id', $comment->id)->where('user_id', $userId)->first();
-
-        if ($existingVote) {
-
-            if ($existingVote->likes==1) {
-            $comment->decrement('countLikes');
-            $existingVote->delete();
-
-        } else {
-                $comment->increment('countLikes');
-                $comment->decrement('countDisLikes');
-                $existingVote->update(['likes' => 1, 'dislikes' => 0]);
-            }
-        } else {
-            $comment->increment('countLikes');
-            Like::create([
-                'comment_id' => $comment->id,
-                'user_id' => $userId,
-                'likes' => 1,
-            ]);
-        }
+       $likesCommand->execute($comment,$userId, $existingVote);
         return redirect()->back();
     }
 
-    public function countDislikes (Comment $comment) {
-        $userId=auth()->id();
-        $existingVote=Like::where('comment_id', $comment->id)->where('user_id', $userId)->first();
+    public function countDislikes(Comment $comment)
+    {
+        $userId = auth()->id();
+        $existingVote = Like::where('comment_id', $comment->id)->where('user_id', $userId)->first();
         if ($existingVote) {
-            if ($existingVote->dislikes==1) {
-            $comment->decrement('countDislikes');
-            $existingVote->delete();
+            if ($existingVote->dislikes == 1) {
+                $comment->decrement('countDislikes');
+                $existingVote->delete();
 
-        } else {
-            $comment->increment('countDislikes');
-            $comment->decrement('countLikes');
-            $existingVote->update(['dislikes' => 1, 'likes' => 0]);
+            } else {
+                $comment->increment('countDislikes');
+                $comment->decrement('countLikes');
+                $existingVote->update(['dislikes' => 1, 'likes' => 0]);
             }
-        }
-
-            else {
+        } else {
             $comment->increment('countDislikes');
             Like::create([
                 'comment_id' => $comment->id,

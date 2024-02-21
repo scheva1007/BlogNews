@@ -4,7 +4,7 @@
 namespace App\Commands;
 
 
-use App\Http\Requests\StoreNewsRequest;
+use App\Http\Request\StoreNewsRequest;
 use App\Models\News;
 
 class StoreNewsCommand

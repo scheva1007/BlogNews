@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Commands\StoreNewsCommand;
 use App\Commands\UpdateNewsCommand;
-use App\Http\Requests\StoreNewsRequest;
-use App\Http\Requests\UpdateNewsRequest;
+use App\Http\Request\StoreNewsRequest;
+use App\Http\Request\UpdateNewsRequest;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Rating;
