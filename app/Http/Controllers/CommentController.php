@@ -19,7 +19,7 @@ class CommentController extends Controller
         }
         $comment = $command->execute($request, $news, $user);
 
-        return redirect()->back()->with('commentAdded', $comment);
+        return response()->json(['success' => true, 'comment' => $comment]);
     }
 
     public function destroy(Comment $comment)
