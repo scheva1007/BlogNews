@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
 {
-//    protected $dates = ['created_at', 'updated_at'];
-    protected $guarded=[];
+    protected $guarded = [];
 
     public function category()
     {
@@ -20,11 +18,13 @@ class News extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function rating() {
+    public function rating()
+    {
         return $this->hasMany(Rating::class);
     }
 
@@ -38,30 +38,13 @@ class News extends Model
         return $this->comment()->count();
     }
 
-    public function averageRating()
-    {
-        $ratings = session('news_ratings.' . $this->id, []);
-        return count($ratings) > 0 ? array_sum($ratings) / count($ratings) : 0;
-    }
-
     public function userRating()
     {
         $userId = auth()->id();
         $rating = Rating::where('news_id', $this->id)
             ->where('user_id', $userId)
             ->first();
-        return  $rating ? $rating->grade : null;
+
+        return $rating ? $rating->grade : null;
     }
-
-    public function updateRating($rating)
-    {
-        $userId = auth()->id();
-
-        session(["news_ratings.{$this->id}.{$userId}" => $rating]);
-
-        $ratings = session("news_ratings.{$this->id}", []);
-        $ratings[$userId] = $rating;
-       return session(["news_ratings.{$this->id}" => $ratings]);
-    }
-
 }

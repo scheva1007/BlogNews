@@ -16,6 +16,4 @@ class Rating extends Model
     public function news() {
         $this->belongsTo(News::class);
     }
-
-
 }
