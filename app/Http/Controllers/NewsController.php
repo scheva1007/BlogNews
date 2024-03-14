@@ -26,10 +26,6 @@ class NewsController extends Controller
 
     public function create()
     {
-        $user = auth()->user();
-        if (!$user || !$user->isAdmin() && !$user->isAuthor()) {
-            abort(403, 'Unauthorized action.');
-        }
         $categories = Category::all();
 
         return view('news.create', compact('categories'));
@@ -61,11 +57,6 @@ class NewsController extends Controller
 
     public function update(UpdateNewsRequest $request, News $news, UpdateNewsCommand $command)
     {
-        $user = auth()->user();
-        if (!$user || !$user->isAdmin() && !$user->isAuthor()) {
-            abort(403, 'Unauthorized action.');
-        }
-
         $command->execute($request, $news);
 
         return redirect()->route('news.index');
@@ -73,10 +64,6 @@ class NewsController extends Controller
 
     public function destroy(News $news)
     {
-        $user = auth()->user();
-        if (!$user || !$user->isAdmin() && !$user->isAuthor()) {
-            abort(403, 'Unauthorized action.');
-        }
         $news->delete();
         return redirect()->route('news.index');
     }

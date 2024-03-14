@@ -13,10 +13,6 @@ class CommentController extends Controller
 {
     public function store(StoreCommentRequest $request, News $news, StoreCommentCommand $command)
     {
-        $user = auth()->user();
-        if (!$user) {
-            abort(403, 'Unauthorized action.');
-        }
         $comment = $command->execute($request, $news, $user);
 
         return response()->json(['success' => true, 'comment' => $comment]);
@@ -24,18 +20,12 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment)
     {
-        $user = auth()->user();
-        if (!$user || !$user->isAdmin() && !$user->isAuthor()) {
-            abort(403, 'Unauthorized action.');
-        }
         $comment->delete();
         return redirect()->back;
     }
 
-
     public function countLikes(Comment $comment, LikesCommentCommand $likesCommand)
     {
-
         $userId = auth()->id();
         $existingVote = Like::where('comment_id', $comment->id)->where('user_id', $userId)->first();
 
@@ -51,7 +41,6 @@ class CommentController extends Controller
             if ($existingVote->dislikes == 1) {
                 $comment->decrement('countDislikes');
                 $existingVote->delete();
-
             } else {
                 $comment->increment('countDislikes');
                 $comment->decrement('countLikes');
