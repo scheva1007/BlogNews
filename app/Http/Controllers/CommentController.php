@@ -13,6 +13,7 @@ class CommentController extends Controller
 {
     public function store(StoreCommentRequest $request, News $news, StoreCommentCommand $command)
     {
+        $user = auth()->id();
         $comment = $command->execute($request, $news, $user);
 
         return response()->json(['success' => true, 'comment' => $comment]);
