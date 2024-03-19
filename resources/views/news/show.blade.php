@@ -27,7 +27,7 @@
             @if ($userRating !==null )
                 <p style="margin-bottom: 1px">Ваша текущая оценка: {{ $userRating }}</p>
             @endif
-            @if($user )
+            @if($user && $user->id !== $news->user_id)
                 <div>
                     <label class="my-grade my-font-weight" for="grade">Оцените статью от 1 до 5</label>
                 </div>
@@ -42,8 +42,6 @@
                 </div>
     </div>
     @endif
-
-
     @if ($user && ($user->isAdmin() || $user->isAuthor() || $user->isRegistered()))
 
         <form id="comment-form" method="post" data-url="{{ route('comment.store', $news) }}">
@@ -54,7 +52,6 @@
             <br>
             <button type="submit" class="btn btn-success mb-3">Добавить</button>
         </form>
-
     @else
         <p class=" my-font-weight my-margin-top">Зарегистрируйтесь, чтобы добавить комментарий</p>
     @endif
