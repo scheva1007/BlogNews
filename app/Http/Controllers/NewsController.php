@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Commands\RatingNewsCommand;
 use App\Commands\StoreNewsCommand;
 use App\Commands\UpdateNewsCommand;
+use App\Http\Request\RatingNewsRequest;
 use App\Http\Request\StoreNewsRequest;
 use App\Http\Request\UpdateNewsRequest;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Rating;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
@@ -68,12 +69,8 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function rating(Request $request, $id)
+    public function rating(RatingNewsRequest $request, $id, RatingNewsCommand $command)
     {
-        $request->validate([
-            'grade' => 'required|integer|min:1|max:5',
-        ]);
-
         $userId = auth()->id();
 
         $existingRating = Rating::where('news_id', $id)
@@ -82,11 +79,7 @@ class NewsController extends Controller
         if ($existingRating) {
             $existingRating->update(['grade' => $request->input('grade')]);
         } else {
-            Rating::create([
-                'news_id' => $id,
-                'user_id' => $userId,
-                'grade' => $request->input('grade'),
-            ]);
+             $command->execute($request, $id, $userId);
         }
         $newRating = Rating::where('news_id', $id)->avg('grade');
 

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Commands;
-
 
 use App\Http\Request\UpdateNewsRequest;
 use App\Models\News;
