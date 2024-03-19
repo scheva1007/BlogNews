@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -43,20 +41,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    const is_admin = 'admin';
-    const is_author = 'author';
-    const is_registered = 'registered';
-
-    public function isAdmin() {
-        return $this->role === self::is_admin;
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
     }
 
-    public function isAuthor() {
-        return $this->role === self::is_author;
+    public function isAuthor()
+    {
+        return $this->role === 'author';
     }
 
-    public function isRegistered(){
-        return $this->role === self::is_registered;
+    public function isRegistered()
+    {
+        return $this->role === 'registered';
     }
 }
 
