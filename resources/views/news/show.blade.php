@@ -27,7 +27,7 @@
             @if ($userRating !==null )
                 <p style="margin-bottom: 1px">Ваша текущая оценка: {{ $userRating }}</p>
             @endif
-            @if($user && !$user->isAuthor())
+            @if($user && $user->id !== $news->user_id)
                 <div>
                     <label class="my-grade my-font-weight" for="grade">Оцените статью от 1 до 5</label>
                 </div>

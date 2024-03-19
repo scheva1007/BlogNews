@@ -19,12 +19,6 @@ class CommentController extends Controller
         return response()->json(['success' => true, 'comment' => $comment]);
     }
 
-    public function destroy(Comment $comment)
-    {
-        $comment->delete();
-        return redirect()->back;
-    }
-
     public function countLikes(Comment $comment, LikesCommentCommand $likesCommand)
     {
         $userId = auth()->id();
