@@ -43,4 +43,4 @@ Route::get('news/{comment}/dislikes', [CommentController::class, 'countDislikes'
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

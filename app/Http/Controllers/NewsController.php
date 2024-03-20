@@ -11,16 +11,22 @@ use App\Http\Request\UpdateNewsRequest;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Rating;
+use App\Services\NewsService;
 use Carbon\Carbon;
 
 class NewsController extends Controller
 {
+    public $newsService;
+
+    public function __construct(NewsService $newsService)
+    {
+        $this->newsService = $newsService;
+    }
     public function index()
     {
         $news = News::latest()->paginate(5);
         $categories = Category::all();
-        $limitMonths = Carbon::now()->subMonths(3);
-        $topNews = News::select()->whereDate('created_at', ">=", $limitMonths)->orderByDesc('rating')->limit(3)->get();
+        $topNews = $this->newsService->getLastNews();
 
         return view('news.index', compact('categories', 'news', 'topNews'));
     }
