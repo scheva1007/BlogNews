@@ -8,9 +8,17 @@ use App\Http\Request\StoreCommentRequest;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\News;
+use App\Repositories\CommentRepository;
 
 class CommentController extends Controller
 {
+    public $commentRepository;
+
+    public function __construct (CommentRepository $commentRepository)
+    {
+        $this->commentRepository = $commentRepository;
+    }
+
     public function store(StoreCommentRequest $request, News $news, StoreCommentCommand $command)
     {
         $user = auth()->id();
@@ -22,9 +30,9 @@ class CommentController extends Controller
     public function countLikes(Comment $comment, LikesCommentCommand $likesCommand)
     {
         $userId = auth()->id();
-        $existingVote = Like::where('comment_id', $comment->id)->where('user_id', $userId)->first();
+        $existingVote = $this->commentRepository->findUserCommentLikes($comment, $userId);
+        $likesCommand->execute($comment,$userId, $existingVote);
 
-       $likesCommand->execute($comment,$userId, $existingVote);
         return redirect()->back();
     }
 
