@@ -9,7 +9,7 @@ use App\Models\Like;
 
 class LikesCommentCommand
 {
-    public function execute(Comment $comment, $userId, $existingVote)
+    public function execute(Comment $comment, $existingVote)
     {
         if ($existingVote) {
 

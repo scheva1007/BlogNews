@@ -12,13 +12,6 @@ use App\Repositories\CommentRepository;
 
 class CommentController extends Controller
 {
-    public $commentRepository;
-
-    public function __construct (CommentRepository $commentRepository)
-    {
-        $this->commentRepository = $commentRepository;
-    }
-
     public function store(StoreCommentRequest $request, News $news, StoreCommentCommand $command)
     {
         $user = auth()->id();
@@ -27,11 +20,10 @@ class CommentController extends Controller
         return response()->json(['success' => true, 'comment' => $comment]);
     }
 
-    public function countLikes(Comment $comment, LikesCommentCommand $likesCommand)
+    public function countLikes(Comment $comment, LikesCommentCommand $likesCommand, CommentRepository $commentRepository)
     {
-        $userId = auth()->id();
-        $existingVote = $this->commentRepository->findUserCommentLikes($comment, $userId);
-        $likesCommand->execute($comment,$userId, $existingVote);
+        $existingVote = $commentRepository->findUserCommentLikes($comment->id, auth()->id);
+        $likesCommand->execute($comment, $existingVote);
 
         return redirect()->back();
     }
