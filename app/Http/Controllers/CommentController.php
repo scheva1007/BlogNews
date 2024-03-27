@@ -6,9 +6,10 @@ use App\Commands\LikesCommentCommand;
 use App\Commands\StoreCommentCommand;
 use App\Http\Request\StoreCommentRequest;
 use App\Models\Comment;
-use App\Models\Like;
+use App\Models\CommentLikes;
 use App\Models\News;
 use App\Repositories\CommentRepository;
+use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
@@ -27,36 +28,13 @@ class CommentController extends Controller
         return response()->json(['success' => true, 'comment' => $comment]);
     }
 
-    public function countLikes(Comment $comment, LikesCommentCommand $likesCommand)
+    public function setLikeStatus(Request $request, Comment $comment, LikesCommentCommand $likesCommand)
     {
-        $userId = auth()->id();
+        $likeStatus = (bool)$request->input('like_status');
+        $userId = $request->user()->id;
         $existingVote = $this->commentRepository->findUserCommentLikes($comment, $userId);
-        $likesCommand->execute($comment,$userId, $existingVote);
+        $likesCommand->execute($comment, $userId, $existingVote, $likeStatus);
 
-        return redirect()->back();
-    }
-
-    public function countDislikes(Comment $comment)
-    {
-        $userId = auth()->id();
-        $existingVote = Like::where('comment_id', $comment->id)->where('user_id', $userId)->first();
-        if ($existingVote) {
-            if ($existingVote->dislikes == 1) {
-                $comment->decrement('countDislikes');
-                $existingVote->delete();
-            } else {
-                $comment->increment('countDislikes');
-                $comment->decrement('countLikes');
-                $existingVote->update(['dislikes' => 1, 'likes' => 0]);
-            }
-        } else {
-            $comment->increment('countDislikes');
-            Like::create([
-                'comment_id' => $comment->id,
-                'user_id' => $userId,
-                'dislikes' => 1,
-            ]);
-        }
         return redirect()->back();
     }
 }

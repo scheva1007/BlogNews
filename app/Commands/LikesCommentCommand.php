@@ -5,29 +5,43 @@ namespace App\Commands;
 
 
 use App\Models\Comment;
-use App\Models\Like;
+use App\Models\CommentLikes;
 
 class LikesCommentCommand
 {
-    public function execute(Comment $comment, $userId, $existingVote)
+    public function execute(Comment $comment, $userId, $existingVote, $likeStatus)
     {
         if ($existingVote) {
 
-            if ($existingVote->likes == 1) {
-                $comment->decrement('countLikes');
+            if ($existingVote->like_status == $likeStatus) {
+                if ($likeStatus) {
+                    $comment->decrement('countLikes');
+                } else {
+                    $comment->decrement('countDislikes');
+                }
                 $existingVote->delete();
 
             } else {
-                $comment->increment('countLikes');
-                $comment->decrement('countDisLikes');
-                $existingVote->update(['likes' => 1, 'dislikes' => 0]);
+                if ($likeStatus) {
+                    $comment->increment('countLikes');
+                    $comment->decrement('countDislikes');
+
+                } else {
+                    $comment->increment('countDislikes');
+                    $comment->decrement('countLikes');
+                }
+                $existingVote->update(['like_status' => $likeStatus]);
             }
         } else {
-            $comment->increment('countLikes');
-            Like::create([
+            if ($likeStatus ) {
+                $comment->increment('countLikes');
+            } else {
+                $comment->increment('countDislikes');
+            }
+            CommentLikes::create([
                 'comment_id' => $comment->id,
                 'user_id' => $userId,
-                'likes' => 1,
+                'like_status' => $likeStatus,
             ]);
         }
     }
