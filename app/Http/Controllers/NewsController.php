@@ -16,17 +16,12 @@ use Carbon\Carbon;
 
 class NewsController extends Controller
 {
-    public $newsService;
 
-    public function __construct(NewsService $newsService)
-    {
-        $this->newsService = $newsService;
-    }
-    public function index()
+    public function index(NewsService $newsService)
     {
         $news = News::latest()->paginate(5);
         $categories = Category::all();
-        $topNews = $this->newsService->getLastNews();
+        $topNews = $newsService->getLastNews();
 
         return view('news.index', compact('categories', 'news', 'topNews'));
     }
