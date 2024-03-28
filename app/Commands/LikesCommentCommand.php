@@ -12,11 +12,9 @@ class LikesCommentCommand
     public function execute(Comment $comment, $existingVote)
     {
         if ($existingVote) {
-
             if ($existingVote->likes == 1) {
                 $comment->decrement('countLikes');
                 $existingVote->delete();
-
             } else {
                 $comment->increment('countLikes');
                 $comment->decrement('countDisLikes');
