@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AdminOrAuthorMiddleware;
 use App\Http\Middleware\AdminOrNewsAuthorMiddleware;
+use App\Http\Middleware\RegisteredUserMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'adminOrAuthor' => AdminOrAuthorMiddleware::class,
         'adminOrNewsAuthor' => AdminOrNewsAuthorMiddleware::class,
+        'registered' => RegisteredUserMiddleware::class,
     ];
 }

@@ -38,8 +38,9 @@ Route::post('/news/{news}/rating', [NewsController::class, 'rating'])->name('new
 
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
 
-Route::get('/news/{comment}/likes', [CommentController::class, 'countLikes'])->name('comment.countLikes');
-Route::get('news/{comment}/dislikes', [CommentController::class, 'countDislikes'])->name('comment.countDislikes');
+Route::middleware('registeredUser')->group(function () {
+    Route::get('/news/{comment}/like-status', [CommentController::class, 'setLikeStatus'])->name('comment.setLikeStatus');
+});
 
 Auth::routes();
 

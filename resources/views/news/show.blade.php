@@ -68,7 +68,7 @@
                         <div class="rating-buttons">
                             @auth
                                 @if($comment->user_id != auth()->user()->id)
-                                    <a href="{{ route('comment.countLikes', ['comment' => $comment->id]) }}"><i class="fas fa-thumbs-up"></i></a>
+                                    <a href="{{ route('comment.setLikeStatus', ['comment' => $comment->id, 'like_status' => true]) }}"><i class="fas fa-thumbs-up"></i></a>
                                  @else
                                     <i class="fas fa-thumbs-up"></i>
                                 @endif
@@ -76,7 +76,7 @@
                                 <span>{{ $comment->countLikes ?: 0 }}</span>
                                 @auth
                                     @if($comment->user_id != auth()->user()->id)
-                                    <a href="{{ route('comment.countDislikes', ['comment' => $comment->id]) }}"><i class="fas fa-thumbs-down"></i></a>
+                                    <a href="{{ route('comment.setLikeStatus', ['comment' => $comment->id, 'like_status' => false]) }}"><i class="fas fa-thumbs-down"></i></a>
                                 @else
 
                                     <i class="fas fa-thumbs-down"></i>
