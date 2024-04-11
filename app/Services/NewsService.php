@@ -2,21 +2,38 @@
 
 namespace App\Services;
 
+use App\Models\Comment;
 use App\Models\News;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 class NewsService
 {
     public function getLastNews()
     {
-        $limitDays = Carbon::now()->subDays(7);
+        $limitDays = Carbon::now()->subMonths(3);
         $topNews = News::select()->whereDate('created_at', '>=', $limitDays)
-            ->orderByDesc('rating')->limit(5)->get();
+            ->orderByDesc('rating')
+            ->limit(5)->get();
 
         if ($topNews->isEmpty()) {
-            $topNews = News::select()->orderByDesc('rating')->limit(5)->get();
+            $topNews = News::select()->orderByDesc('rating')
+                ->limit(5)->get();
         }
 
         return $topNews;
+    }
+
+    public function getSortedNews ($sortBy = 'created_at', $sortDirection = 'desc')
+    {
+        $query = News::query();
+
+        if ($sortBy === 'comment_count')
+        {
+            $query->withCount('comment')->orderBy('comment_count', $sortDirection);
+        } else {
+            $query->orderBy($sortBy, $sortDirection);
+        }
+            return $query->paginate(3);
     }
 }
