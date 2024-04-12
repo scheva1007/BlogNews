@@ -28,7 +28,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 1,
                 'rating' => 4.5,
-
+                'photo' => 'news_photos/football 1.jpg'
             ],
 
             [
@@ -39,7 +39,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 1,
                 'rating' => 2.5,
-
+                'photo' => 'news_photos/NBA.jpg'
             ],
 
             [
@@ -50,7 +50,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 2,
                 'rating' => 5,
-
+                'photo' => 'news_photos/NHL.jpg'
             ],
 
             [
@@ -61,7 +61,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 2,
                 'rating' => 0,
-
+                'photo' => 'news_photos/football 2.jpg'
             ],
 
             [
@@ -72,7 +72,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 1,
                 'rating' => 0,
-
+                'photo' => 'news_photos/football 3.jpg'
             ],
 
             [
@@ -83,7 +83,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 2,
                 'rating' => 0,
-
+                'photo' => 'news_photos/Cup 1.jpg'
             ],
         ]);
     }
