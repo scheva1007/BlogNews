@@ -2,10 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\Comment;
 use App\Models\News;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
+
 
 class NewsService
 {
@@ -28,7 +27,11 @@ class NewsService
     {
         $query = News::query();
 
-        if ($sortBy === 'comment_count')
+        if ($sortBy === 'rating')
+        {
+            $query->orderBy('rating', $sortDirection);
+        }
+        elseif ($sortBy === 'comment_count')
         {
             $query->withCount('comment')->orderBy('comment_count', $sortDirection);
         } else {
