@@ -58,41 +58,9 @@
 
     @if (count($comments)>0)
         <h6>Все комментарии:</h6>
-
         <div id="comments-container">
             @foreach($comments as $comment)
-                <div style="margin-bottom: 10px; ">
-                    <span  class="news-link my-font-size my-margin-right background-data">Добавил(-a): {{ $comment->user_name }} </span>
-                    <span class="news-link my-font-size background-data">{{ $comment->formattedDate }}</span>
-                    <div > *{{ $comment->content }}
-                        <div class="rating-buttons">
-                            @auth
-                                @if($comment->user_id != auth()->user()->id)
-                                    <a href="{{ route('comment.setLikeStatus', ['comment' => $comment->id, 'like_status' => true]) }}"><i class="fas fa-thumbs-up"></i></a>
-                                 @else
-                                    <i class="fas fa-thumbs-up"></i>
-                                @endif
-                            @endauth
-                                <span>{{ $comment->countLikes ?: 0 }}</span>
-                                @auth
-                                    @if($comment->user_id != auth()->user()->id)
-                                    <a href="{{ route('comment.setLikeStatus', ['comment' => $comment->id, 'like_status' => false]) }}"><i class="fas fa-thumbs-down"></i></a>
-                                @else
-
-                                    <i class="fas fa-thumbs-down"></i>
-                                @endif
-
-                            @endauth
-
-                            <span>{{ $comment->countDislikes ?: 0 }}</span>
-                            @auth
-                                @if($comment->user_id == auth()->user()->id)
-                            @endif
-                                @endauth()
-                        </div>
-
-                    </div>
-                </div>
+        @include('news.partials.comment')
             @endforeach
         </div>
     @endif
@@ -105,49 +73,16 @@
             if (commentForm) {
                 commentForm.addEventListener('submit', function (event) {
                     event.preventDefault();
-
                     const formData = new FormData(commentForm);
                     const url = commentForm.getAttribute('data-url');
-
                     fetch(url, {
                         method: 'POST',
                         body: formData,
-
                     })
-                        .then(response => response.json())
+                        .then(response => response.text())
                         .then(data => {
-                            if (data.success) {
-                                // Очистить поле ввода комментария
-                                commentForm.querySelector('textarea[name="text"]').value = '';
-                                const dateString = data.comment.created_at;
-                                const date = new Date(dateString);
-                                const day = date.getDate().toString().padStart(2, '0');
-                                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-                                const year = date.getFullYear();
-
-                                const formattedDate = `${day}.${month}.${year}`;
-
-                                // Добавить новый комментарий в контейнер
-                                const newCommentHTML = `
-                        <div style="margin-bottom: 10px;">
-                            <span class="news-link my-font-size my-margin-right background-data">
-                                Добавил(-а): {{ $user ? $user->name : null }}
-                            </span>
-                            <span class="news-link my-font-size background-data">${formattedDate}</span>
-                            <div>* ${data.comment.content}</div>
-                            <div class="rating-buttons">
-                                <a href="/news/${data.comment.id}/likes">
-    <i class="fas fa-thumbs-up"></i> 0
-                                </a>
-                                <a href="/news/${data.comment.id}/dislikes">
-    <i class="fas fa-thumbs-down"></i> 0
-                                </a>
-                                </div>
-                            </div>
-`;
-                                // Вставить новый комментарий в начало контейнера
-                                commentsContainer.insertAdjacentHTML('afterbegin', newCommentHTML);
-                            }
+                            commentForm.querySelector('textarea[name="text"]').value = '';
+                            commentsContainer.insertAdjacentHTML('afterbegin', data);
                         })
                         .catch(error => {
                             console.error('Error:', error);
@@ -157,12 +92,3 @@
         });
     </script>
 @endsection
-
-
-
-
-
-
-
-
-
