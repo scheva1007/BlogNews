@@ -23,20 +23,17 @@ class NewsService
         return $topNews;
     }
 
-    public function getSortedNews ($sortBy = 'created_at', $sortDirection = 'desc')
+    public function getSortedNews($sortBy = 'created_at', $sortDirection = 'desc')
     {
         $query = News::query();
 
-        if ($sortBy === 'rating')
-        {
+        if ($sortBy === 'rating') {
             $query->orderBy('rating', $sortDirection);
-        }
-        elseif ($sortBy === 'comment_count')
-        {
+        } elseif ($sortBy === 'comment_count') {
             $query->withCount('comment')->orderBy('comment_count', $sortDirection);
         } else {
             $query->orderBy($sortBy, $sortDirection);
         }
-            return $query->paginate(3);
+        return $query->paginate(3);
     }
 }
