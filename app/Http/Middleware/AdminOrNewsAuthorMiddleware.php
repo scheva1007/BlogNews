@@ -16,9 +16,9 @@ class AdminOrNewsAuthorMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $newsId = $request->route('news')->user_id;
-        $userNewRole=auth()->user() ? auth()->user()->role : null;
-        if ($userNewRole === 'admin' || ($userNewRole && $userNewRole->id === $newsId->user_id)) {
+        $news = $request->route('news');
+        $userRole = auth()->user() ? auth()->user()->role : null;
+        if ($userRole === 'admin' || auth()->id() === $news->user_id) {
             return $next($request);
         }
         abort(403, 'Unauthorized action.');
