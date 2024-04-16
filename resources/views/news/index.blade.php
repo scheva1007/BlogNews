@@ -4,7 +4,7 @@
   <div id="news-container" class="d-flex">
       <div>
 
-    <h4>ТОП-3 новости</h4>
+    <h4>ТОП-5 новости</h4>
 
     @foreach($topNews as $item)
 
@@ -24,7 +24,7 @@
                     <a href="{{ route('news.show', $item) }} " class="mr-5 main-link "
                         style="font-size: 18px; margin-bottom: 30px;">{{ $item->title }}</a>
                 </div>
-                <p class="my-font-content main-link">{{ substr($item->content, 0, 100) }}{{ strlen($item->content) > 100 ? '...' : '' }}</p>
+                <p class="my-font-content">{{ substr($item->content, 0, 100) }}{{ strlen($item->content) > 100 ? '...' : '' }}</p>
             </div>
         </div>
           @endforeach
