@@ -4,7 +4,7 @@
   <div id="news-container" class="d-flex">
       <div>
 
-    <h4>ТОП-5 новости</h4>
+    <h4 style="margin-bottom: 25px;">ТОП-5 новости:</h4>
 
     @foreach($topNews as $item)
 
@@ -33,18 +33,13 @@
           <h5>Список новостей:</h5>
 
           @foreach($news as $item)
-              <div>
-          <span style="margin-bottom: 0; margin-top: 5px; font-size: 12px; background-color: lightcyan">{{ $item->formattedDate }} | <i
-                  class="fas fa-comment" style="color: gray;"></i> {{ $item->commentCount }}</span>
-
-              <div class="mb-2">
-                  <a href="{{ route('news.show', $item) }}" class="main-link" style="font-size: 17px"> {{ $item->title }}</a>
-              </div>
+              @include('news.partials.newsList')
           @endforeach
+          <div class="mb-3 align-items-start"> {{ $news->withQueryString()->links() }}</div>
       </div>
 
   </div>
 
-    <div class="mb-3 align-items-start"> {{ $news->withQueryString()->links() }}</div>
+
 
 @endsection

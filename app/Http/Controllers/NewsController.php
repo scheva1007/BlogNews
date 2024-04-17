@@ -40,15 +40,16 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function show($id)
+    public function show(Category $category, $id)
     {
+        $categories = Category::query()->where('id', '!=', $category->id)->get();
         $userId = auth()->id();
         $news = News::findOrFail($id);
         $comments = $news->comment;
         $rating = $news->rating;
         $userRating = $news->userRating();
 
-        return view('news.show', compact('news', 'comments', 'rating', 'userRating', 'userId'));
+        return view('news.show', compact('news', 'comments', 'rating', 'userRating', 'userId', 'categories'));
     }
 
     public function edit(News $news)
