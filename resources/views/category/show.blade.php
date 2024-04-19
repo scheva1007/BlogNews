@@ -1,9 +1,12 @@
 @extends('layout.app')
 
 @section('content')
-    @foreach($news as $item)
-        <div>
-            <a href="{{ route('news.show', $item) }}" class="news-link custom-font-size">{{ $item->title }}</a>
-        </div>
-    @endforeach
+
+    @if (count($news) > 0)
+        @foreach($news as $item)
+            @include('news.partials.newsList')
+        @endforeach
+    @else
+            <p class="news-link custom-font-size"> К сожалению, на данный момент новостей нет</p>
+    @endif
 @endsection
