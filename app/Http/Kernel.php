@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AdminOrAuthorMiddleware;
 use App\Http\Middleware\AdminOrNewsAuthorMiddleware;
 use App\Http\Middleware\RegisteredUserMiddleware;
@@ -69,5 +70,6 @@ class Kernel extends HttpKernel
         'adminOrAuthor' => AdminOrAuthorMiddleware::class,
         'adminOrNewsAuthor' => AdminOrNewsAuthorMiddleware::class,
         'registeredUser' => RegisteredUserMiddleware::class,
+        'admin' => AdminMiddleware::class,
     ];
 }

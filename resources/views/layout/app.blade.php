@@ -20,8 +20,11 @@
              @php
                 $user=auth()->user();
              @endphp
+             @if ($user && $user->isAdmin())
+                 <a class="nav-link custom-font-size custom-margin category-link " href="{{ route('category.create') }}">Добавить категорию</a>
+             @endif
              @if ($user && ($user->isAdmin() || $user->isAuthor()))
-            <a class="nav-link custom-font-size custom-margin category-link " href="{{ route('news.create') }}">Добавить новость</a>
+                <a class="nav-link custom-font-size custom-margin category-link " href="{{ route('news.create') }}">Добавить новость</a>
             @endif
             @if(isset($categories))
                 @foreach($categories as $category)

@@ -12,7 +12,6 @@ use App\Models\Category;
 use App\Models\News;
 use App\Models\Rating;
 use App\Services\NewsService;
-use Carbon\Carbon;
 
 class NewsController extends Controller
 {
@@ -55,6 +54,7 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         $categories = Category::all();
+
         return view('news.edit', compact('news', 'categories'));
     }
 
@@ -68,6 +68,7 @@ class NewsController extends Controller
     public function destroy(News $news)
     {
         $news->delete();
+
         return redirect()->route('news.index');
     }
 
