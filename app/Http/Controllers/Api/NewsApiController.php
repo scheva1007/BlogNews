@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NewsIndexResource;
-use App\Models\News;
 use App\Services\NewsService;
 use Illuminate\Http\Request;
 
