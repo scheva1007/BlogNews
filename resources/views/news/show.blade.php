@@ -6,7 +6,7 @@
         <img src="{{ asset('/storage/' . $news->photo) }}" alt="News Photo"
              style="max-width: 300px; max-height: 300px;">
     @endif
-    <div style="margin-top: 20px">Рейтинг: {{ $rating }}</div>
+    <div style="margin-top: 20px">Рейтинг: {{ $news->rating }}</div>
     <h5>{{ $news->title }}</h5>
     <p>{{ $news->content }}</p>
     <div class="mb-3">
@@ -24,8 +24,8 @@
                 </form>
                 @endif
             </div>
-            @if ($userRating !==null )
-                <p style="margin-bottom: 1px">Ваша текущая оценка: {{ $userRating }}</p>
+            @if ($news->userRating() !==null )
+                <p style="margin-bottom: 1px">Ваша текущая оценка: {{ $news->userRating() }}</p>
             @endif
             @if($user && $user->id !== $news->user_id)
                 <div>
@@ -56,11 +56,11 @@
         <p class=" my-font-weight my-margin-top">Зарегистрируйтесь, чтобы добавить комментарий</p>
     @endif
 
-    @if (count($comments)>0)
+    @if (count($news->comment) > 0)
         <h6>Все комментарии:</h6>
         <div id="comments-container">
-            @foreach($comments as $comment)
-        @include('news.partials.comment')
+            @foreach($news->comment as $comment)
+                @include('news.partials.comment')
             @endforeach
         </div>
     @endif

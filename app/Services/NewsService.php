@@ -12,7 +12,7 @@ class NewsService
     {
         $limitDays = Carbon::now()->subMonths(3);
         $topNews = News::select()->whereDate('created_at', '>=', $limitDays)
-            ->orderByDesc('rating')
+            ->orderByDesc('views')
             ->limit(5)->get();
 
         if ($topNews->isEmpty()) {

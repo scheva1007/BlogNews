@@ -39,16 +39,17 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function show(Category $category, $id)
+    public function show(News $news)
     {
-        $categories = Category::query()->where('id', '!=', $category->id)->get();
-        $userId = auth()->id();
-        $news = News::findOrFail($id);
-        $comments = $news->comment;
-        $rating = $news->rating;
-        $userRating = $news->userRating();
+        $categories = Category::all();
 
-        return view('news.show', compact('news', 'comments', 'rating', 'userRating', 'userId', 'categories'));
+        $viewCountKey = '$news_' .$news->id. '_view';
+        if (!session()->has($viewCountKey)) {
+            $news->increment('views');
+            session([$viewCountKey => true]);
+        }
+
+        return view('news.show', compact('news', 'categories'));
     }
 
     public function edit(News $news)
@@ -72,21 +73,21 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function rating(RatingNewsRequest $request, $id, RatingNewsCommand $command)
+    public function rating(RatingNewsRequest $request, $newsId, RatingNewsCommand $command)
     {
         $userId = auth()->id();
 
-        $existingRating = Rating::where('news_id', $id)
+        $existingRating = Rating::where('news_id', $newsId)
             ->where('user_id', $userId)->first();
 
         if ($existingRating) {
             $existingRating->update(['grade' => $request->input('grade')]);
         } else {
-             $command->execute($request, $id, $userId);
+             $command->execute($request, $newsId, $userId);
         }
-        $newRating = Rating::where('news_id', $id)->avg('grade');
+        $newsAvgRating = Rating::where('news_id', $newsId)->avg('grade');
 
-        News::where('id', $id)->update(['rating' => $newRating]);
+        News::where('id', $newsId)->update(['rating' => $newsAvgRating]);
 
         return redirect()->back()->with('success', "Вы успешно оценили новость");
     }
