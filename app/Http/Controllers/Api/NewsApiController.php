@@ -17,4 +17,6 @@ class NewsApiController extends Controller
 
         return NewsIndexResource::collection($news);
     }
+
+    public function
 }

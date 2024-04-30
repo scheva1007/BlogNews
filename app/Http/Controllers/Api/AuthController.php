@@ -13,7 +13,7 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Post(
- *     path="/register",
+ *     path="/api/register",
  *     summary="Register a new user",
  *     tags={"Authentication"},
  *     operationId="registerUser",
@@ -49,7 +49,7 @@ use OpenApi\Annotations as OA;
  * )
  *
  * @OA\Post(
- *     path="/logout",
+ *     path="/api/logout",
  *     summary="Logout the authenticated user",
  *     tags={"Authentication"},
  *     operationId="logoutUser",
@@ -65,7 +65,7 @@ use OpenApi\Annotations as OA;
  * )
  *
  * @OA\Post(
- *     path="/login",
+ *     path="/api/login",
  *     summary="Login user",
  *     tags={"Authentication"},
  *     operationId="loginUser",
