@@ -9,6 +9,94 @@ use App\Http\Request\LoginAuthRequest;
 use App\Http\Resources\AuthLoginResource;
 use App\Http\Resources\AuthRegisterResource;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Post(
+ *     path="/register",
+ *     summary="Register a new user",
+ *     tags={"Authentication"},
+ *     operationId="registerUser",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="User registration details",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *             @OA\Schema(
+ *                 @OA\Property(property="name", type="string"),
+ *                 @OA\Property(property="email", type="string", format="email"),
+ *                 @OA\Property(property="password", type="string"),
+ *                 @OA\Property(property="password_confirmation", type="string")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful operation",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="token", type="string"),
+ *             @OA\Property(property="id", type="integer"),
+ *             @OA\Property(property="name", type="string"),
+ *             @OA\Property(property="email", type="string"),
+ *             @OA\Property(property="role", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthenticated"
+ *
+ *  )
+ * )
+ *
+ * @OA\Post(
+ *     path="/logout",
+ *     summary="Logout the authenticated user",
+ *     tags={"Authentication"},
+ *     operationId="logoutUser",
+ *     security={{"bearerAuth":{}}},
+ *     @OA\Response(
+ *         response=204,
+ *         description="Successfully logged out"
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthenticated"
+ *     )
+ * )
+ *
+ * @OA\Post(
+ *     path="/login",
+ *     summary="Login user",
+ *     tags={"Authentication"},
+ *     operationId="loginUser",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="User login details",
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *             @OA\Schema(
+ *                 @OA\Property(property="email", type="string", format="email"),
+ *                 @OA\Property(property="password", type="string", format="password")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successful login",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="token", type="string"),
+ *             @OA\Property(property="id", type="integer"),
+ *             @OA\Property(property="name", type="string"),
+ *             @OA\Property(property="email", type="string"),
+ *             @OA\Property(property="role", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized"
+ *     )
+ * )
+ */
 
 class AuthController extends Controller
 {
