@@ -19,14 +19,14 @@
         <label for="photo" class="my-font-weight">Фото:</label>
         <br>
         <input type="file" name="photo" accept="image/*">
-        <label for="category_id" class="my-font-weight indent" style="display: block; margin-bottom: 5px;">Категория:</label>
+        <label for="category_id" class="my-font-weight indent" style="display: block; margin-bottom: 5px;">Категорія:</label>
         <select name="category_id" required style="width: 300px; margin-bottom: 12px;">
             @foreach($categories as $category)
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
         </select>
         <br>
-        <button type="submit" class="btn btn-primary mb-3">Создать</button>
+        <button type="submit" class="btn btn-primary mb-3">Створити</button>
     </form>
 
 @endsection

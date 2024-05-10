@@ -4,7 +4,7 @@
   <div id="news-container" class="d-flex">
       <div>
 
-    <h4 style="margin-bottom: 25px;">ТОП-5 новости:</h4>
+    <h4 style="margin-bottom: 25px;">ТОП-5 новин:</h4>
 
     @foreach($topNews as $item)
 
@@ -31,16 +31,11 @@
           @endforeach
       </div>
       <div id="main-news" style="margin-left: 10%;">
-          <h5>Список новостей:</h5>
-
+          <h5>Список новин:</h5>
           @foreach($news as $item)
               @include('news.partials.newsList')
           @endforeach
           <div class="mb-3 align-items-start"> {{ $news->withQueryString()->links() }}</div>
       </div>
-
   </div>
-
-
-
 @endsection

@@ -57,6 +57,10 @@ footer {
     color: blue;
 }
 
+.color-text {
+    color: blue;
+}
+
 #news-container {
     display: flex;
     justify-content: space-between;
@@ -111,11 +115,14 @@ footer {
     min-height: 100vh;
 }
 
+.main-link {
+    color: #007bff;
+}
+
 .main-link:hover {
     color: red;
     text-decoration: underline;
-    text-decoration-color: black
-;
+    text-decoration-color: black;
     cursor: pointer;
 }
 

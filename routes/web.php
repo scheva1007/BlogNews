@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsController;
@@ -30,6 +32,11 @@ Route::middleware('admin')->group(function () {
     Route::get('/categories/create', [CategoryController::class, 'create'])->name('category.create');
     Route::post('/categories/store', [CategoryController::class, 'store'])->name('category.store');
 });
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/admin/{user}/edit', [AdminController::class, 'edit'])->name('admin.edit');
+Route::put('/admin/{user}', [AdminController::class, 'update'])->name('admin.update');
+Route::get('/user', [UserController::class, 'index'])->name('user.index');
 
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
 
