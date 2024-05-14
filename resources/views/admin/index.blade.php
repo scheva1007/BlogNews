@@ -9,5 +9,8 @@
     <div>
         <a href="{{ route('category.create') }}" class="my-grade my-font-weight" style="font-size: 20px">Додати категорію</a>
     </div>
+    <div>
+        <a href="{{ '#' }}" class="my-grade my-font-weight" style="font-size: 20px">Керування коментарями</a>
+    </div>
 
 @endsection
