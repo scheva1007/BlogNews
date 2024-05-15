@@ -46,7 +46,7 @@
 
         <form id="comment-form" method="post" data-url="{{ route('comment.store', $news) }}">
             @csrf
-            <label for="content" style="display: block; margin-bottom: 8px; font-weight: bold;">Залишити коментарій:</label>
+            <label for="content" style="display: block; margin-bottom: 8px; font-weight: bold;">Залишити коментар:</label>
             <textarea name="text" required style="width: 300px; margin-bottom: 12px;"></textarea>
             <br>
             <button type="submit" class="btn btn-success mb-3">Додати</button>
@@ -55,11 +55,13 @@
         <p class=" my-font-weight my-margin-top">Зареєструйтесь, щоб додати коментарій</p>
     @endif
 
-    @if (count($news->comment) > 0)
+    @if (count($news->comment) > 0 )
         <h6>Всі коментарі:</h6>
         <div id="comments-container">
             @foreach($news->comment as $comment)
+                @if($comment->status != 'blocked')
                 @include('news.partials.comment')
+                @endif
             @endforeach
         </div>
     @endif

@@ -9,6 +9,7 @@ use App\Http\Request\RatingNewsRequest;
 use App\Http\Request\StoreNewsRequest;
 use App\Http\Request\UpdateNewsRequest;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\News;
 use App\Models\Rating;
 use App\Services\NewsService;
@@ -39,7 +40,7 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function show(News $news)
+    public function show(News $news, Comment $comment)
     {
         $categories = Category::all();
 
@@ -49,7 +50,7 @@ class NewsController extends Controller
             session([$viewCountKey => true]);
         }
 
-        return view('news.show', compact('news', 'categories'));
+        return view('news.show', compact('news', 'categories', 'comment'));
     }
 
     public function edit(News $news)
