@@ -46,7 +46,7 @@
 
         <form id="comment-form" method="post" data-url="{{ route('comment.store', $news) }}">
             @csrf
-            <label for="content" style="display: block; margin-bottom: 8px; font-weight: bold;">Залишити коментарій:</label>
+            <label for="content" style="display: block; margin-bottom: 8px; font-weight: bold;">Залишити коментар:</label>
             <textarea name="text" required style="width: 300px; margin-bottom: 12px;"></textarea>
             <br>
             <button type="submit" class="btn btn-success mb-3">Додати</button>
@@ -65,6 +65,14 @@
     @endif
     <div class="rating-buttons">
     </div>
+    @if ($news->tags && count($news->tags)>0)
+        <h6>Теги:</h6>
+        <ul>
+            @foreach($news->tags as $tag)
+                <li>{{ $tag->name }}</li>
+            @endforeach
+        </ul>
+        @endif
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const commentForm = document.getElementById('comment-form');

@@ -25,7 +25,12 @@
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
             @endforeach
         </select>
-        <br>
+        <label for="tag" class="my-font-weight indent" style="display: block; margin-bottom: 5px;">Тег</label>
+        <select name="tag[]" multiple style="width: 300px; margin-bottom: 12px;">
+            @foreach($tags as $tag)
+                <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+            @endforeach
+        </select>
         <button type="submit" class="btn btn-primary mb-3">Створити</button>
     </form>
 
