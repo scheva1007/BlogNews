@@ -1,7 +1,7 @@
 
         <div style="margin-bottom: 10px; ">
             <span
-                class="news-link my-font-size my-margin-right background-data">Добавил(-a): {{ $comment->user_name }} </span>
+                class="news-link my-font-size my-margin-right background-data">Добавил(-a): {{ $comment->user->name }} </span>
             <span class="news-link my-font-size background-data">{{ $comment->formattedDate }}</span>
             <div> *{{ $comment->content }}
                 <div class="rating-buttons">

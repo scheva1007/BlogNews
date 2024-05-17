@@ -66,10 +66,9 @@
     <div class="rating-buttons">
     </div>
     @if ($news->tags && count($news->tags)>0)
-        <h6>Теги:</h6>
-        <ul>
+        <ul class="tags-list">
             @foreach($news->tags as $tag)
-                <li>{{ $tag->name }}</li>
+                <li class="tags-item">{{ $tag->name }}</li>
             @endforeach
         </ul>
         @endif

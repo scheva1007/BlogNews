@@ -44,7 +44,6 @@ class NewsController extends Controller
     public function show(News $news)
     {
         $categories = Category::all();
-
         $viewCountKey = '$news_' .$news->id. '_view';
         if (!session()->has($viewCountKey)) {
             $news->increment('views');

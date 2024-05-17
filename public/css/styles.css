@@ -126,6 +126,39 @@ footer {
     cursor: pointer;
 }
 
+.tags-list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tags-item:nth-child(3n+1) {
+    background-color: #FF5733;
+}
+
+.tags-item:nth-child(3n+2) {
+    background-color: green;
+}
+
+.tags-item:nth-child(3n+3) {
+    background-color: #3498db;
+}
+
+.tags-item {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.tags-item:hover {
+    background-color: #0056b3;
+    cursor: pointer;
+}
+
 /* input {
      color: blue
  }

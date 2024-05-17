@@ -19,8 +19,8 @@
                 </option>
             @endforeach
         </select>
-        <label for="tag" style="display: block; margin-bottom: 5px;">Теги:</label>
-        <select name="tag[]" multiple style="width: 300px; margin-bottom: 12px;">
+        <label for="tags" style="display: block; margin-bottom: 5px;">Теги:</label>
+        <select name="tags[]" multiple style="width: 300px; margin-bottom: 12px;">
             @foreach($tags as $tag)
                 <option value="{{ $tag->id }}">{{ $tag->name }}</option>
             @endforeach
