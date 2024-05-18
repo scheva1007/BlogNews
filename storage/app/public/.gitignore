@@ -1,10 +1,12 @@
 *
 !.gitignore
 !news_photos/
-!news_photos/Basketball.jpg
 !news_photos/Cup.jpg
-!news_photos/football 2.jpg
-!news_photos/football 1.jpg
+!news_photos/Basketball.jpg
 !news_photos/Hockey.jpg
-!news_photos/OlympicsGames.jpg
+!news_photos/football 1.jpg
+!news_photos/football 2.jpg
 !news_photos/Formula 1.jpg
+
+
+
