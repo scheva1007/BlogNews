@@ -40,6 +40,8 @@ Route::middleware('admin')->group(function () {
     Route::put('/admin/comment/{comment}', [\App\Http\Controllers\Admin\CommentController::class, 'update'])->name('comment.update');
 });
 
+Route::get('/admin/create', [\App\Http\Controllers\Admin\TagController::class, 'create'])->name('tag.create');
+Route::post('admin/store', [\App\Http\Controllers\Admin\TagController::class, 'store'])->name('tag.store');
 
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
 

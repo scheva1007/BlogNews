@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             CommentsSeeder::class,
             RatingsSeeder::class,
             LikesSeeder::class,
+            TagSeeder::class,
+            News_TagSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
     }
