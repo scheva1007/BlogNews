@@ -21,5 +21,9 @@ class StoreNewsCommand
            $photoPath = $request->file('photo')->store('news_photos', 'public');
            $news->update(['photo' => $photoPath]);
        }
+       if ($request->has('tags')) {
+           $tagIds = $request->input('tags');
+           $news->tags()->sync($tagIds);
+       }
    }
 }

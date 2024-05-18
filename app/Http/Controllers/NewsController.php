@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\News;
 use App\Models\Rating;
+use App\Models\Tag;
 use App\Services\NewsService;
 
 class NewsController extends Controller
@@ -29,8 +30,9 @@ class NewsController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('news.create', compact('categories'));
+        return view('news.create', compact('categories', 'tags'));
     }
 
     public function store(StoreNewsRequest $request, StoreNewsCommand $command)
@@ -43,7 +45,6 @@ class NewsController extends Controller
     public function show(News $news, Comment $comment)
     {
         $categories = Category::all();
-
         $viewCountKey = '$news_' .$news->id. '_view';
         if (!session()->has($viewCountKey)) {
             $news->increment('views');
@@ -56,8 +57,9 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('news.edit', compact('news', 'categories'));
+        return view('news.edit', compact('news', 'categories', 'tags'));
     }
 
     public function update(UpdateNewsRequest $request, News $news, UpdateNewsCommand $command)

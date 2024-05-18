@@ -67,6 +67,13 @@
     @endif
     <div class="rating-buttons">
     </div>
+    @if ($news->tags && count($news->tags)>0)
+        <ul class="tags-list">
+            @foreach($news->tags as $tag)
+                <li class="tags-item">{{ $tag->name }}</li>
+            @endforeach
+        </ul>
+        @endif
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const commentForm = document.getElementById('comment-form');

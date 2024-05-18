@@ -19,6 +19,12 @@
                 </option>
             @endforeach
         </select>
+        <label for="tags" style="display: block; margin-bottom: 5px;">Теги:</label>
+        <select name="tags[]" multiple style="width: 300px; margin-bottom: 12px;">
+            @foreach($tags as $tag)
+                <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+            @endforeach
+        </select>
         <br>
         <label for="image" style="display: block; margin-bottom: 5px;">Зображення:</label>
         <input type="file" name="photo" accept="image/*" style="margin-bottom: 12px;">

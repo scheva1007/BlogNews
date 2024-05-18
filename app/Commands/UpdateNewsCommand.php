@@ -14,5 +14,9 @@ class UpdateNewsCommand
             'category_id' => $request->category_id,
             'photo' => $request->hasFile('photo') ? $request->file('photo')->store('news_photos', 'public') : $news->photo,
         ]);
-     }
+     if($request->has('tags')) {
+         $tagIds = $request->input('tags');
+         $news->tags()->sync($tagIds);
+      }
+    }
 }

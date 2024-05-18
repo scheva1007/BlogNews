@@ -8,6 +8,11 @@ class Comment extends Model
 {
     protected $guarded=[];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function getFormattedDateAttribute()
     {
         return $this->created_at->format('d.m.Y');

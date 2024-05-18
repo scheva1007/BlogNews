@@ -28,7 +28,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 1,
                 'rating' => 4.5,
-                'photo' => 'news_photos/football 1.jpg'
+                'photo' => 'news_photos/Cup.jpg'
             ],
 
             [
@@ -39,7 +39,7 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 1,
                 'rating' => 2.5,
-                'photo' => 'news_photos/NBA.jpg'
+                'photo' => 'news_photos/Basketball.jpg'
             ],
 
             [
@@ -50,18 +50,18 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 2,
                 'rating' => 5,
-                'photo' => 'news_photos/NHL.jpg'
+                'photo' => 'news_photos/Hockey.jpg'
             ],
 
             [
                 'title' => 'All teams',
                 'content' => $faker->paragraph(5),
-                'category_id' => 4,
+                'category_id' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
                 'user_id' => 2,
                 'rating' => 0,
-                'photo' => 'news_photos/football 2.jpg'
+                'photo' => 'news_photos/football 1.jpg'
             ],
 
             [
@@ -72,18 +72,18 @@ class NewsSeeder extends Seeder
                 'updated_at' => $timestamp,
                 'user_id' => 1,
                 'rating' => 0,
-                'photo' => 'news_photos/football 3.jpg'
+                'photo' => 'news_photos/football 2.jpg'
             ],
 
             [
-                'title' => 'world champions',
+                'title' => 'Formula 1',
                 'content' => $faker->paragraph(5),
                 'category_id' => 4,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
                 'user_id' => 2,
                 'rating' => 0,
-                'photo' => 'news_photos/Cup 1.jpg'
+                'photo' => 'news_photos/Formula 1.jpg'
             ],
         ]);
     }

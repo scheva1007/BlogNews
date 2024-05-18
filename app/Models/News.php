@@ -13,6 +13,11 @@ class News extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'news_tag');
+    }
+
     public function rating()
     {
         return $this->hasMany(Rating::class);
