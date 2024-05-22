@@ -64,6 +64,7 @@
                 @endif
             @endforeach
         </div>
+
     @endif
     <div class="rating-buttons">
     </div>
