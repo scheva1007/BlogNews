@@ -159,6 +159,10 @@ footer {
     cursor: pointer;
 }
 
+.news-container {
+    max-width: 800px;
+}
+
 /* input {
      color: blue
  }

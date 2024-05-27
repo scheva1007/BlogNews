@@ -51,7 +51,14 @@ class NewsController extends Controller
             session([$viewCountKey => true]);
         }
 
-        return view('news.show', compact('news', 'categories', 'comment'));
+        $tags = $news->tags->pluck('id');
+        $similarNews = News::whereHas('tags', function($query) use ($tags) {
+            $query->whereIn('tags.id', $tags);
+        })->where('id', '!=', $news->id)
+            ->orderBy('created_at', 'desc')
+            ->take(5)->get();
+
+        return view('news.show', compact('news', 'categories', 'comment', 'similarNews'));
     }
 
     public function edit(News $news)

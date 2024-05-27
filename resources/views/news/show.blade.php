@@ -1,14 +1,16 @@
 @extends('layout.app')
 
 @section('content')
-
+    <div style="display: flex;">
+        <div style="width: 60%;">
     @if($news->photo)
         <img src="{{ asset('/storage/' . $news->photo) }}" alt="News Photo"
              style="max-width: 300px; max-height: 300px;">
     @endif
     <div style="margin-top: 20px">Рейтинг: {{ $news->rating }}</div>
     <h5>{{ $news->title }}</h5>
-    <p>{{ $news->content }}</p>
+    <p class="news-container">{{ $news->content }}</p>
+
     <div class="mb-3">
 
         @php
@@ -22,8 +24,9 @@
                     @method('DELETE')
                     <a href="{{ route('news.edit', $news) }}" onclick="return confirm('Вы уверены?')">Видалити</a>
                 </form>
-                @endif
             </div>
+                @endif
+
             @if ($news->userRating() !==null )
                 <p style="margin-bottom: 1px">Ваша поточна оцінка: {{ $news->userRating() }}</p>
             @endif
@@ -40,8 +43,8 @@
                         <button type="submit" class="btn btn-primary mb-3 mt-1">Поїхали</button>
                     </form>
                 </div>
+        @endif
     </div>
-    @endif
     @if ($user && ($user->isAdmin() || $user->isAuthor() || $user->isRegistered()))
 
         <form id="comment-form" method="post" data-url="{{ route('comment.store', $news) }}">
@@ -75,6 +78,19 @@
             @endforeach
         </ul>
         @endif
+
+    </div>
+        <div style="width: 40%; margin-left: 20px;">
+            <h5>Схожі новини:</h5>
+            @if(count($similarNews) > 0)
+                @foreach($similarNews as $item)
+                    @include('news.partials.newsList')
+                @endforeach
+            @else
+                <p>Немає схожих новин</p>
+            @endif
+        </div>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const commentForm = document.getElementById('comment-form');
