@@ -57,15 +57,18 @@
                 <a href=" {{ route('admin.index') }}" class="custom-margin custom-font-size">Адмінпанель</a>
             </div>
         @endif
-
+        <div class="d-flex mt-4">
+        @if(auth()->check() &&  auth()->user()->role != 'admin')
+            @if(Route::currentRouteName() != 'cabinet.edit')
+                    <a href="{{ route('cabinet.edit', $user->id) }}" class="btn-link-like">Кабінет</a>
+                @endif
+        @endif
         @if($user)
-            <div class="logout-container">
-                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mr-4">
                     {{ csrf_field() }}
                     <button type="submit" class="btn-link-like"> Вийти</button>
                 </form>
-            </div>
-        @endif
+            @endif
     </div>
 </header>
 

@@ -163,6 +163,12 @@ footer {
     max-width: 800px;
 }
 
+.text-danger {
+    color: red;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
 /* input {
      color: blue
  }
