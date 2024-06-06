@@ -53,7 +53,7 @@
         </div>
 
         @if($user && $user->isAdmin())
-            <div class="logout-container">
+            <div class="logout-container mt-4">
                 <a href=" {{ route('admin.index') }}" class="custom-margin custom-font-size">Адмінпанель</a>
             </div>
         @endif

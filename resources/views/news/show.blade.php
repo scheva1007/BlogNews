@@ -51,6 +51,9 @@
             @csrf
             <label for="content" style="display: block; margin-bottom: 8px; font-weight: bold;">Залишити коментар:</label>
             <textarea name="text" required style="width: 300px; margin-bottom: 12px;"></textarea>
+            @if ($errors->has('content'))
+                <div class="text-danger">{{ $errors->first('content') }}</div>
+            @endif
             <br>
             <button type="submit" class="btn btn-success mb-3">Додати</button>
         </form>
