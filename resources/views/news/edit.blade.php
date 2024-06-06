@@ -2,7 +2,7 @@
 
 @section('content')
     <h6>Редагувати новину</h6>
-    <form method="post"  action="{{ route('news.update', $news) }}" enctype='multipart/form-data'  style="width: 300px;" >
+    <form method="post" action="{{ route('news.update', $news) }}" enctype='multipart/form-data' style="width: 300px;">
         @csrf
         @method('PUT')
         <label for="title" style="display: block; margin-bottom: 5px;">Заголовок:</label>

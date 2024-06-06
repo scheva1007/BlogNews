@@ -58,7 +58,7 @@
             </div>
         @endif
         <div class="d-flex mt-4">
-        @if(auth()->check() &&  auth()->user()->role != 'admin')
+        @if(auth()->check() &&  !$user->isAdmin())
             @if(Route::currentRouteName() != 'cabinet.edit')
                     <a href="{{ route('cabinet.edit', $user->id) }}" class="btn-link-like">Кабінет</a>
                 @endif
