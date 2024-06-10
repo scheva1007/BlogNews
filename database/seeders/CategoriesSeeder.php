@@ -21,7 +21,7 @@ class CategoriesSeeder extends Seeder
             ['name' => 'basketball'],
             ['name' => 'hockey'],
             ['name' => 'AutoMoto'],
-
+            ['name' => 'box'],
         ]);
     }
 }

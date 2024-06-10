@@ -69,6 +69,36 @@ class TagSeeder extends Seeder
                 'updated_at' => now()
             ],
 
+            [
+                'name' => 'Кубок Стенлі',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Усик',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Бокс',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Чемпіонат Європи',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
+            [
+                'name' => 'НБА',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
         ]);
     }
 }

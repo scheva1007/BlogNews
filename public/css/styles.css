@@ -107,6 +107,11 @@ footer {
     margin-right: 50px;
 }
 
+.btn-link-news {
+    color: green;
+    font-weight: bold;
+}
+
 .background-data {
     background-color: #cbd5e0;
 }
@@ -169,119 +174,3 @@ footer {
     margin-top: 5px;
     margin-bottom: 10px;
 }
-/* input {
-     color: blue
- }
- input:focus { color: red}
-
-body {
-
-    background: white url('https://cdn.pixabay.com/photo/2017/01/14/12/59/iceland-1979445_640.jpg')
-    no-repeat center center;
-    height: 100vh;
-    background-size: cover;
-    background-attachment: fixed;
-}
-
- * {
-    margin: 0;
-    padding: 0;
-  }
-
- #some-block {
-     background: yellow;
-     color: purple;
-     text-align: center;
-     width: 50px;
-     height: 50px;
-     line-height: 50px;
-     border-radius: 50%;
-     position: absolute;
-     left: 20px;
-     top: 50px;
-
- }
-
- #header, #footer {
-     width: 100%;
-     height: 70px;
-     text-align: center;
-     border-bottom: 4px solid green;
-     background: black;
-     color: white;
-     line-height: 70px;
-     margin-bottom: 50px;
-     float: left;
- }
-
- /*#main {
-     width: 20%;
-     margin-left: 10%;
-     background: red;
-     border: 1px solid white;
-     padding: 20px 10%;
-     float: left;
-     position: relative;
-     z-index: 1;
- }
-
- #nav {
-     list-style: none;
-     display: block;
-     float: left;
-     width: 50%;
-     margin-left: 25%;
-     text-align: center;
-     margin-bottom: 50px;
- }
-
- #nav li {
-     display: inline;
-     background: wheat;
-     border: 1px solid green;
-     padding: 0 20px;
- }
-
- #nav li:hover {
-     color: red;
-     background: yellow;
-     border-radius: 5px;
-     border-color: purple;
- }
-
- #nav li:not(:last-of-type) {
-     margin-right: 20px;
- }
-
- #aside {
-     width: 10%;
-     padding: 20px 15%;
-     background: red;
-     border: 1px solid white;
-     float: left;
-     margin-left: 10%;
-     position: relative;
-     top: -10px;
-     z-index: 0;
-     left: -300px;
- }
- #footer {
-     margin-bottom: 0;
-     margin-top: 50px;
-     border-bottom: 0;
-     border-top: 4px solid green;
-     float: left;
- }
-/* .news-item {
-      display: flex;
-      margin-bottom: 20px;
-  }
-
-/* .news-meta {
-      margin-left: 20px;
-      text-align: right;
-  }
-
-/* .news-content {
-      flex-grow: 1;
-  }

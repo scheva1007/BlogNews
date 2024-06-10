@@ -85,6 +85,50 @@ class NewsSeeder extends Seeder
                 'rating' => 0,
                 'photo' => 'news_photos/Formula 1.jpg'
             ],
+
+            [
+                'title' => 'Evro 2024',
+                'content' => $faker->paragraph(5),
+                'category_id' => 1,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp,
+                'user_id' => 2,
+                'rating' => 0,
+                'photo' => 'news_photos/football 1.jpg'
+            ],
+
+            [
+                'title' => 'Mbappe moves to Real Madrid',
+                'content' => $faker->paragraph(5),
+                'category_id' => 1,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp,
+                'user_id' => 1,
+                'rating' => 0,
+                'photo' => 'news_photos/Mbappe.jpg'
+            ],
+
+            [
+                'title' => 'Florida and Edmonton will determine the winner',
+                'content' => $faker->paragraph(5),
+                'category_id' => 3,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp,
+                'user_id' => 2,
+                'rating' => 0,
+                'photo' => 'news_photos/Cup Stanley.jpg'
+            ],
+
+            [
+                'title' => 'Usik is the absolute champion',
+                'content' => $faker->paragraph(5),
+                'category_id' => 4,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp,
+                'user_id' => 2,
+                'rating' => 0,
+                'photo' => 'news_photos/Box.jpg'
+            ],
         ]);
     }
 }

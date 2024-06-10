@@ -23,21 +23,24 @@
                 @endphp
 
                 @if ($user && ($user->isAdmin() || $user->isAuthor()) && Route::currentRouteName() !== 'news.create')
-                    <a class="nav-link custom-font-size custom-margin category-link " href="{{ route('news.create') }}">Додати новину</a>
+                    <a class="nav-link custom-font-size custom-margin category-link " href="{{ route('news.create') }}">Додати
+                        новину</a>
                 @endif
 
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Оберіть категорію
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            @if(isset($categories))
-                                @foreach($categories as $category)
-                                    <a class="dropdown-item main-link" href="{{ route('category.show', $category) }}">{{ $category->name }}</a>
-                                @endforeach
-                            @endif
-                        </div>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Оберіть категорію
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        @if(isset($categories))
+                            @foreach($categories as $category)
+                                <a class="dropdown-item main-link"
+                                   href="{{ route('category.show', $category) }}">{{ $category->name }}</a>
+                            @endforeach
+                        @endif
                     </div>
+                </div>
 
             </nav>
         </div>
@@ -53,23 +56,27 @@
         </div>
 
         @if($user && $user->isAdmin())
-            <div class="logout-container">
-                <a href=" {{ route('admin.index') }}" class="custom-margin custom-font-size">Адмінпанель</a>
+            <div class="d-flex">
+            <div class="logout-container mt-3">
+                @if(Route::currentRouteName() != 'admin.index')
+                    <a href=" {{ route('admin.index') }}" class="btn-link-like">Адмінпанель</a>
+                @endif
             </div>
         @endif
-        <div class="d-flex mt-4">
-        @if(auth()->check() &&  auth()->user()->role != 'admin')
-            @if(Route::currentRouteName() != 'cabinet.edit')
-                    <a href="{{ route('cabinet.edit', $user->id) }}" class="btn-link-like">Кабінет</a>
+
+            @if(auth()->check() &&  auth()->user()->role != 'admin')
+                @if(Route::currentRouteName() != 'cabinet.edit')
+                    <a href="{{ route('cabinet.edit', $user->id) }}" class="btn-link-like mt-3">Кабінет</a>
                 @endif
-        @endif
-        @if($user)
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mr-4">
+            @endif
+            @if($user)
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mr-2 mt-3">
                     {{ csrf_field() }}
                     <button type="submit" class="btn-link-like"> Вийти</button>
                 </form>
             @endif
-    </div>
+
+            </div>
 </header>
 
 <main class="container-fluid main-container">

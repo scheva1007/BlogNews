@@ -80,7 +80,7 @@
         @endif
 
     </div>
-        <div style="width: 40%; margin-left: 20px;">
+        <div style="width: 40%; margin-left: 7%;">
             <h5>Схожі новини:</h5>
             @if(count($similarNews) > 0)
                 @foreach($similarNews as $item)
