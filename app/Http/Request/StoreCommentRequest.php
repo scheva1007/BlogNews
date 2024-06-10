@@ -24,8 +24,17 @@ class StoreCommentRequest extends FormRequest
     public function rules()
     {
         return [
-                'text' =>'required',
+                'text' => 'required|string|min:2|max:500',
             ];
+    }
 
+    public function messages()
+    {
+        return [
+            'content.required' => 'Будь ласка, введіть зміст коментаря.',
+            'content.string' => 'Зміст коментаря має бути рядком.',
+            'content.min' => 'Содержание комментария не может быть меньше 2 символов',
+            'content.max' => 'Зміст коментаря не може перевищувати 500 символів.',
+        ];
     }
 }

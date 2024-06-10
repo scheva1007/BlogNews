@@ -14,6 +14,7 @@ use App\Models\News;
 use App\Models\Rating;
 use App\Models\Tag;
 use App\Services\NewsService;
+use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
@@ -42,7 +43,7 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function show(News $news, Comment $comment)
+    public function show(Request $request, News $news, Comment $comment)
     {
         $categories = Category::all();
         $viewCountKey = '$news_' .$news->id. '_view';

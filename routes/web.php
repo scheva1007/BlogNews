@@ -26,6 +26,8 @@ Route::post('/news/{news}/rating', [NewsController::class, 'rating'])->name('new
 
 Route::middleware('registeredUser')->group(function () {
     Route::get('/news/{comment}/like-status', [CommentController::class, 'setLikeStatus'])->name('comment.setLikeStatus');
+    Route::get('/cabinet/{user}/edit', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'edit'])->name('cabinet.edit');
+    Route::put('cabinet/{user}', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'update'])->name('cabinet.update');
 });
 
 Route::middleware('admin')->group(function () {
@@ -41,8 +43,6 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/create', [\App\Http\Controllers\Admin\TagController::class, 'create'])->name('tag.create');
     Route::post('admin/store', [\App\Http\Controllers\Admin\TagController::class, 'store'])->name('tag.store');
 });
-Route::get('/cabinet/{user}/edit', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'edit'])->name('cabinet.edit');
-Route::put('cabinet/{user}', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'update'])->name('cabinet.update');
 
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
 

@@ -169,6 +169,51 @@ footer {
     margin-top: 5px;
     margin-bottom: 10px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* input {
      color: blue
  }
@@ -182,11 +227,6 @@ body {
     background-size: cover;
     background-attachment: fixed;
 }
-
- * {
-    margin: 0;
-    padding: 0;
-  }
 
  #some-block {
      background: yellow;
@@ -249,10 +289,6 @@ body {
      border-color: purple;
  }
 
- #nav li:not(:last-of-type) {
-     margin-right: 20px;
- }
-
  #aside {
      width: 10%;
      padding: 20px 15%;
@@ -265,23 +301,8 @@ body {
      z-index: 0;
      left: -300px;
  }
- #footer {
-     margin-bottom: 0;
-     margin-top: 50px;
-     border-bottom: 0;
-     border-top: 4px solid green;
-     float: left;
- }
-/* .news-item {
-      display: flex;
-      margin-bottom: 20px;
-  }
 
-/* .news-meta {
-      margin-left: 20px;
-      text-align: right;
-  }
 
-/* .news-content {
-      flex-grow: 1;
-  }
+
+
+

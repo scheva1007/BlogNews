@@ -17,7 +17,7 @@ class CommentController extends Controller
 
     public function edit (Comment $comment)
     {
-        $statusSelection = ['verified', 'blocked'];
+        $statusSelection = ['verified',  'blocked'];
 
         return view('comments.edit', compact('comment', 'statusSelection'));
     }
