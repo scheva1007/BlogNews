@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,6 +13,8 @@ class TagSeeder extends Seeder
      *
      * @return void
      */
+    protected $model = Tag::class;
+
     public function run()
     {
         DB::table('tags')->insert([
