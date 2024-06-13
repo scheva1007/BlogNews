@@ -4,22 +4,23 @@
   <div id="news-container" class="d-flex">
       <div>
 
-    <h4 style="margin-bottom: 25px;">ТОП-5 новин:</h4>
+    <h4 style="margin-bottom: 25px;">Популярні новини:</h4>
 
     @foreach($topNews as $item)
 
         <div  style="display: flex; align-items: flex-start;">
             @if($item->photo)
-                <div style="width: 135px; height: 135px; margin-right: 20px;  margin-bottom: 12px;">
+                <div style="width: 170px; height: 130px; margin-right: 20px;  margin-bottom: 10px;">
                 <img src="{{ asset('/storage/' . $item->photo) }}" alt="News Photo"
-                     style="max-width: 130px; max-height: 130px; ">
+                     style="max-width: 170px; max-height: 130px; ">
                 </div>
             @endif
 
             <div>
                 <span style="margin-bottom: 0; margin-top: 5px; font-size: 12px; background-color: lightcyan">{{ $item->formattedDate }} |
                     <i class="fas fa-eye" style="color: gray;"></i> {{ $item->views }} |
-                    <i class="fas fa-comment" style="color: gray;"></i> {{ $item->commentCount }} |<span style="margin-left: 5px;"> Рейтинг: {{ $item->rating }}</span>
+                    <i class="fas fa-comment" style="color: gray;"></i> {{ $item->commentCount }} |
+                    <span style="margin-left: 5px;"> Рейтинг: {{ $item->rating }}</span>
                 </span>
                 <div>
                     <a href="{{ route('news.show', $item) }} " class="mr-5 main-link "
@@ -30,12 +31,14 @@
         </div>
           @endforeach
       </div>
-      <div id="main-news" style="margin-left: 10%;">
-          <h5>Список новин:</h5>
+      <div id="main-news" style="margin-left: 7%;">
+          <h5>Останні новин:</h5>
           @foreach($news as $item)
               @include('news.partials.newsList')
           @endforeach
-          <div class="mb-3 align-items-start"> {{ $news->withQueryString()->links() }}</div>
+          <div class="mt-3">
+              <a href="{{ route('news.all') }}" class="btn-link-news">Переглянути всі новини</a>
+          </div>
       </div>
   </div>
 @endsection

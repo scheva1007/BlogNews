@@ -21,11 +21,18 @@ class NewsController extends Controller
 
     public function index(NewsService $newsService)
     {
-        $news = News::latest()->paginate(5);
+        $news = News::latest()->take(10)->get();
         $categories = Category::all();
         $topNews = $newsService->getLastNews();
 
         return view('news.index', compact('categories', 'news', 'topNews'));
+    }
+
+    public function allNews()
+    {
+        $allNews = News::latest()->paginate(5);
+
+        return view('news.all', compact('allNews'));
     }
 
     public function create()

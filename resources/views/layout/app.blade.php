@@ -23,21 +23,24 @@
                 @endphp
 
                 @if ($user && ($user->isAdmin() || $user->isAuthor()) && Route::currentRouteName() !== 'news.create')
-                    <a class="nav-link custom-font-size custom-margin category-link " href="{{ route('news.create') }}">Додати новину</a>
+                    <a class="nav-link custom-font-size custom-margin category-link " href="{{ route('news.create') }}">Додати
+                        новину</a>
                 @endif
 
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Оберіть категорію
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            @if(isset($categories))
-                                @foreach($categories as $category)
-                                    <a class="dropdown-item main-link" href="{{ route('category.show', $category) }}">{{ $category->name }}</a>
-                                @endforeach
-                            @endif
-                        </div>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Оберіть категорію
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        @if(isset($categories))
+                            @foreach($categories as $category)
+                                <a class="dropdown-item main-link"
+                                   href="{{ route('category.show', $category) }}">{{ $category->name }}</a>
+                            @endforeach
+                        @endif
                     </div>
+                </div>
 
             </nav>
         </div>
@@ -62,9 +65,9 @@
             @if(Route::currentRouteName() != 'cabinet.edit')
                     <a href="{{ route('cabinet.edit', $user->id) }}" class="btn-link-like">Кабінет</a>
                 @endif
-        @endif
-        @if($user)
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mr-4">
+            @endif
+            @if($user)
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mr-2 mt-3">
                     {{ csrf_field() }}
                     <button type="submit" class="btn-link-like"> Вийти</button>
                 </form>
