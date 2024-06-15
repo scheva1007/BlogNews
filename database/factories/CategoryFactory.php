@@ -2,22 +2,22 @@
 
 namespace Database\Factories;
 
-use App\Models\Tag;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TagFactory extends Factory
+class CategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    protected $model = Tag::class;
+    protected $model = Category::class;
 
     public function definition()
     {
         return [
-            'name' => $this->faker->word,
+            'name' => $this->faker->unique()->word,
             'created_at' => now(),
             'updated_at' => now(),
         ];
