@@ -14,7 +14,7 @@ class LayoutTest extends TestCase
     public function testLayout()
     {
         $user = User::factory()->create();
-        $category = Category::factory()->count(4)->create();
+        $categories = Category::factory()->count(4)->create();
 
         $response = $this->get('/');
         $response->assertStatus(200);
@@ -37,7 +37,7 @@ class LayoutTest extends TestCase
             $response->assertSee($category->name);
         }
 
-        $author = User::factory()->create(['is_author' => true]);
+        $author = User::factory()->create(['role' => 'author']);
         $this->actingAs($author);
         $response = $this->get('/');
         $response->assertStatus(200);
@@ -50,7 +50,7 @@ class LayoutTest extends TestCase
             $response->assertSee($category->name);
         }
 
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create(['role' => 'admin']);
         $this->actingAs($admin);
         $response = $this->get('/');
         $response->assertStatus(200);
