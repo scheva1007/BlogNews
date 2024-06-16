@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function rating()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
     public function isAdmin()
     {
         return $this->role === 'admin';
