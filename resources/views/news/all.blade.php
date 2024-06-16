@@ -1,22 +1,20 @@
 @extends('layout.app')
 
 @section('content')
-    <div style="align-items: flex-start;">
+    <div>
         <h4 style="margin-bottom: 15px;">Всі новини:</h4>
             @foreach($allNews as $item)
-       <div style="margin-bottom: 5px;">
+       <div style="display:flex; align-items:flex-start; margin-bottom: 5px;">
+           @if($item->photo)
+               <div style="width: 170px; height: 130px; margin-right: 20px;  margin-bottom: 10px;">
+                   <img src="{{ asset('/storage/' . $item->photo) }}" alt="News Photo"
+                        style="max-width: 170px; max-height: 130px; ">
+               </div>
+           @endif
             <div>
-                <span style="margin-bottom: 0; margin-top: 5px; font-size: 12px; background-color: lightcyan">
-                          {{ $item->formattedDate }} |
-                          <i class="fas fa-eye" style="color: gray;"></i> {{ $item->views }} |
-                          <i class="fas fa-comment" style="color: gray;"></i> {{ $item->commentCount }} |
-                          <span style="margin-left: 5px;"> Рейтинг: {{ $item->rating }}</span>
-                </span>
+                @include('news.partials.newsList')
+                <p class="my-font-content">{{ substr($item->content, 0, 100) }}{{ strlen($item->content) > 100 ? '...' : '' }}</p>
             </div>
-                <div>
-                    <a href="{{ route('news.show', $item) }} " class="mr-5 main-link"
-                       style="font-size: 18px; margin-bottom: 30px;">{{ $item->title }}</a>
-                </div>
        </div>
         @endforeach
         <div class="mt-3 mb-3 align-items-start">{{ $allNews->withQueryString() }}</div>
