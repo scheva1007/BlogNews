@@ -56,8 +56,8 @@
         </div>
 
         @if($user && $user->isAdmin())
-            <div class="logout-container mt-4">
-                <a href=" {{ route('admin.index') }}" class="custom-margin custom-font-size">Адмінпанель</a>
+            <div class="logout-container" style="margin-top: 27px;">
+                <a href=" {{ route('admin.index') }}" class="custom-margin custom-font-size admin-link">Адмінпанель</a>
             </div>
         @endif
         <div class="d-flex mt-4">
@@ -67,7 +67,7 @@
                 @endif
             @endif
             @if($user)
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mr-2 mt-3">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mr-2">
                     {{ csrf_field() }}
                     <button type="submit" class="btn-link-like"> Вийти</button>
                 </form>

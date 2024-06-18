@@ -69,6 +69,16 @@ class NewsController extends Controller
         return view('news.show', compact('news', 'categories', 'comment', 'similarNews'));
     }
 
+    public function showTag($tagName)
+    {
+        $tag = Tag::where('name', $tagName)->firstOrFail();
+        $news = News::whereHas('tags', function ($query) use($tag){
+            $query->where('tags.id', $tag->id);
+        })->paginate(5);
+
+        return view('news.tag', compact('news', 'tag'));
+    }
+
     public function edit(News $news)
     {
         $categories = Category::all();

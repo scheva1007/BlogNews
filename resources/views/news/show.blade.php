@@ -77,12 +77,13 @@
     @if ($news->tags && count($news->tags)>0)
         <ul class="tags-list">
             @foreach($news->tags as $tag)
-                <li class="tags-item">{{ $tag->name }}</li>
+                <li class="tags-item">
+                    <a href="{{ route('news.tag', ['tag' => $tag->name]) }}" class="tag-link"> {{ $tag->name }}</a>
+                </li>
             @endforeach
         </ul>
         @endif
-
-    </div>
+        </div>
         <div style="width: 40%; margin-left: 7%;">
             <h5>Схожі новини:</h5>
             @if(count($similarNews) > 0)

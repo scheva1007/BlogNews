@@ -46,6 +46,6 @@ Route::middleware('admin')->group(function () {
 });
 
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
-
+Route::get('news/tag/{tag}', [NewsController::class, 'showTag'])->name('news.tag');
 
 Auth::routes();
