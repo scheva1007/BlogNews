@@ -17,14 +17,6 @@
         <div>
             @include('news.partials.newsList')
             <p class="my-font-content">{{ substr($item->content, 0, 100) }}{{ strlen($item->content) > 100 ? '...' : '' }}</p>
-
-            <ul class="tags-list">
-                @foreach($item->tags as $tag)
-                    <li class="tags-item">
-                        <a href="{{ route('news.tag', ['tag' => $tag->name]) }}" class="tag-link">{{ $tag->name }}</a>
-                    </li>
-                @endforeach
-            </ul>
         </div>
     </div>
 @endforeach
