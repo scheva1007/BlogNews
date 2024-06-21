@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/news/all', [NewsController::class, 'allNews'])->name('news.all');
+Route::put('/user/{id}/block', [UserController::class, 'block'])->name('user.block');
 Route::middleware('adminOrAuthor')->group(function () {
     Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
     Route::post('/news', [NewsController::class, 'store'])->name('news.store');
@@ -47,5 +48,6 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
 Route::get('news/tag/{tag}', [NewsController::class, 'showTag'])->name('news.tag');
+
 
 Auth::routes();

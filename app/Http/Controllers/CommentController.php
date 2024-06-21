@@ -22,6 +22,10 @@ class CommentController extends Controller
     public function store(StoreCommentRequest $request, News $news, StoreCommentCommand $command)
     {
         $user = auth()->user();
+        if($user->isBlocked()){
+
+            return redirect()->back();
+        }
         $comment = $command->execute($request, $news, $user);
 
         return response()->view('news.partials.comment', compact ('comment'));

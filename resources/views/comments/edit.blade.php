@@ -14,5 +14,10 @@
     </select>
     <button type="submit" class='btn btn-primary mb-3'>Оновити</button>
     </form>
+    <form method="post" action="{{ route('user.block', $comment->user->id) }}" style="width: 300px;">
+    @csrf
+        @method('PUT')
+        <button type="submit"class="btn btn-danger mb-3">Заблокувати</button>
+    </form>
 
 @endsection
