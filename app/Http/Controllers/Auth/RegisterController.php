@@ -24,6 +24,11 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+    protected function redirectTo()
+    {
+        return '/';
+    }
+
     /**
      * Where to redirect users after registration.
      *

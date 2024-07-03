@@ -17,10 +17,10 @@ class UserController extends Controller
         return view('user.index', compact('user'));
     }
 
-    public function block($id)
+    public function block(Request $request, User $user)
     {
-        $user = User::findOrFail($id);
-        $user->blocked_until = Carbon::now()->addDay();
+        $days = $request->input('days', 1);
+        $user->blocked_until = Carbon::now()->addDay($days);
         $user->save();
 
         return redirect()->back();

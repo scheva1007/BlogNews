@@ -18,8 +18,9 @@ class CommentController extends Controller
     public function edit (Comment $comment)
     {
         $statusSelection = ['verified',  'blocked'];
+        $blockingTime = ['1', '7', '30', '10000'];
 
-        return view('comments.edit', compact('comment', 'statusSelection'));
+        return view('comments.edit', compact('comment', 'statusSelection', 'blockingTime'));
     }
 
     public function update (Request $request, Comment $comment)
@@ -28,6 +29,6 @@ class CommentController extends Controller
             'status' => $request->status
         ]);
 
-        return redirect()->route('comment.index');
+        return redirect()->route('comment.edit', $comment->id);
     }
 }

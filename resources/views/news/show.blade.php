@@ -51,11 +51,10 @@
             @else
         <form id="comment-form" method="post" data-url="{{ route('comment.store', $news) }}">
             @csrf
-
             <label for="content" style="display: block; margin-bottom: 8px; font-weight: bold;">Залишити коментар:</label>
             <textarea name="text" required style="width: 300px; margin-bottom: 12px;"></textarea>
-            @if ($errors->has('content'))
-                <div class="text-danger">{{ $errors->first('content') }}</div>
+            @if ($errors->has('text'))
+                <div class="text-danger">{{ $errors->first('text') }}</div>
             @endif
             <br>
             <button type="submit" class="btn btn-success mb-3">Додати</button>

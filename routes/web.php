@@ -8,12 +8,11 @@ use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+Auth::routes();
 Route::get('/news/all', [NewsController::class, 'allNews'])->name('news.all');
-Route::put('/user/{id}/block', [UserController::class, 'block'])->name('user.block');
 Route::middleware('adminOrAuthor')->group(function () {
     Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
     Route::post('/news', [NewsController::class, 'store'])->name('news.store');
-    Route::post('/news/{news}/comments', [CommentController::class, 'store'])->name('comment.store');
 });
 
 Route::middleware('adminOrNewsAuthor')->group(function () {
@@ -30,6 +29,7 @@ Route::middleware('registeredUser')->group(function () {
     Route::get('/news/{comment}/like-status', [CommentController::class, 'setLikeStatus'])->name('comment.setLikeStatus');
     Route::get('/cabinet/{user}/edit', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'edit'])->name('cabinet.edit');
     Route::put('cabinet/{user}', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'update'])->name('cabinet.update');
+    Route::post('/news/{news}/comments', [CommentController::class, 'store'])->name('comment.store');
 });
 
 Route::middleware('admin')->group(function () {
@@ -44,10 +44,11 @@ Route::middleware('admin')->group(function () {
     Route::put('/admin/comment/{comment}', [\App\Http\Controllers\Admin\CommentController::class, 'update'])->name('comment.update');
     Route::get('/admin/create', [\App\Http\Controllers\Admin\TagController::class, 'create'])->name('tag.create');
     Route::post('admin/store', [\App\Http\Controllers\Admin\TagController::class, 'store'])->name('tag.store');
+    Route::put('/user/{user}/block', [UserController::class, 'block'])->name('user.block');
 });
 
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
 Route::get('news/tag/{tag}', [NewsController::class, 'showTag'])->name('news.tag');
 
 
-Auth::routes();
+
