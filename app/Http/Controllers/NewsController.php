@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Commands\RatingNewsCommand;
 use App\Commands\StoreNewsCommand;
 use App\Commands\UpdateNewsCommand;
 use App\Http\Request\RatingNewsRequest;
@@ -101,7 +100,7 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function rating(RatingNewsRequest $request, $newsId, RatingNewsCommand $command)
+    public function rating(RatingNewsRequest $request, $newsId, $userId)
     {
         $userId = auth()->id();
 
@@ -111,7 +110,11 @@ class NewsController extends Controller
         if ($existingRating) {
             $existingRating->update(['grade' => $request->input('grade')]);
         } else {
-             $command->execute($request, $newsId, $userId);
+            Rating::create([
+                'news_id' => $newsId,
+                'user_id' => $userId,
+                'grade' => $request->input('grade'),
+            ]);
         }
         $newsAvgRating = Rating::where('news_id', $newsId)->avg('grade');
 

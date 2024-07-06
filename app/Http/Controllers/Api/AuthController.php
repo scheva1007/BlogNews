@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Commands\RegisterAuthCommand;
 use App\Http\Controllers\Controller;
 use App\Http\Request\RegistrationAuthRequest;
 use App\Http\Request\LoginAuthRequest;
 use App\Http\Resources\AuthLoginResource;
 use App\Http\Resources\AuthRegisterResource;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Annotations as OA;
 
@@ -100,9 +100,13 @@ use OpenApi\Annotations as OA;
 
 class AuthController extends Controller
 {
-    public function register (RegistrationAuthRequest $request, RegisterAuthCommand $register)
+    public function register (RegistrationAuthRequest $request)
     {
-        $user = $register->userCreate($request);
+        $user = User::create ([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
         $token = $user->createToken('AuthToken')->plainTextToken;
 
         return new AuthRegisterResource($user, $token);
