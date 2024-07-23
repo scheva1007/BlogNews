@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Commands\LikesCommentCommand;
-use App\Commands\StoreCommentCommand;
 use App\Http\Request\StoreCommentRequest;
 use App\Models\Comment;
 use App\Models\News;
 use App\Repositories\CommentRepository;
+use App\Services\LikesCommentService;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -19,20 +18,24 @@ class CommentController extends Controller
         $this->commentRepository = $commentRepository;
     }
 
-    public function store(StoreCommentRequest $request, News $news, StoreCommentCommand $command)
+    public function store(StoreCommentRequest $request, News $news)
     {
         $user = auth()->user();
-        $comment = $command->execute($request, $news, $user);
+        $comment = Comment::create([
+            'news_id' => $news->id,
+            'content' => $request->text,
+            'user_id' => $user->id,
+        ]);
 
         return response()->view('news.partials.comment', compact ('comment'));
     }
 
-    public function setLikeStatus(Request $request, Comment $comment, LikesCommentCommand $likesCommand)
+    public function setLikeStatus(Request $request, Comment $comment, LikesCommentService $likesService)
     {
         $likeStatus = (bool)$request->input('like_status');
         $userId = $request->user()->id;
         $existingVote = $this->commentRepository->findUserCommentLikes($comment, $userId);
-        $likesCommand->execute($comment, $userId, $existingVote, $likeStatus);
+        $likesService->execute($comment, $userId, $existingVote, $likeStatus);
 
         return redirect()->back();
     }

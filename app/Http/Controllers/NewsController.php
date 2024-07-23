@@ -13,6 +13,8 @@ use App\Models\News;
 use App\Models\Rating;
 use App\Models\Tag;
 use App\Services\NewsService;
+use App\Services\StoreNewsService;
+use App\Services\UpdateNewsService;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -42,9 +44,9 @@ class NewsController extends Controller
         return view('news.create', compact('categories', 'tags'));
     }
 
-    public function store(StoreNewsRequest $request, StoreNewsCommand $command)
+    public function store(StoreNewsRequest $request, StoreNewsService $service)
     {
-        $command->execute($request);
+        $service->execute($request);
 
         return redirect()->route('news.index');
     }
@@ -86,9 +88,9 @@ class NewsController extends Controller
         return view('news.edit', compact('news', 'categories', 'tags'));
     }
 
-    public function update(UpdateNewsRequest $request, News $news, UpdateNewsCommand $command)
+    public function update(UpdateNewsRequest $request, News $news, UpdateNewsService $service)
     {
-        $command->execute($request, $news);
+        $service->execute($request, $news);
 
         return redirect()->route('news.index');
     }
@@ -100,7 +102,7 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function rating(RatingNewsRequest $request, $newsId, $userId)
+    public function rating(RatingNewsRequest $request, $newsId)
     {
         $userId = auth()->id();
 
