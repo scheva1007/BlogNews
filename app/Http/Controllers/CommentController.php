@@ -21,6 +21,10 @@ class CommentController extends Controller
     public function store(StoreCommentRequest $request, News $news)
     {
         $user = auth()->user();
+        if($user->isBlocked()){
+
+            return redirect()->back();
+        }
         $comment = Comment::create([
             'news_id' => $news->id,
             'content' => $request->text,

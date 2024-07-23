@@ -23,6 +23,8 @@ class User extends Authenticatable
         'role',
     ];
 
+    protected $dates = ['blocked_until'];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -50,6 +52,12 @@ class User extends Authenticatable
     public function rating()
     {
         return $this->hasMany(Rating::class);
+    }
+
+    public function isBlocked()
+    {
+
+        return $this->blocked_until && $this->blocked_until->isFuture();
     }
 
     public function isAdmin()
