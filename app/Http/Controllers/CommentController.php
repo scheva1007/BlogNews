@@ -25,13 +25,16 @@ class CommentController extends Controller
 
             return redirect()->back();
         }
-        $comment = Comment::create([
+        $comments = Comment::create([
             'news_id' => $news->id,
+            'parent_id' => $request->parent_id,
             'content' => $request->text,
             'user_id' => $user->id,
         ]);
 
-        return response()->view('news.partials.comment', compact ('comment'));
+
+
+        return redirect()->route('news.show', $news->id);
     }
 
     public function setLikeStatus(Request $request, Comment $comment, LikesCommentService $likesService)
@@ -43,4 +46,6 @@ class CommentController extends Controller
 
         return redirect()->back();
     }
+
+
 }

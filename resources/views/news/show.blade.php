@@ -64,17 +64,16 @@
         <p class=" my-font-weight my-margin-top">Зареєструйтесь, щоб додати коментарій</p>
     @endif
 
-    @if (count($news->comment) > 0 )
+    @if (count($comments) > 0 )
         <h6>Всі коментарі:</h6>
         <div id="comments-container">
-            @foreach($news->comment as $comment)
+            @foreach($comments as $comment)
                 @if($comment->status != 'blocked')
-                @include('news.partials.comment')
+                @include('news.partials.comment', ['comment' => $comment])
                 @endif
             @endforeach
         </div>
-
-    @endif
+        @endif
     <div class="rating-buttons">
     </div>
     @if ($news->tags && count($news->tags)>0)
@@ -121,6 +120,29 @@
                         });
                 });
             }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('DOM fully loaded and parsed');
+            const replyLink = document.querySelectorAll('.reply');
+            replyLink.forEach(link => {
+                link.addEventListener('click', function () {
+                    const commentId = this.getAttribute('data-comment-id');
+                    if (commentId) {
+                        console.log('Comment ID:', commentId);
+                    } else {
+                        console.error('No comment ID found.');
+                    }
+                    const form = document.getElementById(`reply-form-${commentId}`);
+                    if(form) {
+                        console.log('Form:', form);
+                        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+                    } else {
+                        console.error(`Form with id "reply-form-${commentId}" not found.`);
+                    }
+                });
+            });
         });
     </script>
 @endsection

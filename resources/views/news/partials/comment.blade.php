@@ -23,7 +23,29 @@
                             @endif
                         @endauth
                     <span>{{ $comment->countDislikes ?: 0 }}</span>
+                        <span>
+                       <a href="javascript:void(0);" class="reply" style="margin-left: 5px;" data-comment-id="{{ $comment->id }}">Відповісти</a>
+                    </span>
+                        <div class="reply-form" id="reply-form-{{ $comment->id }}" style="display: none; margin-top: 10px;">
+                            <form method="post" action="{{ route('comment.store', $news) }}">
+                                @csrf
+                                <input type="hidden" name="parent_id" value="{{ $comment->id }}">
+                                <textarea name="text" id="reply-content-{{ $comment->id }}" required placeholder="Приєднатися до обговорення" style="width: 300px;"></textarea>
+                                <div>
+                                <button type="submit" class="btn btn-success mb-3" style="height: 30px; line-height: 1">Коментар</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                        @if($comment->replies)
+                            <div class="replies" style="margin-left: 20px;">
+                                @foreach($comment->replies as $reply)
+                                    @include('news.partials.comment', ['comment' => $reply])
+                                @endforeach
+                            </div>
+                        @endif
                 </div>
+
             </div>
         </div>
-

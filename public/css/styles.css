@@ -192,3 +192,18 @@ footer {
     color: dodgerblue;
     font-size: 25px;
 }
+
+.reply {
+    background: none;
+    border: none;
+    color: blue;
+
+    cursor: pointer;
+    padding: 0;
+    font-size: inherit;
+}
+
+.reply:hover {
+    color: darkblue;
+}
+

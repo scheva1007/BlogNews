@@ -66,8 +66,9 @@ class NewsController extends Controller
         })->where('id', '!=', $news->id)
             ->orderBy('created_at', 'desc')
             ->take(5)->get();
+        $comments = Comment::where('news_id', $news->id)->whereNull('parent_id')->get();
 
-        return view('news.show', compact('news', 'categories', 'comment', 'similarNews'));
+        return view('news.show', compact('news', 'categories', 'comments', 'similarNews'));
     }
 
     public function showTag($tagName)
