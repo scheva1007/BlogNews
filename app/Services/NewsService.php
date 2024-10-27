@@ -10,13 +10,18 @@ class NewsService
 {
     public function getLastNews()
     {
-        $limitDays = Carbon::now()->subMonths(3);
-        $topNews = News::select()->whereDate('created_at', '>=', $limitDays)
+        $limitDays = Carbon::now()->subMonths(6);
+        $topNews = News::select()->where('published', true)
+            ->where('checked', true)
+            ->where('approved', true)
+            ->whereDate('created_at', '>=', $limitDays)
             ->orderByDesc('views')
             ->limit(5)->get();
 
         if ($topNews->isEmpty()) {
-            $topNews = News::select()->orderByDesc('rating')
+            $topNews = News::select()
+                ->where('checked', true)
+                ->orderByDesc('rating')
                 ->limit(5)->get();
         }
 

@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<header class="container-fluid">
+<header class="container-fluid fixed-header">
 
     <div class="row">
         <div class="col d-flex">
@@ -62,8 +62,8 @@
         @endif
         <div class="d-flex mt-4">
         @if(auth()->check() &&  !$user->isAdmin())
-            @if(Route::currentRouteName() != 'cabinet.edit')
-                    <a href="{{ route('cabinet.edit', $user->id) }}" class="btn-link-like">Кабінет</a>
+            @if(Route::currentRouteName() != 'cabinet.index')
+                    <a href="{{ route('cabinet.index', $user->id) }}" class="btn-link-like">Кабінет</a>
                 @endif
             @endif
             @if($user)
@@ -75,7 +75,7 @@
     </div>
 </header>
 
-<main class="container-fluid main-container">
+<main class="container-fluid main-container" style="margin-top: 100px;">
     @yield('content')
 </main>
 

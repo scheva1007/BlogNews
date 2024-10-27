@@ -14,6 +14,8 @@ class StoreNewsService
             'content' => $request->text,
             'category_id' => $request->category_id,
             'user_id' => auth()->id(),
+            'published' => $request->has('published') ? true : false,
+            'approved' => false,
         ]);
 
         if ($request->hasFile('photo')) {

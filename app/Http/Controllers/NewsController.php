@@ -22,7 +22,10 @@ class NewsController extends Controller
 
     public function index(NewsService $newsService)
     {
-        $news = News::latest()->take(10)->get();
+        $news = News::where('published', true)
+        ->where('checked', true)
+            ->where('approved', true)
+            ->latest()->take(10)->get();
         $categories = Category::all();
         $topNews = $newsService->getLastNews();
 
@@ -31,7 +34,11 @@ class NewsController extends Controller
 
     public function allNews()
     {
-        $allNews = News::latest()->paginate(5);
+
+        $allNews = News::where('published', true)
+            ->where('checked', true)
+            ->where('approved', true)
+            ->latest()->paginate(5);
 
         return view('news.all', compact('allNews'));
     }

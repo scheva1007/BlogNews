@@ -15,5 +15,11 @@
     <div>
         <a href="{{ route('tag.create') }}" class="my-grade my-font-weight" style="font-size: 20px">Додати тег</a>
     </div>
+    <div>
+        <a href="{{ route('admin.allPublications') }}" class="my-grade my-font-weight"  style="font-size: 20px;">Всі публікації</a>
+    </div>
+    <div>
+        <a href="{{ route('admin.untestedNews') }}" class="my-grade my-font-weight" style="font-size: 20px;">Неопубліковані статті</a>
+    </div>
 
 @endsection

@@ -44,6 +44,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function news ()
+    {
+        return $this->hasMany(News::class, 'user_id');
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);

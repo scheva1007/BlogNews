@@ -26,11 +26,15 @@
             @endforeach
         </select>
         <label for="tags" class="my-font-weight indent" style="display: block; margin-bottom: 5px;">Тег</label>
-        <select name="tags[]" multiple style="width: 300px; margin-bottom: 12px;">
+        <select name="tags[]" multiple style="width: 300px; margin-bottom: 20px;">
             @foreach($tags as $tag)
                 <option value="{{ $tag->id }}">{{ $tag->name }}</option>
             @endforeach
         </select>
+        <div style="margin-bottom: 2px;">
+            <input type="checkbox" name="published" id="published" checked>
+            <label for="published" class="my-font-weight">Опублікувати статтю</label>
+        </div>
         <button type="submit" class="btn btn-primary mb-3">Створити</button>
     </form>
 

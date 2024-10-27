@@ -1,8 +1,9 @@
 @extends('layout.app')
 
 @section('content')
-    <h6>Редагувати новину</h6>
-    <form method="post" action="{{ route('news.update', $news) }}" enctype='multipart/form-data' style="width: 300px;">
+    @if($news)
+        <h5>Редагувати новину:</h5>
+    <form method="post" action="{{ route('cabinet.updateUnapprovedNews', $news->id) }}" enctype='multipart/form-data' style="width: 300px;">
         @csrf
         @method('PUT')
         <label for="title" style="display: block; margin-bottom: 5px;">Заголовок:</label>
@@ -38,10 +39,10 @@
         <label for="image" style="display: block; margin-bottom: 5px;">Зображення:</label>
         @if($news->photo)
             <div style="margin-bottom: 12px;">
-            <img src="{{ asset('storage/' .$news->photo) }}" alt="Current Photo" style="max-height: 150px; max-width: 150px;">
+                <img src="{{ asset('storage/' .$news->photo) }}" alt="Current Photo" style="max-height: 150px; max-width: 150px;">
             </div>
         @endif
-            <input type="file" name="photo" accept="image/*" style="margin-bottom: 12px;">
+        <input type="file" name="photo" accept="image/*" style="margin-bottom: 12px;">
         @if($errors->has('photo'))
             <div class="text-danger">{{ $errors->first('photo') }}</div>
         @endif
@@ -52,4 +53,11 @@
         </div>
         <button type="submit" class='btn btn-primary mb-3'>Зберегти</button>
     </form>
+    @else
+        <p>У вас немає неперевірених статей</p>
+    @endif
 @endsection
+
+
+
+

@@ -17,8 +17,8 @@ class CreateNewsTagsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('news_id');
             $table->unsignedBigInteger('tag_id');
-            $table->foreign('news_id', 'news_tags_news_fk')->on('news')->references('id');
-            $table->foreign('tag_id', 'news_tags_tags_fk')->on('tags')->references('id');
+            $table->foreign('news_id', 'news_tags_news_fk')->on('news')->references('id')->onDelete('cascade');
+            $table->foreign('tag_id', 'news_tags_tags_fk')->on('tags')->references('id')->onDelete('cascade');
             $table->timestamps();
         });
     }

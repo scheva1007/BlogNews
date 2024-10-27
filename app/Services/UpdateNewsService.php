@@ -13,6 +13,7 @@ class UpdateNewsService
             'content' => $request->text,
             'category_id' => $request->category_id,
             'photo' => $request->hasFile('photo') ? $request->file('photo')->store('news_photos', 'public') : $news->photo,
+            'published' => $request->has('published') ? true : false,
         ]);
         if($request->has('tags')) {
             $tagIds = $request->input('tags');

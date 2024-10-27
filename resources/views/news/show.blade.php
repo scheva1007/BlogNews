@@ -7,22 +7,20 @@
         <img src="{{ asset('/storage/' . $news->photo) }}" alt="News Photo"
              style="max-width: 300px; max-height: 300px;">
     @endif
-    <div style="margin-top: 20px">Рейтинг: {{ $news->rating }}</div>
+    <div style="margin-top: 20px; margin-bottom: 20px;">Рейтинг: {{ $news->rating }}</div>
     <h5>{{ $news->title }}</h5>
     <p class="news-container">{{ $news->content }}</p>
-
-    <div class="mb-3">
-
+        <div class="mb-3">
         @php
             $user=auth()->user();
         @endphp
         @if ($user && ($user->isAdmin() || $user->id === $news->user_id))
             <div style="margin-bottom: 10px;">
-                <a href="{{ route('news.edit', $news) }}">Редагувати</a>
+                <a href="{{ route('news.edit', $news) }}" class="edit-link">Редагувати</a>
                 <form method="post" action="{{ route('news.destroy', $news) }}" style="display:inline;">
                     @csrf
                     @method('DELETE')
-                    <a href="{{ route('news.edit', $news) }}" onclick="return confirm('Вы уверены?')">Видалити</a>
+                    <button type="submit" onclick="return confirm('Ви впевнені?')" style="background: none; color: inherit; border: none; padding: 0; cursor: pointer;">Видалити</button>
                 </form>
             </div>
                 @endif
@@ -37,14 +35,24 @@
                 <div style="margin-top: 0;">
                     <form method="post" action="{{ route('news.rating', ['news' => $news->id]) }}">
                         @csrf
-
-                        <input type="number" name="grade" min="1" max="5" style="margin-top: 1px;" required>
+                        <input type="number" name="grade" min="1" max="5" style="margin-top: 2px;" required>
                         <br>
-                        <button type="submit" class="btn btn-primary mb-3 mt-1">Поїхали</button>
+                        <button type="submit" class="btn btn-primary mb-3" style="margin-top: 10px;">Поїхали</button>
                     </form>
                 </div>
         @endif
     </div>
+
+        @if ($news->tags && count($news->tags)>0)
+            <ul class="tags-list">
+                @foreach($news->tags as $tag)
+                    <li class="tags-item">
+                        <a href="{{ route('news.tag', ['tag' => $tag->name]) }}" class="tag-link"> {{ $tag->name }}</a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+
     @if ($user && ($user->isAdmin() || $user->isAuthor() || $user->isRegistered()))
             @if ($user->isBlocked())
                 <p class="text-danger my-font-weight">Ви заблоковані та не можете залишати коментарі.</p>
@@ -52,7 +60,7 @@
         <form id="comment-form" method="post" data-url="{{ route('comment.store', $news) }}">
             @csrf
             <label for="content" style="display: block; margin-bottom: 8px; font-weight: bold;">Залишити коментар:</label>
-            <textarea name="text" required style="width: 300px; margin-bottom: 12px;"></textarea>
+            <textarea name="text" required style="width: 300px; margin-bottom: 5px;"></textarea>
             @if ($errors->has('text'))
                 <div class="text-danger">{{ $errors->first('text') }}</div>
             @endif
@@ -76,15 +84,6 @@
         @endif
     <div class="rating-buttons">
     </div>
-    @if ($news->tags && count($news->tags)>0)
-        <ul class="tags-list">
-            @foreach($news->tags as $tag)
-                <li class="tags-item">
-                    <a href="{{ route('news.tag', ['tag' => $tag->name]) }}" class="tag-link"> {{ $tag->name }}</a>
-                </li>
-            @endforeach
-        </ul>
-        @endif
         </div>
         <div style="width: 40%; margin-left: 7%;">
             <h5>Схожі новини:</h5>
