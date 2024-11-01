@@ -3,7 +3,7 @@
 @section('content')
 
     @if($news->isEmpty())
-        <p>У вас немає неперевірених статей</p>
+        <p>У вас немає недоопрацьованих статей</p>
     @else
         @foreach($news as $item)
             <h5><a href="{{ route('cabinet.editUnapprovedNews', $item) }}">{{ $item->title }}</a> </h5>

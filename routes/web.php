@@ -14,11 +14,13 @@ Route::get('/news/all', [NewsController::class, 'allNews'])->name('news.all');
 Route::get('/cabinet/unapproved/{userId}', [PersonalCabinetController::class, 'myUnapprovedNews'])->name('cabinet.unapprovedNews');
 Route::get('/cabinet/unapprovedNews/{id}/edit', [PersonalCabinetController::class, 'editUnapprovedNews'])->name('cabinet.editUnapprovedNews');
 Route::put('/cabinet/unapprovedNews/{id}', [PersonalCabinetController::class, 'updateUnapprovedNews'])->name('cabinet.updateUnapprovedNews');
+Route::get('/cabinet/rejection/{id}', [PersonalCabinetController::class, 'myRejectionNews'])->name('cabinet.rejectionNews');
 
 Route::middleware('adminOrAuthor')->group(function () {
     Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
     Route::post('/news', [NewsController::class, 'store'])->name('news.store');
     Route::get('/cabinet/{userId}/publications', [PersonalCabinetController::class, 'myPublication'])->name('cabinet.publications');
+
 });
 
 Route::middleware('adminOrNewsAuthor')->group(function () {

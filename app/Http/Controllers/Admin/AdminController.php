@@ -42,11 +42,12 @@ class AdminController extends Controller
         return redirect()->route('admin.untestedNews');
     }
 
-    public function reject($newsId)
+    public function reject(Request $request, $newsId)
     {
         $news = News::findOrFail($newsId);
         $news->checked = true;
         $news->approved = false;
+        $news->rejection = $request->input('rejection');
         $news->save();
 
         return redirect()->route('admin.untestedNews');

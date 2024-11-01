@@ -2,16 +2,20 @@
 @extends('layout.app')
 
 @section('content')
-
-<div style="margin-bottom: 40px;">
-    <a href="{{ route('cabinet.edit', $user->id) }}" class="btn btn-primary" style="margin-top: 30px;">Редагувати профіль</a>
+<div class="d-flex align-items-start">
+<div style="margin-right: 30px; margin-top: 30px;">
+    <a href="{{ route('cabinet.edit', $user->id) }}" class="btn btn-primary">Редагувати профіль</a>
 </div>
 @if ($user && ($user->isAdmin() || $user->isAuthor()))
-<div>
-<a href="{{ route('cabinet.publications', $user->id) }}" class="btn btn-secondary" style="margin-bottom: 40px;">Мої публікації</a>
+<div style="margin-right: 30px; margin-top: 30px;">
+<a href="{{ route('cabinet.publications', $user->id) }}" class="btn btn-secondary">Мої публікації</a>
 </div>
-    <div >
-        <a href="{{ route('cabinet.unapprovedNews', $user->id) }}" class="btn btn-warning" >Статті на доопрацювання</a>
+    <div style="margin-right: 30px; margin-top: 30px;">
+        <a href="{{ route('cabinet.unapprovedNews', $user->id) }}" class="btn btn-warning">Статті на доопрацювання</a>
     </div>
+<div style="margin-right: 30px; margin-top: 30px;">
+    <a href="{{ route('cabinet.rejectionNews', $user->id) }}" class="btn btn-danger">Статті,що не пройшли перевірку</a>
+</div>
+</div>
     @endif
 @endsection

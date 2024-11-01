@@ -56,12 +56,25 @@ class PersonalCabinetController extends Controller
     {
         $news = News::where('user_id', $userId)
             ->where(function ($query) {
-                $query->where('checked', false);
+                $query->where('published', false);
             })
             ->orderBy('created_at', 'desc')
             ->paginate(5);
 
         return view('cabinet.unapprovedNews', compact('news'));
+    }
+
+    public function myRejectionNews($userId)
+    {
+        $rejectionNews = News::where('user_id', $userId)
+            ->where(function  ($query) {
+                $query->where('checked', true)
+                    ->where('approved', false);
+        })
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+
+        return view('cabinet.rejectionNews', compact('rejectionNews'));
     }
 
     public function editUnapprovedNews($newsId)
@@ -82,6 +95,8 @@ class PersonalCabinetController extends Controller
             'category_id' => $request->category_id,
             'photo' => $request->hasFile('photo') ? $request->file('photo')->store('news_photos', 'public') : $news->photo,
             'published' => $request->boolean('published'),
+            'checked' => false,
+            'approved' => false,
         ]);
         if($request->has('tags')) {
             $tagIds = $request->input('tags');

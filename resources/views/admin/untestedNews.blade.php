@@ -13,14 +13,17 @@
     <div style="width: 50%; margin-top: 0;">
 <h5>{{ $item->title }}</h5>
     <p>{{ $item->content }}</p>
-        <div class="d-flex" style="gap:20px;">
+        <div class="d-flex align-items-start" style="gap:20px;">
 <form action="{{ route('admin.check', $item) }}" method="POST">
     @csrf
     <button type="submit" class="btn btn-primary mb-5">Схвалити</button>
 </form>
-        <form action="{{ route('admin.reject', $item) }}" method="POST">
+        <form action="{{ route('admin.reject', $item) }}" method="POST" class="d-flex align-items-start">
             @csrf
             <button type="submit" class="btn btn-success">Відхилити</button>
+            <div class="form-group" style="margin-left:20px;">
+                <textarea name="rejection" id="rejection" class="form-control" placeholder="Причина відмови" style="width: 250px;" required></textarea>
+            </div>
         </form>
         </div>
     </div>
