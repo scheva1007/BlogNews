@@ -11,7 +11,7 @@
 </div>
 @if ($user && ($user->isAdmin() || $user->isAuthor()))
 <div style="margin-right: 30px; margin-top: 30px;">
-<a href="{{ route('cabinet.publications', $user->id) }}" class="btn btn-secondary">Мої публікації</a>
+<a href="{{ route('cabinet.publications') }}" class="btn btn-secondary">Мої публікації</a>
 </div>
     <div style="margin-right: 30px; margin-top: 30px;">
         <a href="{{ route('cabinet.unapprovedNews', $user->id) }}" class="btn btn-warning">Статті на доопрацювання</a>

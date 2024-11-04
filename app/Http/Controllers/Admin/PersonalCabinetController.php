@@ -40,11 +40,12 @@ class PersonalCabinetController extends Controller
         return redirect()->route('cabinet.edit', $user->id);
     }
 
-    public function myPublication($userId)
+    public function myPublication()
     {
-        $user = User::findOrFail($userId);
+        $user = auth()->user();
         $news = $user->news()
             ->where('checked', true)
+            ->where('approved', true)
             ->orderBy('created_at', 'desc')
             ->get();
 
