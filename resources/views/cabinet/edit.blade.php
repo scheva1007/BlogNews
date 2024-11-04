@@ -1,7 +1,10 @@
 @extends('layout.app')
 
 @section('content')
-<form method="post" action="{{ route('cabinet.update', $user->id) }}" style="width: 300px;">
+    @php
+        $user = auth()->user();
+    @endphp
+<form method="post" action="{{ route('cabinet.update') }}" style="width: 300px;">
     @csrf
     @method('PUT')
     <div>

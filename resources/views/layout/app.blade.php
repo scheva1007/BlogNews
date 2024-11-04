@@ -63,7 +63,7 @@
         <div class="d-flex mt-4">
         @if(auth()->check() &&  !$user->isAdmin())
             @if(Route::currentRouteName() != 'cabinet.index')
-                    <a href="{{ route('cabinet.index', $user->id) }}" class="btn-link-like">Кабінет</a>
+                    <a href="{{ route('cabinet.index') }}" class="btn-link-like">Кабінет</a>
                 @endif
             @endif
             @if($user)

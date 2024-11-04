@@ -13,22 +13,21 @@ use Illuminate\Support\Facades\Hash;
 
 class PersonalCabinetController extends Controller
 {
-    public function index($userId)
+    public function index()
     {
-        $user = User::findOrFail($userId);
 
-        return view('cabinet.index', compact('user'));
+        return view('cabinet.index');
     }
 
-    public function edit($userId)
+    public function edit()
     {
-        $user = User::findOrFail($userId);
 
-        return view('cabinet.edit', compact('user'));
+        return view('cabinet.edit');
     }
 
-    public function update(UpdateCabinetRequest $request, User $user)
+    public function update(UpdateCabinetRequest $request)
     {
+        $user = auth()->user();
         $user->update([
             'name' => $request->name,
             'email' => $request->email,

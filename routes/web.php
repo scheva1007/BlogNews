@@ -34,10 +34,10 @@ Route::get('/news/{news}', [NewsController::class, 'show'])->name('news.show');
 Route::post('/news/{news}/rating', [NewsController::class, 'rating'])->name('news.rating');
 
 Route::middleware('registeredUser')->group(function () {
-    Route::get('cabinet/{userId}', [PersonalCabinetController::class, 'index'])->name('cabinet.index');
+    Route::get('/cabinet', [PersonalCabinetController::class, 'index'])->name('cabinet.index');
     Route::get('/news/{comment}/like-status', [CommentController::class, 'setLikeStatus'])->name('comment.setLikeStatus');
-    Route::get('/cabinet/{user}/edit', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'edit'])->name('cabinet.edit');
-    Route::put('cabinet/{user}', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'update'])->name('cabinet.update');
+    Route::get('/cabinet/edit', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'edit'])->name('cabinet.edit');
+    Route::put('/cabinet', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'update'])->name('cabinet.update');
     Route::post('/news/{news}/comments', [CommentController::class, 'store'])->name('comment.store');
 });
 

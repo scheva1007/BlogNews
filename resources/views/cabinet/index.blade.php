@@ -2,9 +2,12 @@
 @extends('layout.app')
 
 @section('content')
+    @php
+        $user = auth()->user();
+    @endphp
 <div class="d-flex align-items-start">
 <div style="margin-right: 30px; margin-top: 30px;">
-    <a href="{{ route('cabinet.edit', $user->id) }}" class="btn btn-primary">Редагувати профіль</a>
+    <a href="{{ route('cabinet.edit') }}" class="btn btn-primary">Редагувати профіль</a>
 </div>
 @if ($user && ($user->isAdmin() || $user->isAuthor()))
 <div style="margin-right: 30px; margin-top: 30px;">
