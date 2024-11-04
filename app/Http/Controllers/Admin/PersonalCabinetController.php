@@ -52,8 +52,9 @@ class PersonalCabinetController extends Controller
         return view('cabinet.publications', compact('news'));
     }
 
-    public function myUnapprovedNews($userId)
+    public function myUnapprovedNews()
     {
+        $userId = auth()->id();
         $news = News::where('user_id', $userId)
             ->where(function ($query) {
                 $query->where('published', false);
