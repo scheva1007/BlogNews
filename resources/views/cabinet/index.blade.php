@@ -17,7 +17,7 @@
         <a href="{{ route('cabinet.unapprovedNews') }}" class="btn btn-warning">Статті на доопрацювання</a>
     </div>
 <div style="margin-right: 30px; margin-top: 30px;">
-    <a href="{{ route('cabinet.rejectionNews', $user->id) }}" class="btn btn-danger">Статті,що не пройшли перевірку</a>
+    <a href="{{ route('cabinet.rejectionNews') }}" class="btn btn-danger">Статті,що не пройшли перевірку</a>
 </div>
 </div>
     @endif
