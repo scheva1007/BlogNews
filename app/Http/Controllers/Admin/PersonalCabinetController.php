@@ -7,7 +7,6 @@ use App\Http\Request\UpdateCabinetRequest;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Tag;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,13 +14,11 @@ class PersonalCabinetController extends Controller
 {
     public function index()
     {
-
         return view('cabinet.index');
     }
 
     public function edit()
     {
-
         return view('cabinet.edit');
     }
 
@@ -37,7 +34,7 @@ class PersonalCabinetController extends Controller
         }
         $user->save();
 
-        return redirect()->route('cabinet.edit', $user->id);
+        return redirect()->route('cabinet.edit');
     }
 
     public function myPublication()
@@ -54,11 +51,8 @@ class PersonalCabinetController extends Controller
 
     public function myUnapprovedNews()
     {
-        $userId = auth()->id();
-        $news = News::where('user_id', $userId)
-            ->where(function ($query) {
-                $query->where('published', false);
-            })
+        $user = auth()->user();
+        $news = $user->news()->where('published', false)
             ->orderBy('created_at', 'desc')
             ->paginate(5);
 
@@ -67,30 +61,26 @@ class PersonalCabinetController extends Controller
 
     public function myRejectionNews()
     {
-        $userId = auth()->id();
-        $rejectionNews = News::where('user_id', $userId)
-            ->where(function  ($query) {
-                $query->where('checked', true)
-                    ->where('approved', false);
-        })
+        $user = auth()->user();
+        $rejectionNews = $user->news()
+            ->where('checked', true)
+            ->where('approved', false)
             ->orderBy('created_at', 'desc')
             ->paginate(5);
 
         return view('cabinet.rejectionNews', compact('rejectionNews'));
     }
 
-    public function editUnapprovedNews($newsId)
+    public function editUnapprovedNews(News $news)
     {
-        $news = News::where('id', $newsId)->where('approved', false)->firstOrFail();
         $categories = Category::all();
         $tags = Tag::all();
 
        return view('cabinet.editUnapprovedNews', compact('news', 'categories', 'tags'));
     }
 
-    public function updateUnapprovedNews(Request $request, $newsId)
+    public function updateUnapprovedNews(Request $request, News $news)
     {
-        $news = News::findOrFail($newsId);
         $news->update([
             'title' => $request->title,
             'content' => $request->text,
@@ -105,6 +95,6 @@ class PersonalCabinetController extends Controller
             $news->tags()->sync($tagIds);
         }
 
-        return redirect()->route('cabinet.unapprovedNews', ['userId' => auth()->id()]);
+        return redirect()->route('cabinet.unapprovedNews');
     }
 }

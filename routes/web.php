@@ -11,22 +11,21 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Route::get('/news/all', [NewsController::class, 'allNews'])->name('news.all');
-Route::get('/cabinet/unapproved', [PersonalCabinetController::class, 'myUnapprovedNews'])->name('cabinet.unapprovedNews');
-Route::get('/cabinet/unapprovedNews/{id}/edit', [PersonalCabinetController::class, 'editUnapprovedNews'])->name('cabinet.editUnapprovedNews');
-Route::put('/cabinet/unapprovedNews/{id}', [PersonalCabinetController::class, 'updateUnapprovedNews'])->name('cabinet.updateUnapprovedNews');
-Route::get('/cabinet/rejection', [PersonalCabinetController::class, 'myRejectionNews'])->name('cabinet.rejectionNews');
 
 Route::middleware('adminOrAuthor')->group(function () {
     Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
     Route::post('/news', [NewsController::class, 'store'])->name('news.store');
     Route::get('/cabinet/publications', [PersonalCabinetController::class, 'myPublication'])->name('cabinet.publications');
-
+    Route::get('/cabinet/unapproved', [PersonalCabinetController::class, 'myUnapprovedNews'])->name('cabinet.unapprovedNews');
+    Route::get('/cabinet/rejection', [PersonalCabinetController::class, 'myRejectionNews'])->name('cabinet.rejectionNews');
 });
 
 Route::middleware('adminOrNewsAuthor')->group(function () {
     Route::get('/news/{news}/edit', [NewsController::class, 'edit'])->name('news.edit');
     Route::put('/news/{news}', [NewsController::class, 'update'])->name('news.update');
     Route::delete('/news/{news}', [NewsController::class, 'destroy'])->name('news.destroy');
+    Route::get('/cabinet/unapprovedNews/{news}/edit', [PersonalCabinetController::class, 'editUnapprovedNews'])->name('cabinet.editUnapprovedNews');
+    Route::put('/cabinet/unapprovedNews/{news}', [PersonalCabinetController::class, 'updateUnapprovedNews'])->name('cabinet.updateUnapprovedNews');
 });
 
 Route::get('/', [NewsController::class, 'index'])->name('news.index');
