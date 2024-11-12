@@ -37,6 +37,7 @@ class AdminController extends Controller
         $news = News::findOrFail($newsId);
         $news->checked = true;
         $news->approved = true;
+        $news->rejection = null;
         $news->save();
 
         return redirect()->route('admin.untestedNews');
