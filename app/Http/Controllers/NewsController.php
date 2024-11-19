@@ -34,7 +34,6 @@ class NewsController extends Controller
 
     public function allNews()
     {
-
         $allNews = News::where('published', true)
             ->where('checked', true)
             ->where('approved', true)
