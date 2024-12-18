@@ -2,31 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Commands\StoreNewsCommand;
-use App\Commands\UpdateNewsCommand;
 use App\Http\Request\RatingNewsRequest;
 use App\Http\Request\StoreNewsRequest;
 use App\Http\Request\UpdateNewsRequest;
-use App\Models\Category;
 use App\Models\Comment;
 use App\Models\News;
 use App\Models\Rating;
 use App\Models\Tag;
+use App\Repositories\NewsRepository;
+use App\Services\CategoryService;
 use App\Services\NewsService;
 use App\Services\StoreNewsService;
 use App\Services\UpdateNewsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class NewsController extends Controller
 {
-
-    public function index(NewsService $newsService)
+    public function index(NewsService $newsService, CategoryService $categoryService, NewsRepository $newsRepository)
     {
-        $news = News::where('published', true)
-        ->where('checked', true)
-            ->where('approved', true)
-            ->latest()->take(10)->get();
-        $categories = Category::all();
+        $news = Cache::remember('latest_news', 3600, function () use ($newsRepository) {
+
+            return $newsRepository->findPublishedAndApprovedNews();
+        });
+        $categories = $categoryService->getAllCategories();
         $topNews = $newsService->getLastNews();
 
         return view('news.index', compact('categories', 'news', 'topNews'));
@@ -42,9 +41,9 @@ class NewsController extends Controller
         return view('news.all', compact('allNews'));
     }
 
-    public function create()
+    public function create(CategoryService $categoryService)
     {
-        $categories = Category::all();
+        $categories = $categoryService->getAllCategories();
         $tags = Tag::all();
 
         return view('news.create', compact('categories', 'tags'));
@@ -57,9 +56,9 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function show(Request $request, News $news, Comment $comment)
+    public function show(Request $request, News $news, Comment $comment, CategoryService $categoryService)
     {
-        $categories = Category::all();
+        $categories = $categoryService->getAllCategories();
         $viewCountKey = '$news_' .$news->id. '_view';
         if (!session()->has($viewCountKey)) {
             $news->increment('views');
@@ -87,9 +86,9 @@ class NewsController extends Controller
         return view('news.tag', compact('news', 'tag'));
     }
 
-    public function edit(News $news)
+    public function edit(News $news, CategoryService $categoryService)
     {
-        $categories = Category::all();
+        $categories = $categoryService->getAllCategories();
         $tags = Tag::all();
 
         return view('news.edit', compact('news', 'categories', 'tags'));

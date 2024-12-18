@@ -23,8 +23,8 @@
                 @endphp
 
                 @if ($user && ($user->isAdmin() || $user->isAuthor()) && Route::currentRouteName() !== 'news.create')
-                    <a class="nav-link custom-font-size custom-margin category-link " href="{{ route('news.create') }}">Додати
-                        новину</a>
+                    <a class="nav-link custom-font-size custom-margin category-link " href="{{ route('news.create') }}">
+                        Додати новину</a>
                 @endif
 
                 <div class="dropdown mb-3">

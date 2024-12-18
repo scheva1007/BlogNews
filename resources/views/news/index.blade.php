@@ -19,7 +19,7 @@
             <div>
                 <span style="margin-bottom: 0; margin-top: 5px; font-size: 12px; background-color: lightcyan; padding: 2px 5px">{{ $item->formattedDate }} |
                     <i class="fas fa-eye" style="color: gray;"></i> {{ $item->views }} |
-                    <i class="fas fa-comment" style="color: gray;"></i> {{ $item->commentCount }} |
+                    <i class="fas fa-comment" style="color: gray;"></i> {{ $item->comment_count }} |
                     <span style="margin-left: 5px;"> Рейтинг: {{ $item->rating }}</span>
                 </span>
                 <div>
@@ -32,7 +32,7 @@
           @endforeach
       </div>
       <div id="main-news" style="margin-left: 7%;">
-          <h5>Останні новин:</h5>
+          <h5>Останні новини:</h5>
           @foreach($news as $item)
               @include('news.partials.newsList')
           @endforeach

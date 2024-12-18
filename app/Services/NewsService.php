@@ -4,28 +4,36 @@ namespace App\Services;
 
 use App\Models\News;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 
 class NewsService
 {
     public function getLastNews()
     {
-        $limitDays = Carbon::now()->subMonths(6);
-        $topNews = News::select()->where('published', true)
-            ->where('checked', true)
-            ->where('approved', true)
-            ->whereDate('created_at', '>=', $limitDays)
-            ->orderByDesc('views')
-            ->limit(5)->get();
+        $cacheKey = 'top_news';
+        $cacheDuration = 60 * 60;
 
-        if ($topNews->isEmpty()) {
-            $topNews = News::select()
+        return Cache::remember($cacheKey, $cacheDuration, function () {
+            $limitDays = Carbon::now()->subMonths(6);
+            $topNews = News::select()->where('published', true)
                 ->where('checked', true)
-                ->orderByDesc('rating')
+                ->where('approved', true)
+                ->whereDate('created_at', '>=', $limitDays)
+                ->withCount('comment')
+                ->orderByDesc('views')
                 ->limit(5)->get();
-        }
 
-        return $topNews;
+            if ($topNews->isEmpty()) {
+                $topNews = News::select()
+                    ->where('checked', true)
+                    ->withCount('comment')
+                    ->orderByDesc('rating')
+                    ->limit(5)->get();
+            }
+
+            return $topNews;
+        });
     }
 
     public function getSortedNews($sortBy = 'created_at', $sortDirection = 'desc')

@@ -31,11 +31,6 @@ class News extends Model
         return $this->created_at->format('d.m.Y, H:m');
     }
 
-    public function getCommentCountAttribute()
-    {
-        return $this->comment()->count();
-    }
-
     public function userRating()
     {
         $userId = auth()->id();

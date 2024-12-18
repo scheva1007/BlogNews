@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Http\Request\StoreNewsRequest;
 use App\Models\News;
+use Illuminate\Support\Facades\Cache;
 
 class StoreNewsService
 {
@@ -26,5 +27,7 @@ class StoreNewsService
             $tagIds = $request->input('tags');
             $news->tags()->sync($tagIds);
         }
+        Cache::forget('latest_news');
+        Cache::forget('top_news');
     }
 }

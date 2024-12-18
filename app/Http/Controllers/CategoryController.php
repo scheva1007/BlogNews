@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Services\CategoryService;
 use Symfony\Component\HttpFoundation\Request;
 
 class CategoryController extends Controller
 {
-    public function create()
+    public function create(CategoryService $categoryService)
     {
-        $categories = Category::all();
+        $categories = $categoryService->getAllCategories();
 
         return view('category.create', compact('categories'));
     }

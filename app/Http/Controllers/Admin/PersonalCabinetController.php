@@ -7,6 +7,7 @@ use App\Http\Request\UpdateCabinetRequest;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Tag;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -71,9 +72,9 @@ class PersonalCabinetController extends Controller
         return view('cabinet.rejectionNews', compact('rejectionNews'));
     }
 
-    public function editUnapprovedNews(News $news)
+    public function editUnapprovedNews(News $news, CategoryService $categoryService)
     {
-        $categories = Category::all();
+        $categories = $categoryService->getAllCategories();
         $tags = Tag::all();
 
        return view('cabinet.editUnapprovedNews', compact('news', 'categories', 'tags'));

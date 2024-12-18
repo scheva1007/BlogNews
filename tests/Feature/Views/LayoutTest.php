@@ -47,7 +47,7 @@ class LayoutTest extends TestCase
         $response->assertSee('Вийти');
         $response->assertSee('Оберіть категорію');
         foreach ($categories as $category){
-            $response->assertSee($category->name);
+           $response->assertSee($category->name);
         }
 
         $admin = User::factory()->create(['role' => 'admin']);
