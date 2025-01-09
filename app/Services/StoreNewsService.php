@@ -12,7 +12,7 @@ class StoreNewsService
     public function execute (StoreNewsRequest $request) {
         $news = News::create([
             'title' => $request->title,
-            'content' => $request->text,
+            'text' => $request->text,
             'category_id' => $request->category_id,
             'user_id' => auth()->id(),
             'published' => $request->has('published') ? true : false,

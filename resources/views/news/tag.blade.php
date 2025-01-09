@@ -16,7 +16,7 @@
         @endif
         <div>
             @include('news.partials.newsList')
-            <p class="my-font-content">{{ substr($item->content, 0, 100) }}{{ strlen($item->content) > 100 ? '...' : '' }}</p>
+            <p class="my-font-content">{{ substr($item->text, 0, 100) }}{{ strlen($item->text) > 100 ? '...' : '' }}</p>
         </div>
     </div>
 @endforeach

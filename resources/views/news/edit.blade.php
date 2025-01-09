@@ -12,9 +12,9 @@
         @endif
         <br>
         <label for="content" style="display: block; margin-bottom: 5px;">Контент:</label>
-        <textarea name="text" required style="width: 300px; margin-bottom: 5px;">{{ $news->content }}</textarea>
-        @if($errors->has('content'))
-            <div class="text-danger">{{ $erors->first('content') }}</div>
+        <textarea name="text" required style="width: 300px; margin-bottom: 5px;">{{ $news->text }}</textarea>
+        @if($errors->has('text'))
+            <div class="text-danger">{{ $erors->first('text') }}</div>
         @endif
         <br>
         <label for="category_id" style="display: block; margin-bottom: 5px;">Категорія:</label>

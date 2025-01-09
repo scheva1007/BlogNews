@@ -37,7 +37,7 @@ class NewsControllerTest extends TestCase
 
         $this->assertDatabaseHas('news', [
             'title' => 'Тест новый',
-            'content' => 'Очень интересный текст',
+            'text' => 'Очень интересный текст',
             'category_id' => $categories->id,
         ]);
     }
@@ -62,7 +62,7 @@ class NewsControllerTest extends TestCase
         $this->assertDatabaseHas('news', [
             'id' => $news->id,
             'title' => 'Привет!',
-            'content' => 'Обновление',
+            'text' => 'Обновление',
             'category_id' => $request['category_id'],
         ]);
     }
@@ -94,13 +94,13 @@ class NewsControllerTest extends TestCase
         $this->actingAs($user);
         $response = $this->post(route('news.store'), [
             'title' => 'Test',
-            'content' => 'News',
+            'text' => 'News',
             'category_id' => 1,
         ]);
         $response->assertStatus(403);
         $this->assertDatabaseMissing('news', [
             'title' => 'Test',
-            'content' => 'News',
+            'text' => 'News',
             'category_id' => 1,
         ]);
     }

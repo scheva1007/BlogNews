@@ -29,6 +29,6 @@ class CommentController extends Controller
             'status' => $request->status
         ]);
 
-        return redirect()->route('comment.edit', $comment->id);
+        return redirect()->route('comment.index', $comment->id);
     }
 }

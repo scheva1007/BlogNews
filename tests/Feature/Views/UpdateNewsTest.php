@@ -29,7 +29,7 @@ class UpdateNewsTest extends TestCase
         $response->assertSee('Заголовок');
         $response->assertSee($news->title);
         $response->assertSee('Контент');
-        $response->assertSee($news->content);
+        $response->assertSee($news->text);
         $response->assertSee('Категорія');
         foreach ($categories as $category){
             $response->assertSee($category->name);

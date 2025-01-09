@@ -20,7 +20,7 @@ class NewsFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence,
-            'content' => $this->faker->paragraph,
+            'text' => $this->faker->paragraph,
             'category_id' => Category::factory(),
             'created_at' => now(),
             'updated_at' => now(),

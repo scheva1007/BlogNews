@@ -13,7 +13,7 @@
         <br>
         <label for="content" class="my-font-weight" style="display: block; margin-bottom: 5px;">Контент:</label>
         <textarea name="text" required style="width: 300px; margin-bottom: 5px;"></textarea>
-        @error('content')
+        @error('text')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
         <label for="photo" class="my-font-weight">Фото:</label>

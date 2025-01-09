@@ -36,6 +36,7 @@ Route::middleware('registeredUser')->group(function () {
     Route::get('/cabinet', [PersonalCabinetController::class, 'index'])->name('cabinet.index');
     Route::get('/news/{comment}/like-status', [CommentController::class, 'setLikeStatus'])->name('comment.setLikeStatus');
     Route::get('/cabinet/edit', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'edit'])->name('cabinet.edit');
+    Route::get('/notification', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notification.index');
     Route::put('/cabinet', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'update'])->name('cabinet.update');
     Route::post('/news/{news}/comments', [CommentController::class, 'store'])->name('comment.store');
 });

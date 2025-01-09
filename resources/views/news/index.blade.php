@@ -26,7 +26,7 @@
                     <a href="{{ route('news.show', $item) }} " class="mr-5 main-link "
                         style="font-size: 20px; margin-bottom: 30px;">{{ $item->title }}</a>
                 </div>
-                <p class="my-font-content mt-2">{{ substr($item->content, 0, 100) }}{{ strlen($item->content) > 100 ? '...' : '' }}</p>
+                <p class="my-font-content mt-2">{{ substr($item->text, 0, 100) }}{{ strlen($item->text) > 100 ? '...' : '' }}</p>
             </div>
         </div>
           @endforeach

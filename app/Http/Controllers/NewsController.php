@@ -71,7 +71,10 @@ class NewsController extends Controller
         })->where('id', '!=', $news->id)
             ->orderBy('created_at', 'desc')
             ->take(5)->get();
-        $comments = Comment::where('news_id', $news->id)->whereNull('parent_id')->get();
+        $comments = Comment::where('news_id', $news->id)->whereNull('parent_id')
+            ->where('status', 'verified')
+            ->with('replies')
+            ->orderBy('created_at', 'desc')->get();
 
         return view('news.show', compact('news', 'categories', 'comments', 'similarNews'));
     }

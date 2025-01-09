@@ -9,7 +9,7 @@
     @endif
     <div style="margin-top: 20px; margin-bottom: 20px;">Рейтинг: {{ $news->rating }}</div>
     <h5>{{ $news->title }}</h5>
-    <p class="news-container">{{ $news->content }}</p>
+    <p class="news-container">{{ $news->text }}</p>
         <div class="mb-3">
         @php
             $user=auth()->user();
@@ -57,8 +57,9 @@
             @if ($user->isBlocked())
                 <p class="text-danger my-font-weight">Ви заблоковані та не можете залишати коментарі.</p>
             @else
-        <form id="comment-form" method="post" data-url="{{ route('comment.store', $news) }}">
+        <form id="comment-form" action="{{ route('comment.store', $news) }}" method="post">
             @csrf
+            @method('POST')
             <label for="content" style="display: block; margin-bottom: 8px; font-weight: bold;">Залишити коментар:</label>
             <textarea name="text" required style="width: 300px; margin-bottom: 5px;"></textarea>
             @if ($errors->has('text'))
@@ -96,52 +97,5 @@
             @endif
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const commentForm = document.getElementById('comment-form');
-            const commentsContainer = document.getElementById('comments-container');
-            if (commentForm) {
-                commentForm.addEventListener('submit', function (event) {
-                    event.preventDefault();
-                    const formData = new FormData(commentForm);
-                    const url = commentForm.getAttribute('data-url');
-                    fetch(url, {
-                        method: 'POST',
-                        body: formData,
-                    })
-                        .then(response => response.text())
-                        .then(data => {
-                            commentForm.querySelector('textarea[name="text"]').value = '';
-                            commentsContainer.insertAdjacentHTML('afterbegin', data);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                });
-            }
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log('DOM fully loaded and parsed');
-            const replyLink = document.querySelectorAll('.reply');
-            replyLink.forEach(link => {
-                link.addEventListener('click', function () {
-                    const commentId = this.getAttribute('data-comment-id');
-                    if (commentId) {
-                        console.log('Comment ID:', commentId);
-                    } else {
-                        console.error('No comment ID found.');
-                    }
-                    const form = document.getElementById(`reply-form-${commentId}`);
-                    if(form) {
-                        console.log('Form:', form);
-                        form.style.display = form.style.display === 'none' ? 'block' : 'none';
-                    } else {
-                        console.error(`Form with id "reply-form-${commentId}" not found.`);
-                    }
-                });
-            });
-        });
-    </script>
-@endsection
+
+ @endsection

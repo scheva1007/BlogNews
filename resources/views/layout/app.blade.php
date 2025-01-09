@@ -69,9 +69,15 @@
             @if($user)
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="mr-2">
                     {{ csrf_field() }}
-                    <button type="submit" class="btn-link-like"> Вийти</button>
+                    <button type="submit" class="btn-link-like">Вийти</button>
                 </form>
             @endif
+            <div class="d-flex mr-5 my-indent">
+                @if(auth()->check() && ($user->isAdmin() || $user->isAuthor() || $user->isRegistered()))
+                <a href="{{ route('notification.index') }} " class="custom-margin admin-link">Повідомлення</a>
+                @endif
+            </div>
+
     </div>
 </header>
 

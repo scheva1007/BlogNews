@@ -12,7 +12,7 @@
     @endif
     <div style="width: 50%; margin-top: 0;">
 <h5>{{ $item->title }}</h5>
-    <p>{{ $item->content }}</p>
+    <p>{{ $item->text }}</p>
         <div class="d-flex align-items-start" style="gap:20px;">
 <form action="{{ route('admin.check', $item) }}" method="POST">
     @csrf

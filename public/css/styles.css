@@ -220,3 +220,19 @@ footer {
 .edit-link {
     margin-right: 15px;
 }
+
+.my-indent {
+    margin-top: 6px;
+}
+
+.reply-form {
+    display: none;
+}
+
+.reply-form {
+    display: none;
+}
+
+.reply-toggle:checked ~ .reply-form {
+    display: block;
+}

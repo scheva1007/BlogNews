@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Request\StoreCommentRequest;
 use App\Models\Comment;
 use App\Models\News;
+use App\Models\Notification;
 use App\Repositories\CommentRepository;
 use App\Services\LikesCommentService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -20,7 +22,7 @@ class CommentController extends Controller
 
     public function store(StoreCommentRequest $request, News $news)
     {
-        $user = auth()->user();
+        $user = Auth::user();
         if($user->isBlocked()){
 
             return redirect()->back();
@@ -32,7 +34,13 @@ class CommentController extends Controller
             'user_id' => $user->id,
         ]);
 
-
+        if ($request->parent_id) {
+            $parentComment = Comment::find($request->parent_id);
+            Notification::create([
+                'news_id' => $news->id,
+                'user_id' => $parentComment->user_id,
+            ]);
+        }
 
         return redirect()->route('news.show', $news->id);
     }
