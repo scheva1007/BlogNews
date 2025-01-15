@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,8 @@ Route::middleware('registeredUser')->group(function () {
     Route::get('/notification', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notification.index');
     Route::put('/cabinet', [\App\Http\Controllers\Admin\PersonalCabinetController::class, 'update'])->name('cabinet.update');
     Route::post('/news/{news}/comments', [CommentController::class, 'store'])->name('comment.store');
+    Route::post('/subscribe/{author}', [SubscriptionController::class, 'subscribe'])->name('subscribe.subscribe');
+    Route::post('/unsubscribe/{author}', [SubscriptionController::class, 'unsubscribe'])->name('subscribe.unsubscribe');
 });
 
 Route::middleware('admin')->group(function () {

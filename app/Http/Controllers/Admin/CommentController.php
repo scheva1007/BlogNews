@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\News;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -28,6 +30,14 @@ class CommentController extends Controller
         $comment->update([
             'status' => $request->status
         ]);
+
+        if ($comment->parent_id && $comment->status == 'verified') {
+            $parentComment = Comment::find($comment->parent_id);
+            Notification::create([
+                'user_id' => $parentComment->user_id,
+                'news_id' => $comment->news_id,
+            ]);
+        }
 
         return redirect()->route('comment.index', $comment->id);
     }

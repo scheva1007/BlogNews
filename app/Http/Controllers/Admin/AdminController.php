@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Request\UpdateAdminRequest;
 use App\Models\News;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -39,6 +40,15 @@ class AdminController extends Controller
         $news->approved = true;
         $news->rejection = null;
         $news->save();
+
+        $author = $news->author;
+        $subscribers = $author->subscribers->pluck('subscriber_id');
+        foreach ($subscribers as $subscriber) {
+            Notification::create([
+                'user_id' => $subscriber,
+                'news_id' => $news->id,
+            ]);
+        }
 
         return redirect()->route('admin.untestedNews');
     }

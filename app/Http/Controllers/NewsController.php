@@ -56,7 +56,7 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function show(Request $request, News $news, Comment $comment, CategoryService $categoryService)
+    public function show(Request $request, News $news, CategoryService $categoryService)
     {
         $categories = $categoryService->getAllCategories();
         $viewCountKey = '$news_' .$news->id. '_view';
@@ -76,7 +76,10 @@ class NewsController extends Controller
             ->with('replies')
             ->orderBy('created_at', 'desc')->get();
 
-        return view('news.show', compact('news', 'categories', 'comments', 'similarNews'));
+        $user = auth()->user();
+        $subscribed = $user ? $user->subscriberAuthor($news->user_id) : false;
+
+        return view('news.show', compact('news', 'categories', 'comments', 'similarNews', 'subscribed' ));
     }
 
     public function showTag($tagName)

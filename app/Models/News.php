@@ -45,4 +45,9 @@ class News extends Model
 
         return $rating ? $rating->grade : null;
     }
+
+    public function author ()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

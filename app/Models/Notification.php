@@ -14,4 +14,9 @@ class Notification extends Model
     {
         return $this->belongsTo(News::class);
     }
+
+    public  function comment()
+    {
+        return $this->belongsTo(Comment::class);
+    }
 }

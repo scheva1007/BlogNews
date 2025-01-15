@@ -79,6 +79,21 @@ class User extends Authenticatable
     {
         return $this->role === 'registered';
     }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class,'subscriber_id');
+    }
+
+    public function subscribers()
+    {
+        return $this->hasMany(Subscription::class, 'author_id');
+    }
+
+    public function subscriberAuthor($authorId)
+    {
+        return $this->subscriptions()->where('author_id', $authorId)->exists();
+    }
 }
 
 

@@ -26,7 +26,6 @@
                     <a class="nav-link custom-font-size custom-margin category-link " href="{{ route('news.create') }}">
                         Додати новину</a>
                 @endif
-
                 <div class="dropdown mb-3">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -41,7 +40,6 @@
                         @endif
                     </div>
                 </div>
-
             </nav>
         </div>
         <div class="mt-4">
@@ -77,8 +75,7 @@
                 <a href="{{ route('notification.index') }} " class="custom-margin admin-link">Повідомлення</a>
                 @endif
             </div>
-
-    </div>
+        </div>
 </header>
 
 <main class="container-fluid main-container" style="margin-top: 100px;">

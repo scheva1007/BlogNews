@@ -10,6 +10,27 @@
     <div style="margin-top: 20px; margin-bottom: 20px;">Рейтинг: {{ $news->rating }}</div>
     <h5>{{ $news->title }}</h5>
     <p class="news-container">{{ $news->text }}</p>
+        <div style="margin-top: 10px; margin-bottom: 5px;">
+            Автор:<strong> {{ $news->author->name }}</strong>
+            @if($subscribed)
+                <form action="{{ route('subscribe.unsubscribe', $news->author) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-danger" style="margin-top: 10px;">Відписатися</button>
+                </form>
+            @else
+                <form action="{{ route('subscribe.subscribe', $news->author) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Підписатися</button>
+                </form>
+                @endif
+        </div>
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
         <div class="mb-3">
         @php
             $user=auth()->user();
@@ -26,11 +47,11 @@
                 @endif
 
             @if ($news->userRating() !==null )
-                <p style="margin-bottom: 1px">Ваша поточна оцінка: {{ $news->userRating() }}</p>
+                <p style="margin-top: 15px; margin-bottom: 5px;">Ваша поточна оцінка: {{ $news->userRating() }}</p>
             @endif
             @if($user && $user->id !== $news->user_id)
-                <div>
-                    <label class="my-grade my-font-weight" for="grade">Оцініть статтю від 1 до 5</label>
+                <div >
+                    <label class="my-grade my-font-weight" for="grade" style="margin-top: 1px;">Оцініть статтю від 1 до 5</label>
                 </div>
                 <div style="margin-top: 0;">
                     <form method="post" action="{{ route('news.rating', ['news' => $news->id]) }}">
@@ -97,5 +118,17 @@
             @endif
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    alert.style.transition = "opacity 0.5s ease";
+                    alert.style.opacity = "0";
+                    setTimeout(() => alert.remove(), 500);
+                });
+            }, 5000);
+        });
+    </script>
 
- @endsection
+@endsection

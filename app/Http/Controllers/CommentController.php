@@ -34,14 +34,6 @@ class CommentController extends Controller
             'user_id' => $user->id,
         ]);
 
-        if ($request->parent_id) {
-            $parentComment = Comment::find($request->parent_id);
-            Notification::create([
-                'news_id' => $news->id,
-                'user_id' => $parentComment->user_id,
-            ]);
-        }
-
         return redirect()->route('news.show', $news->id);
     }
 
@@ -54,6 +46,4 @@ class CommentController extends Controller
 
         return redirect()->back();
     }
-
-
 }
