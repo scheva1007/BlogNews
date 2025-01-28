@@ -1,7 +1,7 @@
 
-        <div style="margin-bottom: 10px; ">
+        <div id="comment-{{ $comment->id }}" style="margin-bottom: 10px; ">
             <span
-                class="news-link my-font-size my-margin-right background-data">Добавил(-a): {{ $comment->user->name }} </span>
+                class="news-link my-font-size my-margin-right background-data">Додав(-лa): {{ $comment->user->name }} </span>
             <span class="news-link my-font-size background-data">{{ $comment->formattedDate }}</span>
             <div> *{{ $comment->content }}
                 <div class="rating-buttons" style="display: flex;">

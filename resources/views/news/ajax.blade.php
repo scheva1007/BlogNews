@@ -57,3 +57,42 @@
          });
      });
     </script>
+
+
+
+@if($item->message_type == 'comment_reply' && $item->news)
+@elseif($item->message_type == 'subscription' && $item->news)
+    <small>опуюлікована новина автора<strong>{{ $item->news->author->name }}</strong></small>
+@endif<small>опуюлікована новина автора<strong>{{ $item->news->author->name }}</strong></small>
+
+
+notification.blade:
+
+@extends('layout.app')
+
+@section('content')
+
+    @if($notifications->isEmpty())
+        <p>У вас немає повідомлень</p>
+    @else
+        @foreach($notifications as $item)
+            @if($item->message_type == 'subscription')
+                <div style="margin-bottom: 5px;">
+                    <a href="{{ route('news.show', $item->news) }}" class="font-weight-bold" style="font-size: 1.1em;">
+                        {{ $item->news->title }}</a>
+                    <p style="margin-top: 5px; font-size: 1em;">
+                        Опублікована новина автора: <strong>{{ $item->news->author->name }}</strong>
+                    </p>
+                </div>
+            @elseif($item->message_type == 'comment_reply')
+                <div style="margin-bottom: 15px;">
+                    <p style="font-size: 1.1em;">
+                        В новині
+                        <a href="{{ route('news.show', $item->news) }}" class="font-weight-bold"> {{ $item->news->title }} </a>
+                        відповіли на ваш коментар
+                    </p>
+                </div>
+            @endif
+        @endforeach
+    @endif
+@endsection

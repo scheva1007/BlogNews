@@ -94,7 +94,7 @@
         <p class=" my-font-weight my-margin-top">Зареєструйтесь, щоб додати коментарій</p>
     @endif
 
-    @if (count($comments) > 0 )
+        @if (count($comments) > 0 )
         <h6>Всі коментарі:</h6>
         <div id="comments-container">
             @foreach($comments as $comment)

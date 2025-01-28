@@ -19,4 +19,9 @@ class Notification extends Model
     {
         return $this->belongsTo(Comment::class);
     }
+
+    public function author()
+    {
+        return $this->news->author;
+    }
 }

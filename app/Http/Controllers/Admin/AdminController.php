@@ -47,6 +47,7 @@ class AdminController extends Controller
             Notification::create([
                 'user_id' => $subscriber,
                 'news_id' => $news->id,
+                'message_type' => 'subscription',
             ]);
         }
 

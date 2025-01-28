@@ -36,6 +36,8 @@ class CommentController extends Controller
             Notification::create([
                 'user_id' => $parentComment->user_id,
                 'news_id' => $comment->news_id,
+                'message_type' => 'comment_reply',
+                'additional_info' => $comment->id,
             ]);
         }
 

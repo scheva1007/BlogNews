@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,7 @@ Route::middleware('registeredUser')->group(function () {
     Route::post('/news/{news}/comments', [CommentController::class, 'store'])->name('comment.store');
     Route::post('/subscribe/{author}', [SubscriptionController::class, 'subscribe'])->name('subscribe.subscribe');
     Route::post('/unsubscribe/{author}', [SubscriptionController::class, 'unsubscribe'])->name('subscribe.unsubscribe');
+    Route::post('/notification/changeStatus', [NotificationController::class, 'changeStatusNotification'])->name('notification.changeStatus');
 });
 
 Route::middleware('admin')->group(function () {

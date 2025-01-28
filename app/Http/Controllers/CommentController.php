@@ -34,7 +34,7 @@ class CommentController extends Controller
             'user_id' => $user->id,
         ]);
 
-        return redirect()->route('news.show', $news->id);
+        return redirect()->route('news.show', $news->id)->with('success', 'Ваш коментар з\'явиться після одобрення адміном.');
     }
 
     public function setLikeStatus(Request $request, Comment $comment, LikesCommentService $likesService)

@@ -236,3 +236,7 @@ footer {
 .reply-toggle:checked ~ .reply-form {
     display: block;
 }
+
+html {
+    scroll-behavior: smooth;
+}
