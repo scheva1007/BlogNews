@@ -72,7 +72,7 @@
             @endif
             <div class="d-flex mr-5 my-indent">
                 @if(auth()->check() && ($user->isAdmin() || $user->isAuthor() || $user->isRegistered()))
-                <a href="{{ route('notification.index') }} " class="custom-margin admin-link">Повідомлення</a>
+                    <a href="{{ route('notification.index') }} " class="custom-margin admin-link">Повідомлення</a>
                 @endif
             </div>
         </div>

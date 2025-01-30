@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CommentApiController;
 use App\Http\Controllers\Api\NewsApiController;
 use App\Http\Controllers\Api\PersonaCabinetApiController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/cabinet/unApprovedNews', [PersonaCabinetApiController::class, 'myUnapprovedNews'])->name('personalCabinetControllerApi.unApprovedNews');
     Route::get('/cabinet/rejectionNews', [PersonaCabinetApiController::class, 'myRejectionNews'])->name('personalCabinetControllerApi.rejectionNews');
     Route::put('/cabinet/unapprovedNews/{news}', [PersonaCabinetApiController::class, 'updateUnapprovedNews'])->name('personalCabinetControllerApi.updateUnapprovedNews');
+    Route::post('/news/{news}/comments', [CommentApiController::class, 'store'])->name('commentControllerApi.store');
+    Route::get('/news/{comment}/like-status', [CommentApiController::class, 'setLikeStatus'])->name('commentControllerApi.setLikeStatus');
 });
 
 Route::post('/login', [AuthController::class, 'login']);
