@@ -78,13 +78,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentApiController extends Controller
 {
-    public $commentRepository;
-
-    public function __construct(CommentRepository $commentRepository)
-    {
-        $this->commentRepository = $commentRepository;
-    }
-
     public function store(StoreCommentRequest $request, News $news)
     {
         $user = Auth::user();
@@ -102,11 +95,11 @@ class CommentApiController extends Controller
         return response()->json(['comment' => $comment], 201);
     }
 
-    public function setLikeStatus(Request $request, Comment $comment, LikesCommentService $likesService)
+    public function setLikeStatus(Request $request, Comment $comment, LikesCommentService $likesService, CommentRepository $commentRepository)
     {
         $likeStatus = (bool)$request->input('like_status');
         $userId = $request->user()->id;
-        $existingVote = $this->commentRepository->findUserCommentLikes($comment, $userId);
+        $existingVote = $commentRepository->findUserCommentLikes($comment, $userId);
         $likesService->execute($comment, $userId, $existingVote, $likeStatus);
 
         return response()->json(null, 200);
