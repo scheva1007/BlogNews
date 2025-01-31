@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
-use App\Models\News;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 

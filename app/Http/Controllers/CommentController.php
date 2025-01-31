@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Request\StoreCommentRequest;
 use App\Models\Comment;
 use App\Models\News;
-use App\Models\Notification;
 use App\Repositories\CommentRepository;
 use App\Services\LikesCommentService;
 use Illuminate\Http\Request;
@@ -13,13 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    public $commentRepository;
-
-    public function __construct (CommentRepository $commentRepository)
-    {
-        $this->commentRepository = $commentRepository;
-    }
-
     public function store(StoreCommentRequest $request, News $news)
     {
         $user = Auth::user();
@@ -37,11 +29,11 @@ class CommentController extends Controller
         return redirect()->route('news.show', $news->id)->with('success', 'Ваш коментар з\'явиться після одобрення адміном.');
     }
 
-    public function setLikeStatus(Request $request, Comment $comment, LikesCommentService $likesService)
+    public function setLikeStatus(Request $request, Comment $comment, LikesCommentService $likesService, CommentRepository $commentRepository)
     {
         $likeStatus = (bool)$request->input('like_status');
         $userId = $request->user()->id;
-        $existingVote = $this->commentRepository->findUserCommentLikes($comment, $userId);
+        $existingVote = $commentRepository->findUserCommentLikes($comment, $userId);
         $likesService->execute($comment, $userId, $existingVote, $likeStatus);
 
         return redirect()->back();
