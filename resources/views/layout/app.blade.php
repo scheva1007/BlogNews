@@ -72,7 +72,10 @@
             @endif
             <div class="d-flex mr-5 my-indent">
                 @if(auth()->check() && ($user->isAdmin() || $user->isAuthor() || $user->isRegistered()))
-                    <a href="{{ route('notification.index') }} " class="custom-margin admin-link">Повідомлення</a>
+                    <a href="{{ route('notification.index') }} " class="custom-margin admin-link">
+                        Повідомлення:  @if(isset($notificationCount) && $notificationCount > 0)
+                            <span class="badge badge-danger">{{ $notificationCount }}</span>
+                    @endif</a>
                 @endif
             </div>
         </div>

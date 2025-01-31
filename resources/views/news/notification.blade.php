@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-    <h1>Ваші повідомлення</h1>
+    <h4>Ваші повідомлення</h4>
 
     @if($notifications->isEmpty())
         <p>У вас немає повідомлень</p>
