@@ -61,8 +61,8 @@ Route::middleware('admin')->group(function () {
     Route::post('admin/store', [\App\Http\Controllers\Admin\TagController::class, 'store'])->name('tag.store');
     Route::put('/user/{user}/block', [UserController::class, 'block'])->name('user.block');
     Route::get('/admin/untested', [AdminController::class, 'untested'])->name('admin.untestedNews');
-    Route::post('/admin/approved/{id}', [AdminController::class, 'check'])->name('admin.check');
-    Route::post('/admin/reject/{id}', [AdminController::class, 'reject'])->name('admin.reject');
+    Route::post('/admin/approved/{news}', [AdminController::class, 'check'])->name('admin.check');
+    Route::post('/admin/reject/{news}', [AdminController::class, 'reject'])->name('admin.reject');
 });
 
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');

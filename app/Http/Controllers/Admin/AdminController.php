@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Request\UpdateAdminRequest;
 use App\Models\News;
 use App\Models\Notification;
 use App\Models\User;
@@ -33,9 +32,8 @@ class AdminController extends Controller
         return view('admin.untestedNews', compact('untestedNews'));
     }
 
-    public function check($newsId)
+    public function check(News $news)
     {
-        $news = News::findOrFail($newsId);
         $news->checked = true;
         $news->approved = true;
         $news->rejection = null;
@@ -54,9 +52,8 @@ class AdminController extends Controller
         return redirect()->route('admin.untestedNews');
     }
 
-    public function reject(Request $request, $newsId)
+    public function reject(Request $request, News $news)
     {
-        $news = News::findOrFail($newsId);
         $news->checked = true;
         $news->approved = false;
         $news->rejection = $request->input('rejection');
@@ -65,9 +62,8 @@ class AdminController extends Controller
         return redirect()->route('admin.untestedNews');
     }
 
-    public function edit ($userId)
+    public function edit (User $user)
     {
-        $user = User::findOrFail($userId);
         $roles = ['admin', 'author', 'registered'];
 
         return view('admin.edit', compact('user', 'roles'));

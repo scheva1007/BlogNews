@@ -56,7 +56,7 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function show(Request $request, News $news, CategoryService $categoryService)
+    public function show(News $news, CategoryService $categoryService)
     {
         $categories = $categoryService->getAllCategories();
         $viewCountKey = '$news_' .$news->id. '_view';
