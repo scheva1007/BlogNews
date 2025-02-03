@@ -9,6 +9,7 @@ use App\Models\Comment;
 use App\Models\News;
 use App\Models\Rating;
 use App\Models\Tag;
+use App\Repositories\CommentRepository;
 use App\Repositories\NewsRepository;
 use App\Services\CategoryService;
 use App\Services\NewsService;
@@ -56,7 +57,7 @@ class NewsController extends Controller
         return redirect()->route('news.index');
     }
 
-    public function show(News $news, CategoryService $categoryService)
+    public function show(News $news, CategoryService $categoryService, CommentRepository $commentRepository)
     {
         $categories = $categoryService->getAllCategories();
         $viewCountKey = '$news_' .$news->id. '_view';
@@ -71,11 +72,7 @@ class NewsController extends Controller
         })->where('id', '!=', $news->id)
             ->orderBy('created_at', 'desc')
             ->take(5)->get();
-        $comments = Comment::where('news_id', $news->id)->whereNull('parent_id')
-            ->where('status', 'verified')
-            ->with('replies')
-            ->orderBy('created_at', 'desc')->get();
-
+        $comments = $commentRepository->findNewsComments($news->id);
         $user = auth()->user();
         $subscribed = $user ? $user->subscriberAuthor($news->user_id) : false;
 
