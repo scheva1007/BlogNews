@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
             if ($user) {
                 $unRead = Notification::with('news')
                     ->where('user_id', $user->id)
-                    ->where('status', false)->count();
+                    ->where('is_read', false)->count();
             }
             $view->with('notificationCount', $unRead);
         });

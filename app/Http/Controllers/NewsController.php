@@ -67,10 +67,11 @@ class NewsController extends Controller
         }
 
         $tags = $news->tags->pluck('id');
-        $similarNews = News::whereHas('tags', function($query) use ($tags) {
-            $query->whereIn('tags.id', $tags);
-        })->where('id', '!=', $news->id)
+        $similarNews = News::join('news_tag', 'news.id', '=', 'news_tag.news_id')
+            ->whereIn('news_tag.tag_id', $tags)
+            ->where('news.id', '!=', $news->id)
             ->orderBy('created_at', 'desc')
+            ->select('news.*')->distinct()
             ->take(5)->get();
         $comments = $commentRepository->findNewsComments($news->id);
         $user = auth()->user();
@@ -79,12 +80,14 @@ class NewsController extends Controller
         return view('news.show', compact('news', 'categories', 'comments', 'similarNews', 'subscribed' ));
     }
 
-    public function showTag($tagName)
+    public function showTag($tagId)
     {
-        $tag = Tag::where('name', $tagName)->firstOrFail();
-        $news = News::whereHas('tags', function ($query) use($tag){
-            $query->where('tags.id', $tag->id);
-        })->paginate(5);
+        $tag = Tag::where('id', $tagId)->firstOrFail();
+        $news = News::join('news_tag', 'news.id', '=', 'news_tag.news_id')
+            ->join('tags', 'news_tag.tag_id', '=', 'tags.id')
+            ->where('tags.id', $tag->id)
+            ->select('news.*')->distinct()
+            ->paginate(5);
 
         return view('news.tag', compact('news', 'tag'));
     }

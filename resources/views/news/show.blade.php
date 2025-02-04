@@ -68,7 +68,7 @@
             <ul class="tags-list">
                 @foreach($news->tags as $tag)
                     <li class="tags-item">
-                        <a href="{{ route('news.tag', ['tag' => $tag->name]) }}" class="tag-link"> {{ $tag->name }}</a>
+                        <a href="{{ route('news.tag', ['tag' => $tag->id]) }}" class="tag-link"> {{ $tag->name }}</a>
                     </li>
                 @endforeach
             </ul>
