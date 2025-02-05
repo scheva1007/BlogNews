@@ -19,7 +19,7 @@
         @foreach($user as $index => $item)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td ><a href="{{ route('admin.edit', $item->id) }}">{{ $item->name }}</a></td>
+                <td ><a href="{{ route('user.edit', $item->id) }}">{{ $item->name }}</a></td>
                 <td>{{ $item->role }}</td>
             </tr>
         @endforeach

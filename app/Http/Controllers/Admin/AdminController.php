@@ -62,19 +62,5 @@ class AdminController extends Controller
         return redirect()->route('admin.untestedNews');
     }
 
-    public function edit (User $user)
-    {
-        $roles = ['admin', 'author', 'registered'];
 
-        return view('admin.edit', compact('user', 'roles'));
-    }
-
-    public function update (Request $request, User $user)
-    {
-        $user->update([
-            'role' => $request->role,
-        ]);
-
-        return redirect()->route('user.index');
-    }
 }

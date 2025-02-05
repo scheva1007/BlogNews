@@ -50,8 +50,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/categories/create', [CategoryController::class, 'create'])->name('category.create');
     Route::post('/categories/store', [CategoryController::class, 'store'])->name('category.store');
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/admin/{user}/edit', [AdminController::class, 'edit'])->name('admin.edit');
-    Route::put('/admin/{user}', [AdminController::class, 'update'])->name('admin.update');
+    Route::get('/admin/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/admin/{user}', [UserController::class, 'update'])->name('user.update');
     Route::get('/admin/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/admin/admin', [AdminController::class, 'allPublications'])->name('admin.allPublications');
     Route::get('/admin/comment', [\App\Http\Controllers\Admin\CommentController::class, 'index'])->name('comment.index');

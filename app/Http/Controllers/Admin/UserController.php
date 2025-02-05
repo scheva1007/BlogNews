@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\News;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,5 +23,21 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->back();
+    }
+
+    public function edit (User $user)
+    {
+        $roles = ['admin', 'author', 'registered'];
+
+        return view('admin.edit', compact('user', 'roles'));
+    }
+
+    public function update (Request $request, User $user)
+    {
+        $user->update([
+            'role' => $request->role,
+        ]);
+
+        return redirect()->route('user.index');
     }
 }

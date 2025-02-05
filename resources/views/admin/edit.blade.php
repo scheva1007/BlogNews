@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('content')
-    <form method="post"  action="{{ route('admin.update', $user->id) }}" enctype='multipart/form-data'  style="width: 300px;" >
+    <form method="post"  action="{{ route('user.update', $user->id) }}" enctype='multipart/form-data'  style="width: 300px;" >
         @csrf
         @method('PUT')
        <span>
