@@ -22,14 +22,14 @@ class AdminController extends Controller
         return view('admin.allPublications', compact('news'));
     }
 
-    public function untested()
+    public function unchecked()
     {
-        $untestedNews = News::where('checked', false)
+        $uncheckedNews = News::where('checked', false)
             ->where('approved', false)
             ->orderBy('created_at', 'desc')
             ->paginate(5);
 
-        return view('admin.untestedNews', compact('untestedNews'));
+        return view('admin.uncheckedNews', compact('uncheckedNews'));
     }
 
     public function check(News $news)
@@ -61,6 +61,4 @@ class AdminController extends Controller
 
         return redirect()->route('admin.untestedNews');
     }
-
-
 }

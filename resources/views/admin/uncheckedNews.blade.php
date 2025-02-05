@@ -3,7 +3,7 @@
 @section('content')
 
 <h4 style="margin-bottom: 20px;">Неперевірені публікації:</h4>
-@foreach($untestedNews as $item)
+@foreach($uncheckedNews as $item)
     @if($item->photo)
         <div style="width: 170px; height: 130px; margin-right: 20px;">
             <img src="{{ asset('/storage/' . $item->photo) }}" alt="News Photo"
@@ -28,5 +28,5 @@
         </div>
     </div>
 @endforeach
-<div class="mb-3 mt-3">{{ $untestedNews->links() }}</div>
+<div class="mb-3 mt-3">{{ $uncheckedNews->links() }}</div>
 @endsection
