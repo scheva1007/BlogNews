@@ -23,7 +23,7 @@ class PersonalCabinetController extends Controller
         return view('cabinet.edit');
     }
 
-    public function update(UpdateCabinetRequest $request)
+    public function updatePersonalInfo(UpdateCabinetRequest $request)
     {
         $user = auth()->user();
         $user->update([

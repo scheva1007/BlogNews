@@ -19,7 +19,7 @@
         <a href="{{ route('admin.allPublications') }}" class="my-grade my-font-weight"  style="font-size: 20px;">Всі публікації</a>
     </div>
     <div>
-        <a href="{{ route('admin.untestedNews') }}" class="my-grade my-font-weight" style="font-size: 20px;">Неопубліковані статті</a>
+        <a href="{{ route('admin.uncheckedNews') }}" class="my-grade my-font-weight" style="font-size: 20px;">Неопубліковані статті</a>
     </div>
 
 @endsection
