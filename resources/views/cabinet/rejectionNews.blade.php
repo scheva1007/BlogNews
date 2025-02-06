@@ -8,8 +8,8 @@
         @foreach($rejectionNews as $item)
         <div style="margin-bottom: 30px;">
             <h5><a href="{{ route('cabinet.editUnapprovedNews', $item) }}">{{ $item->title }}</a></h5>
-            @if($item->rejection)
-                <span style="margin-right: 15px;  font-weight: bold;">Причина відмови:</span>{{ $item->rejection }}
+            @if($item->rejection_reason)
+                <span style="margin-right: 15px;  font-weight: bold;">Причина відмови:</span>{{ $item->rejection_reason }}
             @endif
          </div>
         @endforeach

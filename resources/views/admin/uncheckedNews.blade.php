@@ -20,10 +20,10 @@
 </form>
         <form action="{{ route('admin.reject', $item) }}" method="POST" class="d-flex align-items-start">
             @csrf
-            <button type="submit" class="btn btn-success">Відхилити</button>
             <div class="form-group" style="margin-left:20px;">
-                <textarea name="rejection" id="rejection" class="form-control" placeholder="Причина відмови" style="width: 250px;" required></textarea>
+                <textarea name="rejection_reason" id="rejection_reason" class="form-control" placeholder="Причина відмови" style="width: 250px;" required></textarea>
             </div>
+            <button type="submit" class="btn btn-success">Відхилити</button>
         </form>
         </div>
     </div>

@@ -36,7 +36,7 @@ class AdminController extends Controller
     {
         $news->checked = true;
         $news->approved = true;
-        $news->rejection = null;
+        $news->rejection_reason = null;
         $news->save();
 
         $author = $news->author;
@@ -49,16 +49,16 @@ class AdminController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.untestedNews');
+        return redirect()->route('admin.uncheckedNews');
     }
 
     public function reject(Request $request, News $news)
     {
         $news->checked = true;
         $news->approved = false;
-        $news->rejection = $request->input('rejection');
+        $news->rejection_reason = $request->input('rejection_reason');
         $news->save();
 
-        return redirect()->route('admin.untestedNews');
+        return redirect()->route('admin.uncheckedNews');
     }
 }

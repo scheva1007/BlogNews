@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Request\RatingNewsRequest;
 use App\Http\Request\StoreNewsRequest;
 use App\Http\Request\UpdateNewsRequest;
-use App\Models\Comment;
 use App\Models\News;
 use App\Models\Rating;
 use App\Models\Tag;
@@ -15,7 +14,6 @@ use App\Services\CategoryService;
 use App\Services\NewsService;
 use App\Services\StoreNewsService;
 use App\Services\UpdateNewsService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class NewsController extends Controller

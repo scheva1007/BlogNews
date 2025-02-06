@@ -84,7 +84,7 @@ class PersonalCabinetController extends Controller
     {
         $news->update([
             'title' => $request->title,
-            'content' => $request->text,
+            'text' => $request->text,
             'category_id' => $request->category_id,
             'photo' => $request->hasFile('photo') ? $request->file('photo')->store('news_photos', 'public') : $news->photo,
             'published' => $request->boolean('published'),

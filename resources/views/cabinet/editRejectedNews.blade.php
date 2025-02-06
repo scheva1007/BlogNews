@@ -11,7 +11,7 @@
             <div class="text-danger">{{ $erors->first('title') }}</div>
         @endif
         <br>
-        <label for="content" style="display: block; margin-bottom: 5px;">Контент:</label>
+        <label for="text" style="display: block; margin-bottom: 5px;">Контент:</label>
         <textarea name="text" required style="width: 300px; margin-bottom: 5px;">{{ $news->text }}</textarea>
         @if($errors->has('text'))
             <div class="text-danger">{{ $erors->first('text') }}</div>
