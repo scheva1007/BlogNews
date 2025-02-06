@@ -50,7 +50,7 @@ class NewsController extends Controller
 
     public function store(StoreNewsRequest $request, StoreNewsService $service)
     {
-        $service->execute($request);
+        $service->create($request);
 
         return redirect()->route('news.index');
     }

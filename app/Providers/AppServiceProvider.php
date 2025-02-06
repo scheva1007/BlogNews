@@ -34,8 +34,7 @@ class AppServiceProvider extends ServiceProvider
             $user = Auth::user();
             $unRead = 0;
             if ($user) {
-                $unRead = Notification::with('news')
-                    ->where('user_id', $user->id)
+                $unRead = Notification::where('user_id', $user->id)
                     ->where('is_read', false)->count();
             }
             $view->with('notificationCount', $unRead);

@@ -15,7 +15,7 @@ class NotificationController extends Controller
         $user = Auth::user();
         $notifications = Notification::with('news')
             ->where('user_id', $user->id)
-            ->where('status', false)
+            ->where('is_read', false)
             ->latest()->get();
 
         return view('news.notification', compact('notifications'));
@@ -27,7 +27,7 @@ class NotificationController extends Controller
 
         $notification = Notification::find($notificationId);
             if ($notification && !$notification->status) {
-                $notification->update(['status' => true]);
+                $notification->update(['is_read' => true]);
                 return response()->json(['success' => true]);
             }
 

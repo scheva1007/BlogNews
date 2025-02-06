@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 class StoreNewsService
 {
-    public function execute (StoreNewsRequest $request) {
+    public function create (StoreNewsRequest $request) {
         $news = News::create([
             'title' => $request->title,
             'text' => $request->text,
