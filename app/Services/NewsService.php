@@ -3,13 +3,21 @@
 namespace App\Services;
 
 use App\Models\News;
+use App\Repositories\NewsRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 
 class NewsService
 {
-    public function getLastNews()
+    public $newsRepository;
+
+    public function __construct(NewsRepository $newsRepository)
+    {
+        $this->newsRepository = $newsRepository;
+    }
+
+    public function getTopNews()
     {
         $cacheKey = 'top_news';
         $cacheDuration = 60 * 60;
@@ -48,5 +56,12 @@ class NewsService
             $query->orderBy($sortBy, $sortDirection);
         }
         return $query->paginate(3);
+    }
+
+    public function getLatestNews()
+    {
+        return Cache::remember('latest_news', 3600, function () {
+            return $this->newsRepository->findPublishedAndApprovedNews();
+        });
     }
 }

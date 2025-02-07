@@ -33,7 +33,7 @@
       </div>
       <div id="main-news" style="margin-left: 7%;">
           <h5>Останні новини:</h5>
-          @foreach($news as $item)
+          @foreach($latestNews as $item)
               @include('news.partials.newsList')
           @endforeach
           <div class="mt-3">

@@ -18,16 +18,13 @@ use Illuminate\Support\Facades\Cache;
 
 class NewsController extends Controller
 {
-    public function index(NewsService $newsService, CategoryService $categoryService, NewsRepository $newsRepository)
+    public function index(NewsService $newsService, CategoryService $categoryService)
     {
-        $news = Cache::remember('latest_news', 3600, function () use ($newsRepository) {
-
-            return $newsRepository->findPublishedAndApprovedNews();
-        });
+        $latestNews = $newsService->getLatestNews();
         $categories = $categoryService->getAllCategories();
-        $topNews = $newsService->getLastNews();
+        $topNews = $newsService->getTopNews();
 
-        return view('news.index', compact('categories', 'news', 'topNews'));
+        return view('news.index', compact('categories', 'latestNews', 'topNews'));
     }
 
     public function allNews()
