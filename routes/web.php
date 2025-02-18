@@ -61,7 +61,7 @@ Route::middleware('admin')->group(function () {
     Route::post('admin/store', [\App\Http\Controllers\Admin\TagController::class, 'store'])->name('tag.store');
     Route::put('/user/{user}/block', [UserController::class, 'block'])->name('user.block');
     Route::get('/admin/unchecked', [AdminController::class, 'unchecked'])->name('admin.uncheckedNews');
-    Route::post('/admin/approved/{news}', [AdminController::class, 'check'])->name('admin.check');
+    Route::post('/admin/approved/{news}', [AdminController::class, 'approve'])->name('admin.approve');
     Route::post('/admin/reject/{news}', [AdminController::class, 'reject'])->name('admin.reject');
 });
 

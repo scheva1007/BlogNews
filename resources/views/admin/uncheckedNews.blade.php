@@ -14,7 +14,7 @@
 <h5>{{ $item->title }}</h5>
     <p>{{ $item->text }}</p>
         <div class="d-flex align-items-start" style="gap:20px;">
-<form action="{{ route('admin.check', $item) }}" method="POST">
+<form action="{{ route('admin.approve', $item) }}" method="POST">
     @csrf
     <button type="submit" class="btn btn-primary mb-5">Схвалити</button>
 </form>

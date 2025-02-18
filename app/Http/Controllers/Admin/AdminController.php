@@ -32,7 +32,7 @@ class AdminController extends Controller
         return view('admin.uncheckedNews', compact('uncheckedNews'));
     }
 
-    public function check(News $news)
+    public function approve(News $news)
     {
         $news->checked = true;
         $news->approved = true;
