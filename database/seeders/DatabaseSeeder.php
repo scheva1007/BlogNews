@@ -22,6 +22,11 @@ class DatabaseSeeder extends Seeder
             LikesSeeder::class,
             TagSeeder::class,
             News_TagSeeder::class,
+            CountrySeeder::class,
+            TeamSeeder::class,
+            ChampionshipSeeder::class,
+            ScheduleSeeder::class,
+            StandingsSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
     }
