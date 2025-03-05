@@ -21,7 +21,6 @@ class ChampionshipSeeder extends Seeder
             [
                 'name' => 'АПЛ',
                 'season' => '2024/2025',
-                'country_id' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
@@ -29,7 +28,6 @@ class ChampionshipSeeder extends Seeder
             [
                 'name' => 'Ла Ліга',
                 'season' => '2024/2025',
-                'country_id' => 2,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],

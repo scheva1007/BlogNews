@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PersonalCabinetController;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ChampionshipController;
 use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -57,12 +59,14 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/comment', [\App\Http\Controllers\Admin\CommentController::class, 'index'])->name('comment.index');
     Route::get('/admin/comment/{comment}/edit', [\App\Http\Controllers\Admin\CommentController::class, 'edit'])->name('comment.edit');
     Route::put('/admin/comment/{comment}', [\App\Http\Controllers\Admin\CommentController::class, 'update'])->name('comment.update');
-    Route::get('/admin/create', [\App\Http\Controllers\Admin\TagController::class, 'create'])->name('tag.create');
-    Route::post('admin/store', [\App\Http\Controllers\Admin\TagController::class, 'store'])->name('tag.store');
+    Route::get('/admin/create', [TagController::class, 'create'])->name('tag.create');
+    Route::post('admin/store', [TagController::class, 'store'])->name('tag.store');
     Route::put('/user/{user}/block', [UserController::class, 'block'])->name('user.block');
     Route::get('/admin/unchecked', [AdminController::class, 'unchecked'])->name('admin.uncheckedNews');
     Route::post('/admin/approved/{news}', [AdminController::class, 'approve'])->name('admin.approve');
     Route::post('/admin/reject/{news}', [AdminController::class, 'reject'])->name('admin.reject');
+    Route::get('/standing/{championshipId}', [ChampionshipController::class, 'standing'])->name('championship.standing');
+    Route::get('/calendar/{championshipId}', [ChampionshipController::class, 'calendar'])->name('championship.calendar');
 });
 
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');

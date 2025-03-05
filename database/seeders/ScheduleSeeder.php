@@ -20,6 +20,7 @@ class ScheduleSeeder extends Seeder
         DB::table('schedule')->insert([
           [
             'championship_id' => 1,
+            'round' => 1,
             'home_team_id' => 1,
             'away_team_id' => 2,
             'home_score' => 0,
@@ -32,6 +33,7 @@ class ScheduleSeeder extends Seeder
 
             [
                 'championship_id' => 2,
+                'round' => 1,
                 'home_team_id' =>9,
                 'away_team_id' => 11,
                 'home_score' => 4,
@@ -44,6 +46,7 @@ class ScheduleSeeder extends Seeder
 
             [
                 'championship_id' => 1,
+                'round' => 1,
                 'home_team_id' => 3,
                 'away_team_id' => 4,
                 'home_score' => 1,
@@ -56,6 +59,7 @@ class ScheduleSeeder extends Seeder
 
             [
                 'championship_id' => 2,
+                'round' => 1,
                 'home_team_id' => 10,
                 'away_team_id' => 12,
                 'home_score' => 0,
@@ -68,6 +72,7 @@ class ScheduleSeeder extends Seeder
 
             [
                 'championship_id' => 1,
+                'round' => 1,
                 'home_team_id' => 5,
                 'away_team_id' => 6,
                 'home_score' => 2,
@@ -80,6 +85,7 @@ class ScheduleSeeder extends Seeder
 
             [
                 'championship_id' => 1,
+                'round' => 2,
                 'home_team_id' => 7,
                 'away_team_id' => 8,
                 'home_score' => 3,
@@ -92,6 +98,7 @@ class ScheduleSeeder extends Seeder
 
             [
                 'championship_id' => 2,
+                'round' => 2,
                 'home_team_id' => 13,
                 'away_team_id' => 14,
                 'home_score' => 1,
@@ -104,6 +111,7 @@ class ScheduleSeeder extends Seeder
 
             [
                 'championship_id' => 1,
+                'round' => 2,
                 'home_team_id' => 5,
                 'away_team_id' => 3,
                 'home_score' => 0,
@@ -116,6 +124,7 @@ class ScheduleSeeder extends Seeder
 
             [
                 'championship_id' => 2,
+                'round' => 2,
                 'home_team_id' => 9,
                 'away_team_id' => 14,
                 'home_score' => 4,
@@ -128,6 +137,7 @@ class ScheduleSeeder extends Seeder
 
             [
                 'championship_id' => 1,
+                'round' => 2,
                 'home_team_id' => 2,
                 'away_team_id' => 6,
                 'home_score' => null,

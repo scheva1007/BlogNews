@@ -21,7 +21,7 @@ class StandingsSeeder extends Seeder
         $championships = DB::table('championships')->get();
 
         foreach ($championships as $championship) {
-            $teams = DB::table('teams')->where('country_id', $championship->country_id)->pluck('id')->toArray();
+            $teams = DB::table('teams_championship')->where('championship_id', $championship->id)->pluck('team_id')->toArray();
             $matches = rand(15, 20);
 
             foreach ($teams as $teamId) {

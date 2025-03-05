@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
             LikesSeeder::class,
             TagSeeder::class,
             News_TagSeeder::class,
-            CountrySeeder::class,
             TeamSeeder::class,
             ChampionshipSeeder::class,
+            Team_ChampionshipSeeder::class,
             ScheduleSeeder::class,
             StandingsSeeder::class,
         ]);

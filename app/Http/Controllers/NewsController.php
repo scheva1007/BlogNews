@@ -7,6 +7,7 @@ use App\Http\Request\StoreNewsRequest;
 use App\Http\Request\UpdateNewsRequest;
 use App\Models\News;
 use App\Models\Rating;
+use App\Models\Schedule;
 use App\Models\Tag;
 use App\Repositories\CommentRepository;
 use App\Repositories\NewsRepository;
@@ -14,17 +15,35 @@ use App\Services\CategoryService;
 use App\Services\NewsService;
 use App\Services\StoreNewsService;
 use App\Services\UpdateNewsService;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
-    public function index(NewsService $newsService, CategoryService $categoryService)
+    public function index(NewsService $newsService, CategoryService $categoryService, Request $request)
     {
         $latestNews = $newsService->getLatestNews();
         $categories = $categoryService->getAllCategories();
         $topNews = $newsService->getTopNews();
+        $date = $request->input('date', Carbon::today()->toDateString());
+        $matches = Schedule::with('championship', 'homeTeam', 'awayTeam')
+            ->whereDate('match_date', $date)
+            ->orderBy('championship_id')
+            ->orderBy('round')
+            ->orderBy('match_date')->get();
 
-        return view('news.index', compact('categories', 'latestNews', 'topNews'));
+        $groupedMatches = [];
+        foreach ($matches  as $match) {
+            $championshipId = $match->championship->id;
+            $championshipName = $match->championship->name;
+            $round = $match->round;
+            $groupedMatches[$championshipId]['name'] = $championshipName;
+            $groupedMatches[$championshipId]['rounds'][$round][] = $match;
+        }
+
+        return view('news.index', compact('categories', 'latestNews', 'topNews', 'groupedMatches', 'date'));
     }
 
     public function allNews()

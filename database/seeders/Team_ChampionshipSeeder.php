@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class TeamSeeder extends Seeder
+class Team_ChampionshipSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,117 +15,117 @@ class TeamSeeder extends Seeder
      */
     public function run()
     {
-        $timestamp = Carbon::now();
+        $timestamp=Carbon::now();
 
-        DB::table('teams')->insert([
+        DB::table('teams_championship')->insert([
             [
-                'name' => 'Арсенал',
-                'country' => 'Англія',
+                'championship_id' => 1,
+                'team_id' => 1,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Ліверпуль',
-                'country' => 'Англія',
+                'championship_id' => 1,
+                'team_id' => 2,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Челсі',
-                'country' => 'Англія',
+                'championship_id' => 1,
+                'team_id' => 3,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Манчестер Сіті',
-                'country' => 'Англія',
+                'championship_id' => 1,
+                'team_id' => 4,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Астон Вілла',
-                'country' => 'Англія',
+                'championship_id' => 1,
+                'team_id' => 5,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Нотінгем Форрест',
-                'country' => 'Англія',
+                'championship_id' => 1,
+                'team_id' => 6,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Тоттенхем',
-                'country' => 'Англія',
+                'championship_id' => 1,
+                'team_id' => 7,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Борнмут',
-                'country' => 'Англія',
+                'championship_id' => 1,
+                'team_id' => 8,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Барселона',
-                'country' => 'Іспанія',
+                'championship_id' => 2,
+                'team_id' => 9,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Реал',
-                'country' => 'Іспанія',
+                'championship_id' => 2,
+                'team_id' => 10,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Атлетіко',
-                'country' => 'Іспанія',
+                'championship_id' => 2,
+                'team_id' => 11,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Атлетік',
-                'country' => 'Іспанія',
+                'championship_id' => 2,
+                'team_id' => 12,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Жирона',
-                'country' => 'Іспанія',
+                'championship_id' => 2,
+                'team_id' => 13,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Валенсія',
-                'country' => 'Іспанія',
+                'championship_id' => 2,
+                'team_id' => 14,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Мальорка',
-                'country' => 'Іспанія',
+                'championship_id' => 2,
+                'team_id' => 15,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
 
             [
-                'name' => 'Сельта',
-                'country' => 'Іспанія',
+                'championship_id' => 2,
+                'team_id' => 16,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             ],
