@@ -65,9 +65,13 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/unchecked', [AdminController::class, 'unchecked'])->name('admin.uncheckedNews');
     Route::post('/admin/approved/{news}', [AdminController::class, 'approve'])->name('admin.approve');
     Route::post('/admin/reject/{news}', [AdminController::class, 'reject'])->name('admin.reject');
-    Route::get('/standing/{championshipId}', [ChampionshipController::class, 'standing'])->name('championship.standing');
-    Route::get('/calendar/{championshipId}', [ChampionshipController::class, 'calendar'])->name('championship.calendar');
+    Route::get('/admin/teamsChampionship/{championshipId}', [AdminController::class, 'teamsChampionship'])->name('admin.championship');
+    Route::get('/admin/createMatch', [AdminController::class, 'createMatch'])->name('admin.createMatch');
+    Route::post('/admin/storeMatch', [AdminController::class, 'storeMatch'])->name('admin.storeMatch');
 });
+
+Route::get('/standing/{championshipId}', [ChampionshipController::class, 'standing'])->name('championship.standing');
+Route::get('/calendar/{championshipId}', [ChampionshipController::class, 'calendar'])->name('championship.calendar');
 
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
 Route::get('news/tag/{tag}', [NewsController::class, 'showTag'])->name('news.tag');

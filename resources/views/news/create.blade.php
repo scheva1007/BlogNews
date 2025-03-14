@@ -2,7 +2,6 @@
 
 @section('content')
 
-
     <form method="post" enctype='multipart/form-data' action="{{ route('news.store') }}" style="width: 300px;">
         @csrf
         <label for="title" class="my-font-weight" style="display: block; margin-bottom: 5px;">Заголовок:</label>

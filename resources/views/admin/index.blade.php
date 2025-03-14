@@ -21,5 +21,8 @@
     <div>
         <a href="{{ route('admin.uncheckedNews') }}" class="my-grade my-font-weight" style="font-size: 20px;">Неопубліковані статті</a>
     </div>
+    <div>
+        <a href="{{ route('admin.createMatch') }}" class="my-grade my-font-weight" style="font-size: 20px;">Додавання нових матчів</a>
+    </div>
 
 @endsection
