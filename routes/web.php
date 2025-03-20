@@ -68,6 +68,11 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/teamsChampionship/{championshipId}', [AdminController::class, 'teamsChampionship'])->name('admin.championship');
     Route::get('/admin/createMatch', [AdminController::class, 'createMatch'])->name('admin.createMatch');
     Route::post('/admin/storeMatch', [AdminController::class, 'storeMatch'])->name('admin.storeMatch');
+    Route::get('/admin/allChampionship', [AdminController::class, 'allChampionship'])->name('admin.allChampionship');
+    Route::get('/admin/championshipRounds/{championshipId}', [AdminController::class, 'championshipRounds'])->name('admin.championshipRounds');
+    Route::get('admin/championship/{championshipId}/round/{round}', [AdminController::class, 'roundMatches'])->name('admin.roundMatches');
+    Route::get('/admin/editMatch/{matchId}', [AdminController::class, 'editMatch'])->name('admin.editMatch');
+    Route::put('/admin/updateMatch/{matchId}', [AdminController::class, 'updateMatch'])->name('admin.updateMatch');
 });
 
 Route::get('/standing/{championshipId}', [ChampionshipController::class, 'standing'])->name('championship.standing');

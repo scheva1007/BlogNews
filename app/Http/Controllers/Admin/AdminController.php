@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Request\StoreAdminRequest;
+use App\Http\Request\UpdateAdminRequest;
 use App\Models\Championship;
 use App\Models\News;
 use App\Models\Notification;
@@ -11,6 +12,7 @@ use App\Models\Schedule;
 use App\Models\Team;
 use App\Models\User;
 use App\Services\StoreAdminService;
+use App\Services\UpdateAdminService;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -73,7 +75,7 @@ class AdminController extends Controller
         $teams = Team::pluck('name', 'id');
         $statuses = ['scheduled' => 'Заплановано', 'finished' => 'Завершено'];
 
-        return view('admin.createMatch', compact('championships', 'teams', 'statuses'));
+        return view('admin.championships.createMatch', compact('championships', 'teams', 'statuses'));
     }
 
     public function storeMatch(StoreAdminRequest $request, StoreAdminService $service)
@@ -85,12 +87,20 @@ class AdminController extends Controller
 
     public function editMatch($matchId)
     {
-        $matches = Schedule::findOrFile($matchId);
-        $championships = Championship::all();
+        $matches = Schedule::with(['homeTeam', 'awayTeam'])->findOrFail($matchId);
         $teams = Team::all();
+        $statuses = ['scheduled' => 'Заплановано', 'finished' => 'Завершено', 'continues' => 'Триває'];
 
-        return view('admin.editMatch', compact('matches', 'championships', 'teams'));
+        return view('admin.championships.editMatch', compact('matches', 'teams', 'statuses'));
 
+    }
+
+    public function updateMatch(UpdateAdminRequest $request, UpdateAdminService $service, $matchId)
+    {
+        $match = Schedule::findOrFail($matchId);
+        $service->update($request, $match);
+
+        return redirect()->route('admin.index');
     }
 
     public function teamsChampionship($championshipId)
@@ -100,5 +110,30 @@ class AdminController extends Controller
             ->select('teams.id', 'teams.name')->get();
 
         return response()->json($teams);
+    }
+
+    public function allChampionship()
+    {
+        $championship = Championship::paginate(10);
+
+        return view('admin.championships.allChampionship', compact('championship'));
+    }
+
+    public function championshipRounds($championshipId)
+    {
+        $rounds = Schedule::where('championship_id', $championshipId)
+            ->select('round')->distinct()
+            ->orderBy('round')->get();
+
+        return view('admin.championships.championshipRounds', compact('rounds', 'championshipId'));
+    }
+
+    public function roundMatches($championshipId, $round)
+    {
+        $matches = Schedule::where('championship_id', $championshipId)
+            ->where('round', $round)
+            ->with(['homeTeam', 'awayTeam'])->get();
+
+        return view('admin.championships.roundMatches', compact('matches', 'championshipId', 'round'));
     }
 }

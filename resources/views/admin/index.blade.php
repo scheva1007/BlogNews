@@ -25,4 +25,8 @@
         <a href="{{ route('admin.createMatch') }}" class="my-grade my-font-weight" style="font-size: 20px;">Додавання нових матчів</a>
     </div>
 
+    <div>
+        <a href="{{ route('admin.allChampionship') }}" class="my-grade my-font-weight" style="font-size: 20px;">Список турнірів</a>
+    </div>
+
 @endsection

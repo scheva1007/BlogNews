@@ -42,13 +42,21 @@
       </div>
   </div>
   <div id="matches-container" style="margin-top: 30px;">
-      <h4>Результати матчів на {{ $date }}</h4>
+      <h4>Результати матчів на <span id="current-date">{{ $date }}</span></h4>
 
-      <form method="GET" action="{{ route('news.index') }}">
-          <label for="date">Оберіть дату:</label>
-          <input type="date" name="date" id="date" value="{{ $date }}">
-          <button type="submit">Показати</button>
-      </form>
+      <div style="display: flex; align-items: center; gap: 10px;">
+          <!-- Кнопка назад -->
+          <a href="{{ route('news.index', ['date' => \Carbon\Carbon::parse($date)->subDay()->format('Y-m-d')]) }}"
+             class="btn btn-primary">←</a>
+
+          <!-- Поле выбора даты -->
+          <input type="date" id="date-picker" value="{{ $date }}" class="form-control">
+
+          <!-- Кнопка вперед -->
+          <a href="{{ route('news.index', ['date' => \Carbon\Carbon::parse($date)->addDay()->format('Y-m-d')]) }}"
+             class="btn btn-primary">→</a>
+      </div>
+  </div>
 
       <div class="container-fluid mt-3">
           <div class="ml-3">
@@ -86,4 +94,12 @@
           </div>
       </div>
   </div>
+    <script>
+        ocument.getElementById('date-picker').addEventListener('change', function () {
+            let selectedDate = this.value;
+            if (selectedDate) {
+                window.location.href = '?date=' + selectedDate;
+            }
+        });
+    </script>
 @endsection
