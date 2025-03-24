@@ -44,62 +44,54 @@
   <div id="matches-container" style="margin-top: 30px;">
       <h4>Результати матчів на <span id="current-date">{{ $date }}</span></h4>
 
-      <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="display: inline-flex; align-items: center; gap: 10px;">
           <!-- Кнопка назад -->
-          <a href="{{ route('news.index', ['date' => \Carbon\Carbon::parse($date)->subDay()->format('Y-m-d')]) }}"
-             class="btn btn-primary">←</a>
+          <button id="prev-date" class="btn btn-primary">←</button>
 
           <!-- Поле выбора даты -->
-          <input type="date" id="date-picker" value="{{ $date }}" class="form-control">
+          <input type="date" id="date-picker" value="{{ $date }}" class="form-control" style="width: 250px;">
 
           <!-- Кнопка вперед -->
-          <a href="{{ route('news.index', ['date' => \Carbon\Carbon::parse($date)->addDay()->format('Y-m-d')]) }}"
-             class="btn btn-primary">→</a>
+          <button id="next-date" class="btn btn-primary">→</button>
       </div>
+  </div>
+  <div id="matches-list">
+      @include('news.partials.matches', ['groupedMatches' => $groupedMatches])
   </div>
 
-      <div class="container-fluid mt-3">
-          <div class="ml-3">
-              @foreach ($groupedMatches as $championshipId => $data)
-                      <div class="d-flex align-items-center border-bottom pb-1 mb-2">
-                          <h6 class="mb-0 text-left">{{ $data['name'] }}</h6>
-                          <div class="ml-3">
-                              <a href="{{ route('championship.calendar', $championshipId) }}" class=" ml-2">Календар</a>
-                              <a href="{{ route('championship.standing', ['championshipId' => $championshipId]) }}" class="ml-3">Таблиця</a>
-                          </div>
-                      </div>
-                  @foreach ($data['rounds'] as $round => $matches)
-                      <h6 class="mt-3">Тур {{ $round }}</h6>
-                      @foreach ($matches as $match)
-                              <div class="d-flex align-items-center py-1 px-2 bg-light rounded mb-2 text-left">
-                            <span class="text-muted small">
-                                @if ($match->status === 'finished')
-                                    FT
-                                @else
-                                    {{ \Carbon\Carbon::parse($match->match_date)->format('H:i') }}
-                                @endif
-                            </span>
-                                  <span class="font-weight-bold ml-3">
-                                {{ $match->homeTeam->name ?? 'Невідомо' }} - {{ $match->awayTeam->name ?? 'Невідомо' }}
-                            </span>
-                                  <span class="font-weight-bold ml-3">
-                                @if ($match->status === 'finished')
-                                          {{ $match->home_score }} : {{ $match->away_score }}
-                                      @endif
-                            </span>
-                              </div>
-                          @endforeach
-                      @endforeach
-                  @endforeach
-          </div>
-      </div>
-  </div>
-    <script>
-        ocument.getElementById('date-picker').addEventListener('change', function () {
-            let selectedDate = this.value;
-            if (selectedDate) {
-                window.location.href = '?date=' + selectedDate;
+  <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const datePicker = document.getElementById("date-picker");
+            const prevDay = document.getElementById("prev-date");
+            const nextDay = document.getElementById("next-date");
+
+            function updateMatches(selectedDate) {
+                fetch(`{{ route('news.index') }}?date=${selectedDate}`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('matches-list').innerHTML = html;
+                        document.getElementById('current-date').innerText = selectedDate;
+                        datePicker.value = selectedDate;
+                    })
+                    .catch(error => console.error("Помилка завантаження матчів:", error));
             }
+            datePicker.addEventListener("change", function () {
+                updateMatches(this.value)
+            });
+
+            prevDay.addEventListener("click", function () {
+                let currentDate = new Date(datePicker.value);
+                currentDate.setDate(currentDate.getDate() - 1);
+                updateMatches(currentDate.toISOString().split("T")[0]);
+            });
+
+            nextDay.addEventListener("click", function () {
+                let currentDate = new Date(datePicker.value);
+                currentDate.setDate(currentDate.getDate() + 1);
+                updateMatches(currentDate.toISOString().split("T")[0]);
+            });
         });
     </script>
 @endsection

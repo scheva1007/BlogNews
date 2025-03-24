@@ -96,3 +96,16 @@ notification.blade:
         @endforeach
     @endif
 @endsection
+
+Это из news.index.blade(для изменения даты в календаре - чтобы выводило матчи):
+
+<script>
+    document.getElementById('date-picker').addEventListener('change', function () {
+        let selectedDate = this.value;
+        if (selectedDate) {
+            let url = new URL(window.location.href);
+            url.searchParams.set('date', selectedDate);
+            window.location.href = url.toString();
+        }
+    });
+</script>

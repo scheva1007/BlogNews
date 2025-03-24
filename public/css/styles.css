@@ -253,3 +253,11 @@ html {
     margin-bottom: 10px;
     border-radius: 5px;
 }
+
+.arrow-btn {
+    font-size: 28px;
+    font-weight: bold;
+    background: blanchedalmond;
+    cursor: pointer;
+    border-radius: 5px;
+}

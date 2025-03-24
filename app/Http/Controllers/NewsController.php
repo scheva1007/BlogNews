@@ -43,6 +43,10 @@ class NewsController extends Controller
             $groupedMatches[$championshipId]['rounds'][$round][] = $match;
         }
 
+        if ($request->ajax()) {
+            return view('news.partials.matches', compact('groupedMatches'));
+        }
+
         return view('news.index', compact('categories', 'latestNews', 'topNews', 'groupedMatches', 'date'));
     }
 

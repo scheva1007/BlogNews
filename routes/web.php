@@ -73,6 +73,7 @@ Route::middleware('admin')->group(function () {
     Route::get('admin/championship/{championshipId}/round/{round}', [AdminController::class, 'roundMatches'])->name('admin.roundMatches');
     Route::get('/admin/editMatch/{matchId}', [AdminController::class, 'editMatch'])->name('admin.editMatch');
     Route::put('/admin/updateMatch/{matchId}', [AdminController::class, 'updateMatch'])->name('admin.updateMatch');
+
 });
 
 Route::get('/standing/{championshipId}', [ChampionshipController::class, 'standing'])->name('championship.standing');
