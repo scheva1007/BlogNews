@@ -13,7 +13,7 @@ class Team extends Model
 
     public function championships()
     {
-        return $this->belongsToMany(Championship::class);
+        return $this->belongsToMany(Championship::class, 'teams_championship');
     }
 
     public function homeMatches()

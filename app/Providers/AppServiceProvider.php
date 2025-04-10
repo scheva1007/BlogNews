@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Notification;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        App::setLocale('ru');
         Paginator::defaultView('vendor.pagination.bootstrap-4');
 
         View::composer('*', function ($view) {

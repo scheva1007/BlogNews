@@ -11,14 +11,9 @@ class Championship extends Model
 
     protected $guarded = [];
 
-    public function country()
-    {
-        return $this->belongsTo(Country::class);
-    }
-
     public function teams()
     {
-        return $this->hasMany(Team::class);
+        return $this->hasMany(Team::class, 'teams_championship');
     }
 
     public function matches()

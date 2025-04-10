@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Services\StoreAdminService;
 use App\Services\UpdateAdminService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -72,10 +73,9 @@ class AdminController extends Controller
     public function createMatch()
     {
         $championships = Championship::pluck('name', 'id');
-        $teams = Team::pluck('name', 'id');
         $statuses = ['scheduled' => 'Заплановано', 'finished' => 'Завершено'];
 
-        return view('admin.championships.createMatch', compact('championships', 'teams', 'statuses'));
+        return view('admin.championships.createMatch', compact('championships','statuses'));
     }
 
     public function storeMatch(StoreAdminRequest $request, StoreAdminService $service)
@@ -89,7 +89,7 @@ class AdminController extends Controller
     {
         $matches = Schedule::with(['homeTeam', 'awayTeam'])->findOrFail($matchId);
         $teams = Team::all();
-        $statuses = ['scheduled' => 'Заплановано', 'finished' => 'Завершено', 'continues' => 'Триває'];
+        $statuses = ['scheduled' => 'Заплановано', 'finished' => 'Завершено'];
 
         return view('admin.championships.editMatch', compact('matches', 'teams', 'statuses'));
 
@@ -103,11 +103,37 @@ class AdminController extends Controller
         return redirect()->route('admin.index');
     }
 
+    public function getSeason($championshipId)
+    {
+        $season = DB::table('championships')
+            ->where('id', $championshipId)
+            ->distinct()->pluck('season');
+
+        return response()->json($season);
+    }
+
+    public function getTeams($championshipId, $season)
+    {
+        $teams = DB::table('teams')
+            ->join('teams_championship', 'teams.id', '=', 'teams_championship.team_id')
+            ->join('championships', 'teams_championship.championship_id', '=', 'championships.id')
+            ->where('championships.id', $championshipId)
+            ->where('championships.season', $season)
+            ->select('teams.id', 'teams.name')->get();
+
+        return response()->json($teams);
+    }
+
     public function teamsChampionship($championshipId)
     {
         $teams = Team::join('teams_championship', 'teams.id', '=', 'teams_championship.team_id')
             ->where('teams_championship.championship_id', $championshipId)
-            ->select('teams.id', 'teams.name')->get();
+            ->select('teams.id', 'teams.name')
+            ->distinct()->get();
+
+        if ($teams->isEmpty()) {
+            $teams = Team::select('id', 'name')->get();
+        }
 
         return response()->json($teams);
     }
