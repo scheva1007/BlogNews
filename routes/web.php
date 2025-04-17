@@ -73,8 +73,9 @@ Route::middleware('admin')->group(function () {
     Route::get('admin/championship/{championshipId}/round/{round}', [AdminController::class, 'roundMatches'])->name('admin.roundMatches');
     Route::get('/admin/editMatch/{matchId}', [AdminController::class, 'editMatch'])->name('admin.editMatch');
     Route::put('/admin/updateMatch/{matchId}', [AdminController::class, 'updateMatch'])->name('admin.updateMatch');
-    Route::get('/admin/seasons/{championshipId}', [AdminController::class, 'getSeason'])->name('admin.getSeason');
-    Route::get('/admin/teamsChampionship/{championshipId}/{season}', [AdminController::class, 'getTeams'])->name('admin.getTeams');
+    Route::get('/admin/seasons/{championshipId}', [AdminController::class, 'getSeasonName'])->name('admin.getSeason');
+    Route::get('/admin/teamsChampionship/{championshipId}', [AdminController::class, 'getTeams'])->name('admin.getTeams');
+    Route::get('/admin/teamsAndSeasons/{championshipId}/{season}', [AdminController::class, 'getTeamsAndSeason'])->name('admin.getTeamsAndSeason');
 });
 
 Route::get('/standing/{championshipId}', [ChampionshipController::class, 'standing'])->name('championship.standing');

@@ -29,6 +29,7 @@ class StoreAdminRequest extends FormRequest
     {
         return [
             'championship_id' => 'required|exists:championships,id',
+            'season' => 'required|string|max:255',
             'round' => 'required|integer|min:1',
             'home_team_id' => [
                 'required',
@@ -36,6 +37,7 @@ class StoreAdminRequest extends FormRequest
                 'different:away_team_id',
                 function($attribute, $value, $fail) {
                     $exists = Schedule::where('championship_id', $this->championship_id)
+                        ->where('season', $this->season)
                         ->where(function ($query) use ($value) {
                             $query->where('home_team_id', $value)
                                 ->orWhere('away_team_id', $value);
@@ -56,6 +58,7 @@ class StoreAdminRequest extends FormRequest
                 'different:home_team_id',
                 function($attribute, $value, $fail) {
                     $exists = Schedule::where('championship_id', $this->championship_id)
+                        ->where('season', $this->season)
                         ->where(function ($query) use ($value) {
                             $query->where('home_team_id', $value)
                                 ->orWhere('away_team_id', $value);

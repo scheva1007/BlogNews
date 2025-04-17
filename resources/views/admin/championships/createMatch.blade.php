@@ -4,10 +4,11 @@
     <div class="container">
     <form method="post" action="{{ route('admin.storeMatch') }}">
         @csrf
-        <label style="display: block; margin-bottom: 5px;">Чемпіонат:</label>
-        <select name="championship_id" class="form-control" style="width: 300px; margin-bottom: 12px;">
-            @foreach ($championships as $id => $name)
-                <option value="{{ $id }}" {{ old('championship_id') == $id ? 'selected' : '' }}>{{ $name }}</option>
+       <label style="display: block; margin-bottom: 5px;">Чемпіонат:</label>
+        <select name="championship_id"  id="championshipSelect" class="form-control" style="width: 300px; margin-bottom: 12px;">
+            @foreach ($championships as $championship)
+                <option value="{{ $championship->id }}" {{ old('championship_id') == $championship->id ? 'selected' : '' }}>
+                     {{ $championship->name }}</option>
             @endforeach
         </select>
         @error('championship_id')
@@ -16,7 +17,9 @@
 
         <label>Сезон:</label>
         <select name="season" id="seasonSelect" class="form-control" style="width: 300px; margin-bottom: 12px;">
-            <option value="">Оберіть сезон</option>
+            @foreach($seasons as $season)
+            <option value="{{ $season->season }}" {{ old('season') === $season->season ? 'selected' : '' }}>{{ $season->season }}</option>
+            @endforeach
         </select>
         @error('season')
         <div class="text-danger">{{ $message }}</div>
@@ -79,7 +82,7 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const championshipSelect = document.querySelector('select[name="championship_id"]');
+            const championshipSelect = document.getElementById('championshipSelect');
             const seasonSelect = document.getElementById('seasonSelect');
             const homeTeamSearch = document.getElementById('homeTeamSearch');
             const awayTeamSearch = document.getElementById('awayTeamSearch');
@@ -92,6 +95,7 @@
 
             championshipSelect.addEventListener('change', function () {
                 const championshipId = this.value;
+                seasonSelect.innerHTML = '<option value="">Оберіть сезон</option>';
                 homeTeamsDatalist.innerHTML = '';
                 awayTeamsDatalist.innerHTML = '';
                 homeTeamSearch.value = '';
@@ -100,10 +104,9 @@
                 awayTeamIdInput.value = '';
                 teams = [];
 
-                fetch(`/admin/seasons/${championshipId}`)
+                fetch(`/admin/seasons/${encodeURIComponent(championshipId)}`)
                     .then(response => response.json())
                     .then(data => {
-                        seasonSelect.innerHTML = '<option value="">Оберіть сезон</option>';
                         data.forEach(season => {
                             const option = document.createElement('option');
                             option.value = season;
@@ -117,7 +120,7 @@
                 const championshipId = championshipSelect.value;
                 const season = this.value;
 
-                fetch(`/admin/teamsChampionship/${championshipId}/${season}`)
+                fetch(`/admin/teamsAndSeasons/${encodeURIComponent(championshipId)}/${encodeURIComponent(season)}`)
                     .then(response => response.json())
                     .then(data => {
                         teams = data;
@@ -125,11 +128,11 @@
                         awayTeamsDatalist.innerHTML = '';
                         teams.forEach(team => {
                             const option1 = document.createElement('option');
-                            option1.value = team.name;
+                            option1.value = team.teams.name;
                             homeTeamsDatalist.appendChild(option1);
 
                             const option2 = document.createElement('option');
-                            option2.value = team.name;
+                            option2.value = team.teams.name;
                             awayTeamsDatalist.appendChild(option2);
                         });
                     });
@@ -137,8 +140,8 @@
 
             function filterTeams(inputElement, idInput) {
                 const searchText = inputElement.value.toLowerCase();
-                const matchedTeam = teams.find(team => team.name.toLowerCase() === searchText);
-                idInput.value = matchedTeam ? matchedTeam.id : '';
+                const matchedTeam = teams.find(team => team.teams.name.toLowerCase() === searchText);
+                idInput.value = matchedTeam ? matchedTeam.teams.id : '';
             }
 
             homeTeamSearch.addEventListener('input', function () {

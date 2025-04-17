@@ -15,7 +15,8 @@ class ChampionshipController extends Controller
 {
     public function standing(StoreAdminService $service, Request $request, $championshipId)
     {
-        $data = $service->updateStanding($request, $championshipId);
+        $season = $request->input('season');
+        $data = $service->standingView($season, $championshipId);
 
         return view('championship.standing', $data);
     }
@@ -26,17 +27,16 @@ class ChampionshipController extends Controller
 
         $championship = Championship::findOrFail($championshipId);
 
-        $seasonChampionship = Championship::where('name', $championship->name)
-            ->where('season', $selectSeason)->first();
+       $seasons = Schedule::where('championship_id', $championshipId)
+           ->select('season')
+           ->distinct()->get();
 
-        $seasons = Championship::where('name', $championship->name)
-            ->select('season')->distinct()->get();
-
-        $matches = Schedule::where('championship_id', $seasonChampionship->id)
+        $matches = Schedule::where('championship_id', $championshipId)
+            ->where('season', $selectSeason)
             ->orderByDesc('round')
             ->orderBy('match_date')
             ->get()->groupBy('round');
 
-        return view('championship.calendar', compact('seasonChampionship', 'matches', 'seasons', 'selectSeason'));
+        return view('championship.calendar', compact('championship', 'matches', 'seasons', 'selectSeason'));
     }
 }

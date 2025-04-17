@@ -9,6 +9,7 @@ use App\Models\Championship;
 use App\Models\News;
 use App\Models\Notification;
 use App\Models\Schedule;
+use App\Models\Standing;
 use App\Models\Team;
 use App\Models\User;
 use App\Services\StoreAdminService;
@@ -72,15 +73,16 @@ class AdminController extends Controller
 
     public function createMatch()
     {
-        $championships = Championship::pluck('name', 'id');
+        $championships = Championship::select('id', 'name')->orderBy('name')->get();
         $statuses = ['scheduled' => 'Заплановано', 'finished' => 'Завершено'];
+        $seasons = Schedule::select('season')->distinct()->orderByDesc('season')->get();
 
-        return view('admin.championships.createMatch', compact('championships','statuses'));
+        return view('admin.championships.createMatch', compact('championships','statuses', 'seasons'));
     }
 
     public function storeMatch(StoreAdminRequest $request, StoreAdminService $service)
     {
-        $service->create($request);
+        $match = $service->create($request);
 
         return redirect()->route('admin.index');
     }
@@ -103,23 +105,32 @@ class AdminController extends Controller
         return redirect()->route('admin.index');
     }
 
-    public function getSeason($championshipId)
+    public function getSeasonName($championshipId)
     {
-        $season = DB::table('championships')
-            ->where('id', $championshipId)
-            ->distinct()->pluck('season');
+        $championship = Championship::find($championshipId);
+        $season = Schedule::where('championship_id', $championship->id)
+            ->distinct()
+            ->orderByDesc('season')
+            ->pluck('season');
 
         return response()->json($season);
     }
 
-    public function getTeams($championshipId, $season)
+    public function getTeams($championshipId)
     {
         $teams = DB::table('teams')
             ->join('teams_championship', 'teams.id', '=', 'teams_championship.team_id')
-            ->join('championships', 'teams_championship.championship_id', '=', 'championships.id')
-            ->where('championships.id', $championshipId)
-            ->where('championships.season', $season)
+            ->where('teams_championships.championship_id', $championshipId)
             ->select('teams.id', 'teams.name')->get();
+
+        return response()->json($teams);
+    }
+
+    public function getTeamsAndSeason($championshipId, $season)
+    {
+        $teams = Standing::where('championship_id', $championshipId)
+            ->where('season', $season)
+         ->with('teams')->get();
 
         return response()->json($teams);
     }
