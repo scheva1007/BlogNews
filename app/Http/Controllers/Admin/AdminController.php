@@ -75,7 +75,7 @@ class AdminController extends Controller
     {
         $championships = Championship::select('id', 'name')->orderBy('name')->get();
         $statuses = ['scheduled' => 'Заплановано', 'finished' => 'Завершено'];
-        $seasons = Schedule::select('season')->distinct()->orderByDesc('season')->get();
+        $seasons = Standing::select('season')->distinct()->orderByDesc('season')->get();
 
         return view('admin.championships.createMatch', compact('championships','statuses', 'seasons'));
     }
@@ -94,7 +94,6 @@ class AdminController extends Controller
         $statuses = ['scheduled' => 'Заплановано', 'finished' => 'Завершено'];
 
         return view('admin.championships.editMatch', compact('matches', 'teams', 'statuses'));
-
     }
 
     public function updateMatch(UpdateAdminRequest $request, UpdateAdminService $service, $matchId)

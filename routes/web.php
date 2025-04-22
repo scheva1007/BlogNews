@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ChampionshipController;
 use App\Http\Controllers\Admin\PersonalCabinetController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\ChampionshipController;
 use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -76,10 +76,17 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/seasons/{championshipId}', [AdminController::class, 'getSeasonName'])->name('admin.getSeason');
     Route::get('/admin/teamsChampionship/{championshipId}', [AdminController::class, 'getTeams'])->name('admin.getTeams');
     Route::get('/admin/teamsAndSeasons/{championshipId}/{season}', [AdminController::class, 'getTeamsAndSeason'])->name('admin.getTeamsAndSeason');
+    Route::get('/admin/creationTournaments', [\App\Http\Controllers\Admin\ChampionshipController::class, 'creationTournaments'])->name('championship.creationTournaments');
+    Route::get('/admin/championship/createTeam', [\App\Http\Controllers\Admin\ChampionshipController::class, 'createTeam'])->name('championship.createTeam');
+    Route::post('/admin/championship/storeTeam', [\App\Http\Controllers\Admin\ChampionshipController::class, 'storeTeam'])->name('championship.storeTeam');
+    Route::get('/admin/championship/createChampionship', [ChampionshipController::class, 'createChampionship'])->name('championship.createChampionship');
+    Route::post('/admin/championship/storeChampionship', [ChampionshipController::class, 'storeChampionship'])->name('championship.storeChampionship');
+    Route::get('/admin/championship/createSeason', [ChampionshipController::class, 'createSeason'])->name('championship.createSeason');
+    Route::post('/admin/championship/storeSeason', [ChampionshipController::class, 'storeSeason'])->name('championship.storeSeason');
 });
 
-Route::get('/standing/{championshipId}', [ChampionshipController::class, 'standing'])->name('championship.standing');
-Route::get('/calendar/{championshipId}', [ChampionshipController::class, 'calendar'])->name('championship.calendar');
+Route::get('/standing/{championshipId}', [\App\Http\Controllers\Admin\ChampionshipController::class, 'standing'])->name('championship.standing');
+Route::get('/calendar/{championshipId}', [\App\Http\Controllers\Admin\ChampionshipController::class, 'calendar'])->name('championship.calendar');
 
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
 Route::get('news/tag/{tag}', [NewsController::class, 'showTag'])->name('news.tag');

@@ -13,7 +13,7 @@ class Championship extends Model
 
     public function teams()
     {
-        return $this->hasMany(Team::class, 'teams_championship');
+        return $this->belongsToMany(Team::class, 'teams_championship');
     }
 
     public function matches()

@@ -54,7 +54,8 @@ class StoreAdminService
     public function updateStanding($season, $championshipId)
     {
         $matches = Schedule::where('season', $season)
-            ->where('championship_id', $championshipId)->get();
+            ->where('championship_id', $championshipId)
+            ->where('status', 'finished')->get();
 
         $standings = [];
 
