@@ -107,7 +107,7 @@ class AdminController extends Controller
     public function getSeasonName($championshipId)
     {
         $championship = Championship::find($championshipId);
-        $season = Schedule::where('championship_id', $championship->id)
+        $season = Standing::where('championship_id', $championship->id)
             ->distinct()
             ->orderByDesc('season')
             ->pluck('season');

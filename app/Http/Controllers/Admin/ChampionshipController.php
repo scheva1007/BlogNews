@@ -10,6 +10,7 @@ use App\Models\Championship;
 use App\Models\Schedule;
 use App\Models\Standing;
 use App\Models\Team;
+use App\Models\TeamsChampionship;
 use App\Services\StoreAdminService;
 use Illuminate\Http\Request;
 
@@ -75,6 +76,7 @@ class ChampionshipController extends Controller
     {
         $championship = Championship::create([
             'name' => $request->name,
+            'country' => $request->country,
         ]);
 
         return redirect()->route('championship.creationTournaments');
@@ -82,18 +84,20 @@ class ChampionshipController extends Controller
 
     public function createSeason()
     {
-        $championships = Championship::with('teams')->get();
+        $championships = Championship::all();
+        $teams = Team::all()->groupBy('country');
 
-        return view('championship.createSeason', compact('championships'));
+        return view('championship.createSeason', compact('championships', 'teams'));
     }
 
     public function storeSeason(StoreSeasonChampionshipRequest $request)
     {
-        foreach (($request->teams) as $team) {
-            Standing::create([
+        foreach (($request->teams) as $teamId) {
+            Standing::updateOrCreate([
                 'championship_id' => $request->championship_id,
                 'season' => $request->season,
-                'team_id' => $team,
+                'team_id' => $teamId
+                ], [
                 'matches' => 0,
                 'wins' => 0,
                 'draws' => 0,
@@ -101,6 +105,11 @@ class ChampionshipController extends Controller
                 'goals_scored' => 0,
                 'goals_missed' => 0,
                 'points' => 0,
+            ]);
+
+            TeamsChampionship::firstOrCreate([
+                'championship_id' => $request->championship_id,
+                'team_id' => $teamId,
             ]);
         }
 

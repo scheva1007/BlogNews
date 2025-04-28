@@ -106,22 +106,15 @@ class StoreAdminService
         }
     }
 
-    // Очистити старі записи
-        Standing::where('season', $season)
-        ->where('championship_id', $championshipId)
-        ->delete();
-
-    // Зберегти нові
         foreach ($standings as $data) {
-        Standing::create($data);
-    }
-
-        $standings = Standing::where('season', $season)
-            ->where('championship_id', $championshipId)
-            ->with('teams')
-            ->orderByDesc('points')
-            ->orderByDesc('wins')
-            ->get();
+        Standing::updateOrCreate([
+            'season' => $season,
+            'championship_id' => $championshipId,
+            'team_id' => $data['team_id']
+        ],
+            $data
+        );
+      }
     }
 
     public function standingView($season, $championshipId)
