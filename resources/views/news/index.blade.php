@@ -6,7 +6,7 @@
 
     <h4 style="margin-bottom: 25px;">Популярні новини:</h4>
 
-    @foreach($topNews as $item)
+          @foreach($topNews as $item)
 
         <div  style="display: flex; align-items: flex-start;">
             @if($item->photo)

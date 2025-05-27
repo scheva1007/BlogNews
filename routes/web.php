@@ -86,7 +86,7 @@ Route::middleware('admin')->group(function () {
 });
 
 Route::get('/standing/{championshipId}', [\App\Http\Controllers\Admin\ChampionshipController::class, 'standing'])->name('championship.standing');
-Route::get('/calendar/{championshipId}', [\App\Http\Controllers\Admin\ChampionshipController::class, 'calendar'])->name('championship.calendar');
+Route::get('/calendar/{championship}', [\App\Http\Controllers\Admin\ChampionshipController::class, 'calendar'])->name('championship.calendar');
 
     Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
 Route::get('news/tag/{tag}', [NewsController::class, 'showTag'])->name('news.tag');

@@ -7,7 +7,7 @@ use App\Models\CommentLikes;
 
 class LikesCommentService
 {
-    public function execute(Comment $comment, $userId, $existingVote, $likeStatus)
+    public function setLikeOrDislike(Comment $comment, $userId, $existingVote, $likeStatus)
     {
         if ($existingVote) {
 

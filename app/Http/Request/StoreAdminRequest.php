@@ -3,6 +3,7 @@
 namespace App\Http\Request;
 
 use App\Models\Schedule;
+use App\Rules\TeamNotBusy;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -31,51 +32,31 @@ class StoreAdminRequest extends FormRequest
             'championship_id' => 'required|exists:championships,id',
             'season' => 'required|string|max:255',
             'round' => 'required|integer|min:1',
+            'match_date' => 'required|date',
             'home_team_id' => [
                 'required',
                 'exists:teams,id',
                 'different:away_team_id',
-                function($attribute, $value, $fail) {
-                    $exists = Schedule::where('championship_id', $this->championship_id)
-                        ->where('season', $this->season)
-                        ->where(function ($query) use ($value) {
-                            $query->where('home_team_id', $value)
-                                ->orWhere('away_team_id', $value);
-                        })
-                        ->where(function ($query) {
-                            $query->where('round', $this->round)
-                            ->orWhereDate('match_date', Carbon::parse($this->match_date)->toDateString());
-                        })
-                        ->exists();
-                    if ($exists) {
-                        $fail('Ця команда вже задіяна');
-                    }
-                }
+                new TeamNotBusy(
+                    $this->championship_id,
+                    $this->season,
+                    $this->round,
+                    $this->match_date
+                )
                 ],
             'away_team_id' => [
                 'required',
                 'exists:teams,id',
                 'different:home_team_id',
-                function($attribute, $value, $fail) {
-                    $exists = Schedule::where('championship_id', $this->championship_id)
-                        ->where('season', $this->season)
-                        ->where(function ($query) use ($value) {
-                            $query->where('home_team_id', $value)
-                                ->orWhere('away_team_id', $value);
-                        })
-                        ->where(function ($query) {
-                            $query->where('round', $this->round)
-                                ->orWhereDate('match_date', Carbon::parse($this->match_date)->toDateString());
-                        })
-                        ->exists();
-                    if ($exists) {
-                        $fail('Ця команда вже задіяна');
-                    }
-                }
+                new TeamNotBusy(
+                    $this->championship_id,
+                    $this->season,
+                    $this->round,
+                    $this->match_date
+                )
                 ],
             'home_score' => 'nullable|integer|min:0',
             'away_score' => 'nullable|integer|min:0',
-            'match_date' => 'required|date',
             'status' => 'required',
         ];
     }

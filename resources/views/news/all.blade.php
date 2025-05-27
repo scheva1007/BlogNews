@@ -3,20 +3,31 @@
 @section('content')
     <div>
         <h4 style="margin-bottom: 15px;">Всі новини:</h4>
-            @foreach($allNews as $item)
-       <div style="display:flex; align-items:flex-start; margin-bottom: 5px;">
-           @if($item->photo)
-               <div style="width: 170px; height: 130px; margin-right: 20px;  margin-bottom: 10px;">
-                   <img src="{{ asset('/storage/' . $item->photo) }}" alt="News Photo"
-                        style="max-width: 170px; max-height: 130px; ">
-               </div>
-           @endif
-            <div>
-                @include('news.partials.newsList')
-                <p class="my-font-content">{{ substr($item->text, 0, 100) }}{{ strlen($item->text) > 100 ? '...' : '' }}</p>
-            </div>
-       </div>
-        @endforeach
-        <div class="mt-3 mb-3 align-items-start">{{ $allNews->withQueryString() }}</div>
+        <div id="news-container">
+            @include('news.partials.ajaxNews')
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('click', function (e) {
+                let target = e.target.closest('.pagination a');
+                if (target) {
+                    e.preventDefault();
+                    let url = target.getAttribute('href');
+                    fetch(url, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            document.querySelector('#news-container').innerHTML = data.html;
+                            window.history.pushState({}, '', url);
+                        })
+                        .catch(error => console.error('Помилка завантаження:', error));
+                }
+            });
+        });
+    </script>
 @endsection

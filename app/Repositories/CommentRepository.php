@@ -5,7 +5,6 @@ namespace App\Repositories;
 
 use App\Models\Comment;
 use App\Models\CommentLikes;
-use App\Models\News;
 
 class CommentRepository
 {

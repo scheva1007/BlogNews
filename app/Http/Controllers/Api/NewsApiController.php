@@ -154,7 +154,6 @@ class NewsApiController extends Controller
 
     public function show(News $news)
     {
-
         return response()->json($news);
     }
 

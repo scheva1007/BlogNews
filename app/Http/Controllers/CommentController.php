@@ -34,7 +34,7 @@ class CommentController extends Controller
         $likeStatus = (bool)$request->input('like_status');
         $userId = $request->user()->id;
         $existingVote = $commentRepository->findUserCommentLikes($comment, $userId);
-        $likesService->execute($comment, $userId, $existingVote, $likeStatus);
+        $likesService->setLikeOrDislike($comment, $userId, $existingVote, $likeStatus);
 
         return redirect()->back();
     }

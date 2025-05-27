@@ -1,5 +1,7 @@
 @extends('layout.app')
 
+
+
 @section('content')
 
     <form method="post" enctype='multipart/form-data' action="{{ route('news.store') }}" style="width: 300px;">

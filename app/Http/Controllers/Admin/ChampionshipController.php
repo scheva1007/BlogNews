@@ -24,21 +24,19 @@ class ChampionshipController extends Controller
         return view('championship.standing', $data);
     }
 
-    public function calendar(Request $request, $championshipId)
+    public function calendar(Request $request, Championship $championship)
     {
-        $lastSeason = Schedule::where('championship_id', $championshipId)
+        $lastSeason = Schedule::where('championship_id', $championship->id)
             ->orderByDesc('season')
             ->value('season');
 
         $selectSeason = $request->input('season', $lastSeason);
 
-        $championship = Championship::findOrFail($championshipId);
-
-       $seasons = Schedule::where('championship_id', $championshipId)
+       $seasons = Schedule::where('championship_id', $championship->id)
            ->select('season')
            ->distinct()->get();
 
-        $matches = Schedule::where('championship_id', $championshipId)
+        $matches = Schedule::where('championship_id', $championship->id)
             ->where('season', $selectSeason)
             ->orderByDesc('round')
             ->orderBy('match_date')

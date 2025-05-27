@@ -16,11 +16,6 @@ class News extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function getCommentCountAttribute()
-    {
-        return $this->comment()->count();
-    }
-
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'news_tag');

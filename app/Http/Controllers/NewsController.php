@@ -17,16 +17,14 @@ use App\Services\StoreNewsService;
 use App\Services\UpdateNewsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
-    public function index(NewsService $newsService, CategoryService $categoryService, Request $request)
+    public function index(NewsService $newsService, CategoryService $categoryService, NewsRepository $newsRepository, Request $request)
     {
         $latestNews = $newsService->getLatestNews();
         $categories = $categoryService->getAllCategories();
-        $topNews = $newsService->getTopNews();
+        $topNews = $newsRepository->get5MostViewedNews();
         $date = $request->input('date', Carbon::today()->toDateString());
         $matches = Schedule::with('championship', 'homeTeam', 'awayTeam')
             ->whereDate('match_date', $date)
@@ -50,14 +48,20 @@ class NewsController extends Controller
         return view('news.index', compact('categories', 'latestNews', 'topNews', 'groupedMatches', 'date'));
     }
 
-    public function allNews()
+    public function allNews(Request $request)
     {
-        $allNews = News::where('published', true)
-            ->where('checked', true)
-            ->where('approved', true)
-            ->latest()->paginate(5);
+            $allNews = News::where('published', true)
+                ->where('checked', true)
+                ->where('approved', true)
+                ->latest()->paginate(5);
 
-        return view('news.all', compact('allNews'));
+        if ($request->ajax()) {
+            $html = view('news.partials.ajaxNews', compact('allNews'))->render();
+
+            return response()->json(['html' => $html]);
+        }
+
+            return view('news.all', compact('allNews'));
     }
 
     public function create(CategoryService $categoryService)
