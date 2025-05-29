@@ -17,7 +17,6 @@ class IndexViewTest extends TestCase
         $news = News::factory()->count(5)->create();
         $response = $this->get('/');
         $response -> assertStatus(200);
-        $newsService = app(NewsService::class);
         $newsRepository = app(NewsRepository::class);
         $topNews = $newsRepository->get5MostViewedNews();
         $allNews = $newsRepository->findPublishedAndApprovedNews();
