@@ -17,8 +17,10 @@ class IndexViewTest extends TestCase
         $news = News::factory()->count(5)->create();
         $response = $this->get('/');
         $response -> assertStatus(200);
-        $topNews = (new NewsService())->getLastNews();
-        $allNews = (new NewsRepository())->findPublishedAndApprovedNews();
+        $newsService = app(NewsService::class);
+        $newsRepository = app(NewsRepository::class);
+        $topNews = $newsRepository->get5MostViewedNews();
+        $allNews = $newsRepository->findPublishedAndApprovedNews();
         $response -> assertSee('Популярні новини:');
         $response->assertSee('Останні новини');
 

@@ -41,6 +41,7 @@ class NewsRepository
                     ->orderByDesc('rating')
                     ->limit(5)->get();
             }
+            return $topNews;
         });
     }
 }
