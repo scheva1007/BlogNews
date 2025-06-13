@@ -4,8 +4,8 @@
     <div class="container">
     <form method="post" action="{{ route('admin.storeMatch') }}">
         @csrf
-       <label style="display: block; margin-bottom: 5px;">Чемпіонат:</label>
         <select name="championship_id"  id="championshipSelect" class="form-control" style="width: 300px; margin-bottom: 12px;">
+            <option value="">Оберіть чемпіонат</option>
             @foreach ($championships as $championship)
                 <option value="{{ $championship->id }}" {{ old('championship_id') == $championship->id ? 'selected' : '' }}>
                      {{ $championship->name }}</option>
@@ -15,8 +15,8 @@
         <div class="text-danger">{{ $message }}</div>
         @enderror
 
-        <label>Сезон:</label>
         <select name="season" id="seasonSelect" class="form-control" style="width: 300px; margin-bottom: 12px;">
+            <option value="">Оберіть сезон</option>
             @foreach($seasons as $season)
             <option value="{{ $season->season }}" {{ old('season') === $season->season ? 'selected' : '' }}>{{ $season->season }}</option>
             @endforeach
