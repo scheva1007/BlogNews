@@ -10,12 +10,12 @@ use App\Models\Standing;
 use App\Models\Team;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\matches;
 
 class StoreAdminService
 {
     public function create(StoreAdminRequest $request)
     {
-
         $match = Schedule::create([
             'championship_id' => $request->championship_id,
             'season' => $request->season,
@@ -25,124 +25,157 @@ class StoreAdminService
             'home_score' => $request->home_score,
             'away_score' => $request->away_score,
             'match_date' => $request->match_date,
-            'status' => $request->status,
+            'status' =>$request->status,
         ]);
 
-        $teams = [$match->home_team_id, $match->away_team_id];
-        $championshipId = $match->championship_id;
-
-        foreach ($teams as $teamId) {
-            $exists = DB::table('teams_championship')
-                ->where('team_id', $teamId)
-                ->where('championship_id', $championshipId)
-                ->exists();
-
-            if (!$exists) {
-                DB::table('teams_championship')->insert([
-                    'team_id' => $teamId,
-                    'championship_id' => $championshipId,
-                ]);
-            }
-        }
         if ($match->status === 'finished') {
-        $this->updateStanding($match->season, $championshipId);
+            $this->updateStanding($match);
         }
 
         return $match;
     }
 
-    public function updateStanding($season, $championshipId)
+    public function updateStanding(Schedule $match)
     {
-        $matches = Schedule::where('season', $season)
-            ->where('championship_id', $championshipId)
-            ->where('status', 'finished')->get();
+       $season = $match->season;
+       $championshipId = $match->championship_id;
+       $teamsId = [$match->home_team_id, $match->away_team_id];
 
-        $standings = [];
+       foreach ($teamsId as $item) {
+           $matches = Schedule::where('season', $season)
+               ->where('championship_id', $championshipId)
+               ->where('status', 'finished')
+               ->where(function ($query) use ($item) {
+                   $query->where('home_team_id', $item)
+                       ->orWhere('away_team_id', $item);
+               })->get();
 
-        foreach ($matches as $match) {
-            $homeId = $match->home_team_id;
-            $awayId = $match->away_team_id;
-            $homeScore = $match->home_score;
-            $awayScore = $match->away_score;
+           $standing = [
+               'matches' => 0,
+               'wins' => 0,
+               'draws' => 0,
+               'losses' => 0,
+               'goals_scored' => 0,
+               'goals_missed' => 0,
+               'points' => 0,
+               'championship_id' => $championshipId,
+               'season' => $season,
+               'team_id' => $item,
+           ];
 
-        foreach ([$homeId, $awayId] as $teamId) {
-                if (!isset($standings[$teamId])) {
-                    $standings[$teamId] = [
-                        'matches' => 0,
-                        'wins' => 0,
-                        'draws' => 0,
-                        'losses' => 0,
-                        'goals_scored' => 0,
-                        'goals_missed' => 0,
-                        'points' => 0,
-                        'championship_id' => $championshipId,
-                        'season' => $season,
-                        'team_id' => $teamId
-                    ];
-                }
-        }
-        $standings[$homeId]['matches']++;
-        $standings[$awayId]['matches']++;
+           foreach ($matches as $match) {
+               $homeTeam = $match->home_team_id == $item;
+               $homeGoals = $homeTeam ? $match->home_score : $match->away_score;
+               $awayGoals = $homeTeam ? $match->away_score : $match->home_score;
 
-        $standings[$homeId]['goals_scored'] += $homeScore;
-        $standings[$homeId]['goals_missed'] += $awayScore;
+               $standing['matches'] ++;
+               $standing['goals_scored'] += $homeGoals;
+               $standing['goals_missed'] += $awayGoals;
 
-        $standings[$awayId]['goals_scored'] += $awayScore;
-        $standings[$awayId]['goals_missed'] += $homeScore;
-
-        if ($homeScore > $awayScore) {
-            $standings[$homeId]['wins']++;
-            $standings[$homeId]['points'] += 3;
-            $standings[$awayId]['losses']++;
-        } elseif ($homeScore < $awayScore) {
-            $standings[$awayId]['wins']++;
-            $standings[$awayId]['points'] += 3;
-            $standings[$homeId]['losses']++;
-        } else {
-            $standings[$homeId]['draws']++;
-            $standings[$awayId]['draws']++;
-            $standings[$homeId]['points']++;
-            $standings[$awayId]['points']++;
-        }
-    }
-
-        foreach ($standings as $data) {
-        Standing::updateOrCreate([
-            'season' => $season,
-            'championship_id' => $championshipId,
-            'team_id' => $data['team_id']
-        ],
-            $data
-        );
-      }
+               if ($homeGoals > $awayGoals) {
+                   $standing['wins'] ++;
+                   $standing['points'] += 3;
+               } elseif ($homeGoals < $awayGoals) {
+                   $standing['losses'] ++;
+               } else {
+                   $standing['draws'] ++;
+                   $standing['points'] += 1;
+               }
+           }
+           Standing::updateOrCreate(
+               [
+                   'season' => $season,
+                   'championship_id' => $championshipId,
+                   'team_id' => $item,
+               ],
+               $standing
+           );
+       }
     }
 
     public function standingView($season, $championshipId)
-   {
-       if (!$season) {
-           $season = Schedule::where('championship_id', $championshipId)
-               ->orderByDesc('season')
-               ->value('season');
-       }
-        $this->updateStanding($season, $championshipId);
+    {
+        if (!$season) {
+            $season = Schedule::where('championship_id', $championshipId)
+                ->orderByDesc('season')
+                ->value('season');
+        }
+
         $standings = Standing::where('season', $season)
             ->where('championship_id', $championshipId)
             ->with('teams')
             ->orderByDesc('points')
             ->orderByDesc('wins')->get();
 
-       $seasonChampionship = Championship::find($championshipId);
-       $seasons = Standing::where('championship_id', $championshipId)
-           ->select('season')
-           ->distinct()->get();
+        $seasonChampionship = Championship::find($championshipId);
+        $seasons = Standing::where('championship_id', $championshipId)
+            ->select('season')
+            ->distinct()->get();
 
-       return [
-           'season' => $season,
-           'championshipId' => $championshipId,
-           'standings' => $standings,
-           'seasonChampionship' => $seasonChampionship,
-           'seasons' => $seasons,
-           'selectedSeason' => $season,
-       ];
-   }
+
+
+        return [
+            'season' => $season,
+            'championshipId' => $championshipId,
+            'standings' => $standings,
+            'seasonChampionship' => $seasonChampionship,
+            'seasons' => $seasons,
+            'selectedSeason' => $season,
+        ];
+    }
+
+    public function updateStandingAfterDelete($season, $championshipId, $teamsId)
+    {
+        foreach ($teamsId as $teamId) {
+            $matches = Schedule::where('season', $season)
+                ->where('championship_id', $championshipId)
+                ->where('status', 'finished')
+                ->where(function ($query) use ($teamId) {
+                    $query->where('home_team_id', $teamId)
+                        ->orWhere('away_team_id', $teamId);
+                })->get();
+
+            $standing = [
+                'matches' => 0,
+                'wins' => 0,
+                'draws' => 0,
+                'losses' => 0,
+                'goals_scored' => 0,
+                'goals_missed' => 0,
+                'points' => 0,
+                'championship_id' => $championshipId,
+                'season' => $season,
+                'team_id' => $teamId,
+            ];
+
+            foreach ($matches as $match) {
+                $homeTeam = $match->home_team_id == $teamId;
+                $homeGoals = $homeTeam ? $match->home_score : $match->away_score;
+                $awayGoals = $homeTeam ? $match->away_score : $match->home_score;
+
+                $standing['matches']++;
+                $standing['goals_scored'] += $homeGoals;
+                $standing['goals_missed'] += $awayGoals;
+
+                if ($homeGoals > $awayGoals) {
+                    $standing['wins']++;
+                    $standing['points'] += 3;
+                } elseif ($homeGoals < $awayGoals) {
+                    $standing['losses']++;
+                } else {
+                    $standing['draws']++;
+                    $standing['points'] += 1;
+                }
+            }
+
+            Standing::updateOrCreate(
+                [
+                    'season' => $season,
+                    'championship_id' => $championshipId,
+                    'team_id' => $teamId,
+                ],
+                $standing
+            );
+        }
+    }
 }

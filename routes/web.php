@@ -69,8 +69,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/createMatch', [AdminController::class, 'createMatch'])->name('admin.createMatch');
     Route::post('/admin/storeMatch', [AdminController::class, 'storeMatch'])->name('admin.storeMatch');
     Route::get('/admin/allChampionship', [AdminController::class, 'allChampionship'])->name('admin.allChampionship');
-    Route::get('/admin/championshipRounds/{championshipId}', [AdminController::class, 'championshipRounds'])->name('admin.championshipRounds');
-    Route::get('admin/championship/{championshipId}/round/{round}', [AdminController::class, 'roundMatches'])->name('admin.roundMatches');
+    Route::get('/admin/championshipRounds/{championshipId}/{season}', [AdminController::class, 'championshipRounds'])->name('admin.championshipRounds');
+    Route::get('admin/championship/{championshipId}/season/{season}/round/{round}', [AdminController::class, 'roundMatches'])->name('admin.roundMatches');
     Route::get('/admin/editMatch/{matchId}', [AdminController::class, 'editMatch'])->name('admin.editMatch');
     Route::put('/admin/updateMatch/{matchId}', [AdminController::class, 'updateMatch'])->name('admin.updateMatch');
     Route::get('/admin/seasons/{championshipId}', [AdminController::class, 'getSeasonName'])->name('admin.getSeason');
@@ -83,6 +83,7 @@ Route::middleware('admin')->group(function () {
     Route::post('/admin/championship/storeChampionship', [ChampionshipController::class, 'storeChampionship'])->name('championship.storeChampionship');
     Route::get('/admin/championship/createSeason', [ChampionshipController::class, 'createSeason'])->name('championship.createSeason');
     Route::post('/admin/championship/storeSeason', [ChampionshipController::class, 'storeSeason'])->name('championship.storeSeason');
+    Route::delete('/admin/championshipSchedule/{id}', [AdminController::class, 'destroyMatch'])->name('schedule.destroy');
 });
 
 Route::get('/standing/{championshipId}', [\App\Http\Controllers\Admin\ChampionshipController::class, 'standing'])->name('championship.standing');

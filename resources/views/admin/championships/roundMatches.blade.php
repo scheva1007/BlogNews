@@ -20,6 +20,12 @@
                 <td>{{ $match->home_score }} - {{ $match->away_score }}</td>
                 <td>
                     <a href="{{ route('admin.editMatch', ['matchId' => $match->id]) }}">Редагувати</a>
+                    <form action="{{ route('schedule.destroy', $match->id) }}" method="post" class="ml-3" style="display: inline-block"
+                          onsubmit="return confirm('Ви впевнені, що хочете видалити цей матч?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Видалити</button>
+                    </form>
                 </td>
             </tr>
         @endforeach

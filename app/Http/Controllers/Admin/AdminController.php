@@ -96,12 +96,28 @@ class AdminController extends Controller
         return view('admin.championships.editMatch', compact('matches', 'teams', 'statuses'));
     }
 
-    public function updateMatch(UpdateAdminRequest $request, UpdateAdminService $service, $matchId)
+    public function updateMatch(UpdateAdminRequest $request, UpdateAdminService $service, StoreAdminService $service1, $matchId)
     {
         $match = Schedule::findOrFail($matchId);
         $service->update($request, $match);
+        $service1->updateStanding($match);
 
         return redirect()->route('admin.index');
+    }
+
+    public function destroyMatch($id, StoreAdminService $service)
+    {
+        $match = Schedule::findOrFail($id);
+
+        $season = $match->season;
+        $championshipId = $match->championship_id;
+        $teamsId = [$match->home_team_id, $match->away_team_id];
+
+        $match->delete();
+
+        $service->updateStandingAfterDelete($season, $championshipId, $teamsId);
+
+        return redirect()->back();
     }
 
     public function getSeasonName($championshipId)
@@ -150,26 +166,31 @@ class AdminController extends Controller
 
     public function allChampionship()
     {
-        $championship = Championship::paginate(10);
+        $championships = Championship::paginate(10);
+        $seasons = Schedule::select('season', 'championship_id')
+            ->distinct()->orderByDesc('season')
+            ->get()->groupBy('championship_id');
 
-        return view('admin.championships.allChampionship', compact('championship'));
+        return view('admin.championships.allChampionship', compact('championships', 'seasons'));
     }
 
-    public function championshipRounds($championshipId)
+    public function championshipRounds($championshipId, $season)
     {
         $rounds = Schedule::where('championship_id', $championshipId)
+            ->where('season', $season)
             ->select('round')->distinct()
             ->orderBy('round')->get();
 
-        return view('admin.championships.championshipRounds', compact('rounds', 'championshipId'));
+        return view('admin.championships.championshipRounds', compact('rounds', 'championshipId', 'season'));
     }
 
-    public function roundMatches($championshipId, $round)
+    public function roundMatches($championshipId, $season, $round)
     {
         $matches = Schedule::where('championship_id', $championshipId)
+            ->where('season', $season)
             ->where('round', $round)
             ->with(['homeTeam', 'awayTeam'])->get();
 
-        return view('admin.championships.roundMatches', compact('matches', 'championshipId', 'round'));
+        return view('admin.championships.roundMatches', compact('matches', 'championshipId', 'round', 'season'));
     }
 }
